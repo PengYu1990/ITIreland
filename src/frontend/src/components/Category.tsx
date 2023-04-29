@@ -10,7 +10,7 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: "#ffffff",
   },
   badge: {
-    padding: rem(10),
+    padding: rem(12),
     marginTop: rem(5),
     borderRadius: 0,
     fontSize: rem(14),
@@ -20,6 +20,7 @@ const useStyles = createStyles((theme) => ({
 
 const Category = () => {
   const { classes } = useStyles();
+  const active = false;
   return (
     <Box className={classes.category}>
       <Badge

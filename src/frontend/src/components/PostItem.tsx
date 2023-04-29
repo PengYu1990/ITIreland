@@ -17,11 +17,12 @@ const useStyles = createStyles((theme) => ({
     paddingLeft: rem(10),
     paddingRight: rem(10),
     paddingTop: rem(2),
-    paddingBottom: rem(2),
+    paddingBottom: rem(5),
     borderBottom: `${rem(1)} solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1]
     }`,
   },
+
   heading: {
     color: theme.colors.dark[4],
     fontFamily: "Pathway Extreme",
@@ -30,6 +31,7 @@ const useStyles = createStyles((theme) => ({
   postItemBottom: {
     marginTop: rem(20),
     color: theme.colors.gray[6],
+    fontSize: rem(14),
   },
 }));
 
@@ -47,26 +49,26 @@ const PostItem = () => {
         direction="row"
       >
         <Group spacing="xs">
-          <Avatar color="cyan" radius="xl" size={28}>
+          <Avatar color="cyan" radius="xl" size={23}>
             MK
           </Avatar>
           <Text>Eoin</Text>
         </Group>
 
         <Group spacing="xs" position="left">
-          <IconCalendarTime size={25} />
+          <IconCalendarTime size={20} />
           <Text>7:06PM, May 2nd, 2023</Text>
         </Group>
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
           <Group spacing="xs" position="left">
-            <IconEye size={25} />
+            <IconEye size={20} />
             <Text>5</Text>
           </Group>
         </MediaQuery>
 
         <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
           <Group spacing="xs" position="left">
-            <IconCategory size={25} />
+            <IconCategory size={20} />
             <Text>Frontend</Text>
           </Group>
         </MediaQuery>
