@@ -10,7 +10,6 @@ import com.hugo.itireland.service.CommentService;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.util.R;
-import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -24,19 +23,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/comments")
 public class CommentController {
-    @Resource
     private CommentService commentService;
-    @Resource
     private UserService userService;
-    @Resource
     private PostService postService;
 
-//    @Autowired
-//    public CommentController(CommentService commentService, UserService userService, PostService postService){
-//        this.commentService = commentService;
-//        this.userService = userService;
-//        this.postService = postService;
-//    }
+
+    @Autowired
+    public CommentController(CommentService commentService, UserService userService, PostService postService){
+        this.commentService = commentService;
+        this.userService = userService;
+        this.postService = postService;
+    }
 
     @PostMapping
     public R add(@RequestBody CommentRequest commentRequest){

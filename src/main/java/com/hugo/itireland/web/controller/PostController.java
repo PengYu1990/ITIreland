@@ -11,7 +11,6 @@ import com.hugo.itireland.web.dto.response.PostResponse;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.util.R;
-import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -25,17 +24,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/posts")
 public class PostController {
-    @Resource
     private PostService postService;
-
-    @Resource
     private UserService userService;
 
-//    @Autowired
-//    public PostController(PostService postService, UserService userService){
-//        this.postService = postService;
-//        this.userService = userService;
-//    }
+    @Autowired
+    public PostController(PostService postService, UserService userService){
+        this.postService = postService;
+        this.userService = userService;
+    }
 
     @PostMapping
     public R add(@RequestBody PostRequest postRequest){
