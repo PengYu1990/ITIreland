@@ -1,4 +1,4 @@
-package com.hugo.itireland.web.dto;
+package com.hugo.itireland.web.dto.response;
 
 import com.hugo.itireland.domain.Tag;
 import com.hugo.itireland.domain.User;

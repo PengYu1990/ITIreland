@@ -1,8 +1,10 @@
 package com.hugo.itireland.service.impl;
 
+import com.hugo.itireland.domain.Category;
 import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.domain.Tag;
 import com.hugo.itireland.repository.PostRepository;
+import com.hugo.itireland.service.CategoryService;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.TagService;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +19,15 @@ public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
     private TagService tagService;
+    private CategoryService categoryService;
 
     public PostServiceImpl(PostRepository postRepository,
-                           TagService tagService
+                           TagService tagService,
+                           CategoryService categoryService
                            ){
         this.postRepository = postRepository;
         this.tagService = tagService;
+        this.categoryService = categoryService;
     }
     @Override
     public Post add(Post post) {
@@ -40,6 +45,13 @@ public class PostServiceImpl implements PostService {
             saveTags.add(tag);
         }
         post.setTags(saveTags);
+
+        // Process category
+        Category category = categoryService.find(post.getCategory().getCategory());
+        if(category == null)
+            throw new IllegalArgumentException("Category doesn't exist");
+        post.setCategory(category);
+
 
         // Sava post
         post =  postRepository.save(post);

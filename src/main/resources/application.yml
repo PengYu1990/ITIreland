@@ -11,7 +11,8 @@ spring:
 
 
 server:
-  contextPath: /api
+  servlet:
+    context-path: /api
 
 
 bezkoder:

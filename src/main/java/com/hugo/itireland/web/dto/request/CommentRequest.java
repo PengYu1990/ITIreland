@@ -1,4 +1,4 @@
-package com.hugo.itireland.web.dto;
+package com.hugo.itireland.web.dto.request;
 
 
 import lombok.Data;

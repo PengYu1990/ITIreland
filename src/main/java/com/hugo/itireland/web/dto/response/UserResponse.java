@@ -1,15 +1,21 @@
-package com.hugo.itireland.web.dto;
+package com.hugo.itireland.web.dto.response;
 
 
-import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
+
 @Data
-public class UserRequest {
+
+public class UserResponse {
+
+
+    private Long id;
 
     private String username;
-    private String password;
     private String email;
+
     private String profile;
 
     //0:active, 1:disabled, 2:delete
@@ -20,5 +26,7 @@ public class UserRequest {
     private int level;
 
     private String headShotUrl;
+
+    private LocalDateTime ctime;
 
 }

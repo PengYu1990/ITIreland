@@ -1,11 +1,13 @@
 package com.hugo.itireland.web.controller;
 
 
+import com.hugo.itireland.domain.Category;
 import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.domain.Tag;
 import com.hugo.itireland.domain.User;
-import com.hugo.itireland.web.dto.PostRequest;
-import com.hugo.itireland.web.dto.PostResponse;
+import com.hugo.itireland.service.CategoryService;
+import com.hugo.itireland.web.dto.request.PostRequest;
+import com.hugo.itireland.web.dto.response.PostResponse;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.util.R;
@@ -53,10 +55,15 @@ public class PostController {
             }
             post.setTags(tags);
 
+            // Process category
+            Category category = new Category(postRequest.getCategory());
+            post.setCategory(category);
+
+
             // save post
             post = postService.add(post);
 
-            //// convert Post to PostResponse, return post to client
+            // convert Post to PostResponse, return post to client
             PostResponse postResponse = new PostResponse();
             BeanUtils.copyProperties(post, postResponse);
             postResponse.setUser(user);

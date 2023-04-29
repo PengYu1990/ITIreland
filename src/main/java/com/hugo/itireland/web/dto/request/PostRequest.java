@@ -1,5 +1,6 @@
-package com.hugo.itireland.web.dto;
+package com.hugo.itireland.web.dto.request;
 
+import com.hugo.itireland.domain.Category;
 import com.hugo.itireland.domain.Tag;
 import lombok.Data;
 
@@ -12,5 +13,6 @@ public class PostRequest {
     private String title;
     private String content;
     private List<String> tags;
+    private String category;
 
 }

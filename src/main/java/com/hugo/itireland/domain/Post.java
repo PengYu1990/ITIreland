@@ -39,5 +39,13 @@ public class Post {
     )
     private List<Tag> tags;
 
+    @ManyToOne
+    @JoinColumn(
+            name = "category",
+            referencedColumnName = "category",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "post_category_fk"))
+    private Category category;
+
 
 }

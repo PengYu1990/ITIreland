@@ -4,8 +4,8 @@ package com.hugo.itireland.web.controller;
 import com.hugo.itireland.domain.Comment;
 import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.domain.User;
-import com.hugo.itireland.web.dto.CommentRequest;
-import com.hugo.itireland.web.dto.CommentResponse;
+import com.hugo.itireland.web.dto.request.CommentRequest;
+import com.hugo.itireland.web.dto.response.CommentResponse;
 import com.hugo.itireland.service.CommentService;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -67,10 +68,21 @@ public class CommentController {
 
 
     @GetMapping
-    public List<Comment> find(@RequestParam(defaultValue = "0", required = false) Integer page,
+    public R find(@RequestParam(defaultValue = "0", required = false) Integer page,
                            @RequestParam(defaultValue = "20", required = false) Integer size,
                            @RequestParam(defaultValue = "id", required = false) String sort){
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        return commentService.findAll(pageable);
+        try {
+            Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+            List<Comment> comments = commentService.findAll(pageable);
+            List<CommentResponse> commentResponses = new ArrayList<>();
+            for (Comment comment : comments) {
+                CommentResponse commentResponse = new CommentResponse();
+                BeanUtils.copyProperties(comment, commentResponse);
+                commentResponses.add(commentResponse);
+            }
+            return R.success(commentResponses);
+        } catch (Exception e){
+            return R.error(400, e.getMessage());
+        }
     }
 }
