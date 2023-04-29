@@ -2,7 +2,14 @@ import { Footer } from "./components/Footer";
 import "./App.css";
 import { NavBar } from "./components/NavBar";
 
-import { AppShell, Container, Grid, createStyles, rem } from "@mantine/core";
+import {
+  AppShell,
+  Container,
+  Grid,
+  MediaQuery,
+  createStyles,
+  rem,
+} from "@mantine/core";
 import PostList from "./components/PostList";
 import ToTop from "./components/ToTop";
 
@@ -29,6 +36,7 @@ export default function App() {
           <Grid.Col md={3} sm={12}></Grid.Col>
         </Grid>
         <Footer />
+
         <ToTop />
       </AppShell>
     </>
