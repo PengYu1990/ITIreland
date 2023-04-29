@@ -3,22 +3,24 @@ package com.hugo.itireland.web.util;
 import lombok.Data;
 
 @Data
-public class R{
+public class R<T>{
+
     private int status;
+
     private String message;
 
-    private Object data;
+    private T data;
 
-    private R(int status, String message, Object data){
+    private R(int status, String message, T data){
         this.status = status;
         this.message = message;
         this.data = data;
     }
-    public static R success(Object data){
+    public static<T> R<T> success(T data){
         return new R(200, "success", data);
     }
 
-    public static R error(int status, String message){
+    public static<T> R<T> error(int status, String message){
         return new R(status, message, null);
     }
 
