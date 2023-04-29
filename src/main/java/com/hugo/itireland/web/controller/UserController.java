@@ -6,6 +6,7 @@ import com.hugo.itireland.web.dto.request.UserRequest;
 import com.hugo.itireland.web.dto.response.UserResponse;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.util.R;
+import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,12 +19,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
+    @Resource
     private UserService userService;
 
-    public UserController(UserService userService){
-        this.userService = userService;
-    }
+//    public UserController(UserService userService){
+//        this.userService = userService;
+//    }
 
     @GetMapping
     public R findAll(@RequestParam(defaultValue = "0", required = false) Integer page,

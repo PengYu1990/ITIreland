@@ -14,6 +14,7 @@ import com.hugo.itireland.web.dto.request.CommentRequest;
 import com.hugo.itireland.web.dto.response.CategoryResponse;
 import com.hugo.itireland.web.dto.response.CommentResponse;
 import com.hugo.itireland.web.util.R;
+import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -26,13 +27,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
+    @Resource
     private CategoryService categoryService;
 
-
-    @Autowired
-    public CategoryController(CategoryService categoryService){
-        this.categoryService = categoryService;
-    }
+//    @Autowired
+//    public CategoryController(CategoryService categoryService){
+//        this.categoryService = categoryService;
+//    }
 
     @PostMapping
     public R add(@RequestBody CategoryRequest categoryRequest){
