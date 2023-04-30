@@ -21,9 +21,10 @@ const PostList = () => {
     <Box>
       <Box className={classes.postList}>
         <Category />
-        {data.map((post) => {
-          return <PostItem post={post} key={post.id} />;
-        })}
+        {data &&
+          data.map((post) => {
+            return <PostItem post={post} key={post.id} />;
+          })}
       </Box>
       <Box className={classes.page}>
         <Pagination total={5} />

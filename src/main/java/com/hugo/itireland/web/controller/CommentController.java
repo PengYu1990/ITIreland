@@ -9,7 +9,7 @@ import com.hugo.itireland.web.dto.response.CommentResponse;
 import com.hugo.itireland.service.CommentService;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
-import com.hugo.itireland.web.util.R;
+import com.hugo.itireland.web.common.R;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

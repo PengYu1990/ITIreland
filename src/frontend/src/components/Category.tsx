@@ -32,11 +32,12 @@ const Category = () => {
       >
         All
       </Badge>
-      {data.map((category, key) => (
-        <Badge key={key} className={classes.badge}>
-          {category.category}
-        </Badge>
-      ))}
+      {data &&
+        data.map((category, key) => (
+          <Badge key={key} className={classes.badge}>
+            {category.category}
+          </Badge>
+        ))}
     </Box>
   );
 };

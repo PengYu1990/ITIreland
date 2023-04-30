@@ -104,6 +104,16 @@ export function NavBar({
 
   const user: User | null = getSessionUser();
 
+  const clickLogin = () => {
+    closeDrawer();
+    onLoginClicked();
+  };
+
+  const clickSignUp = () => {
+    closeDrawer();
+    onSignUpClicked();
+  };
+
   return (
     <Box>
       <Header height={60} px="md">
@@ -127,23 +137,25 @@ export function NavBar({
           </Group>
 
           {user ? (
-            <Menu shadow="md" width={200}>
-              <Menu.Target>
-                <Avatar color="cyan" radius="xl" size={35}>
-                  {user.username.substring(0, 2).toUpperCase()}
-                </Avatar>
-              </Menu.Target>
+            <Group className={classes.hiddenMobile}>
+              <Menu shadow="md" width={200}>
+                <Menu.Target>
+                  <Avatar color="cyan" radius="xl" size={35}>
+                    {user.username.substring(0, 2).toUpperCase()}
+                  </Avatar>
+                </Menu.Target>
 
-              <Menu.Dropdown>
-                <Menu.Label>Account</Menu.Label>
-                <Menu.Item
-                  icon={<IconLogout size={14} />}
-                  onClick={onLogoutClicked}
-                >
-                  Log out
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+                <Menu.Dropdown>
+                  <Menu.Label>Account</Menu.Label>
+                  <Menu.Item
+                    icon={<IconLogout size={14} />}
+                    onClick={onLogoutClicked}
+                  >
+                    Log out
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </Group>
           ) : (
             <Group className={classes.hiddenMobile}>
               <Button onClick={onLoginClicked} variant="default">
@@ -192,8 +204,16 @@ export function NavBar({
           />
 
           <Group position="center" grow pb="xl" px="md">
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
+            {user ? (
+              <Button onClick={onLogoutClicked}>Log out</Button>
+            ) : (
+              <>
+                <Button variant="default" onClick={clickLogin}>
+                  Log in
+                </Button>
+                <Button onClick={clickSignUp}>Sign up</Button>
+              </>
+            )}
           </Group>
         </ScrollArea>
       </Drawer>

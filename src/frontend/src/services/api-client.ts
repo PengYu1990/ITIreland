@@ -11,7 +11,10 @@ if(user != null){
 export default axios.create({
     // baseURL:"https://worrisome-gold-bikini.cyclic.app",
     baseURL:"http://localhost:8080",
-    params:{
+    params: {
         sessionId:sessionId
+    },
+    headers:{
+        sessionId:sessionId 
     }
 })

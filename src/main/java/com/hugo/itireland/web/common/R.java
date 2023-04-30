@@ -1,4 +1,4 @@
-package com.hugo.itireland.web.util;
+package com.hugo.itireland.web.common;
 
 import lombok.Data;
 

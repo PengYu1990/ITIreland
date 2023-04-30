@@ -5,7 +5,7 @@ import com.hugo.itireland.domain.Category;
 import com.hugo.itireland.service.CategoryService;
 import com.hugo.itireland.web.dto.request.CategoryRequest;
 import com.hugo.itireland.web.dto.response.CategoryResponse;
-import com.hugo.itireland.web.util.R;
+import com.hugo.itireland.web.common.R;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

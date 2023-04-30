@@ -1,12 +1,12 @@
-package com.hugo.itireland.interceptor;
+package com.hugo.itireland.web.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.hugo.itireland.web.util.R;
+import com.hugo.itireland.web.common.MySessionContext;
+import com.hugo.itireland.web.common.R;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 public class LoginInterceptor implements HandlerInterceptor {
@@ -16,7 +16,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             ServletContext context = request.getSession().getServletContext();
             String sessionId = request.getParameter("sessionId");
 
-            if(sessionId == null || context.getAttribute(sessionId) == null) {
+            if(sessionId == null || MySessionContext.getSession(sessionId) == null) {
                 R r = R.error(400,"You need to log in");
                 ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
                 String json = ow.writeValueAsString(r);
@@ -26,4 +26,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 
             return true;
         }
+
+
     }

@@ -5,7 +5,7 @@ import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.dto.request.LoginRequest;
 import com.hugo.itireland.web.dto.request.UserRequest;
 import com.hugo.itireland.web.dto.response.UserResponse;
-import com.hugo.itireland.web.util.R;
+import com.hugo.itireland.web.common.R;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,7 @@ public class AuthController {
     public AuthController(UserService userService){
         this.userService = userService;
     }
+
     @PostMapping("/signup")
     public R register(@RequestBody UserRequest userRequest, HttpSession session){
         try {

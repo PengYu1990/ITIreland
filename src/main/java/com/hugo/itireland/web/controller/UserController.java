@@ -1,12 +1,9 @@
 package com.hugo.itireland.web.controller;
 
 import com.hugo.itireland.domain.User;
-import com.hugo.itireland.web.dto.request.LoginRequest;
-import com.hugo.itireland.web.dto.request.UserRequest;
 import com.hugo.itireland.web.dto.response.UserResponse;
 import com.hugo.itireland.service.UserService;
-import com.hugo.itireland.web.util.R;
-import jakarta.servlet.http.HttpSession;
+import com.hugo.itireland.web.common.R;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
