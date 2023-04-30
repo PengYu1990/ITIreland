@@ -12,6 +12,7 @@ import LoginForm from "./components/LoginForm";
 import { useState } from "react";
 import { User } from "./hooks/useUser";
 import { removeSessionUser, setSessionUser } from "./services/session-service";
+import Cookies from "universal-cookie";
 
 const useStyles = createStyles((theme) => ({
   content: {

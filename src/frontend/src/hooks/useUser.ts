@@ -10,6 +10,7 @@ export interface User {
     level:number;
     headShotUrl:string;
     ctime:Date;
+    sessionId:string;
 
 
 }
