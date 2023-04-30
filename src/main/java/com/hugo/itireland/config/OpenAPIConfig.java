@@ -16,7 +16,7 @@ import io.swagger.v3.oas.models.servers.Server;
 @Configuration
 public class OpenAPIConfig {
 
-    @Value("${bezkoder.openapi.dev-url}")
+    @Value("${bezkoder.openapi.dev-url}/api")
     private String devUrl;
 
     @Value("${bezkoder.openapi.prod-url}")
