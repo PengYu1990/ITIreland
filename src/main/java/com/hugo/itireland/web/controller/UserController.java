@@ -63,52 +63,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/register")
-    public R register(@RequestBody UserRequest userRequest){
-        try {
 
-            // Check if user exist
-            if(userService.exist(userRequest.getUsername())){
-                return R.error(400, "Username has been used");
-            }
-
-            // register
-            User user = new User();
-            BeanUtils.copyProperties(userRequest, user);
-            user = userService.add(user);
-            UserResponse userResponse = new UserResponse();
-            BeanUtils.copyProperties(user, userResponse);
-            return R.success(userResponse);
-        } catch (Exception e){
-            return R.error(400, e.getMessage());
-        }
-    }
-
-    @PostMapping("/login")
-    public R login(@RequestBody LoginRequest login, HttpSession session){
-        try {
-
-            // Check if user exist
-            if(!userService.exist(login.getUsername())){
-                return R.error(400, "Incorrect username!");
-            }
-
-            User user;
-
-            // Check if password is correct
-            if((user = userService.login(login.getUsername(), login.getPassword())) == null){
-                return R.error(400, "Incorrect password!");
-            }
-
-            // login
-            UserResponse userResponse = new UserResponse();
-            BeanUtils.copyProperties(user, userResponse);
-            session.setAttribute("user", userResponse);
-            return R.success(userResponse);
-        } catch (Exception e){
-            return R.error(400, e.getMessage());
-        }
-    }
 
 
 }
