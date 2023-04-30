@@ -25,13 +25,15 @@ const Category = () => {
   const { data, error, isLoading } = useCategory();
   return (
     <Box className={classes.category}>
+      <Badge
+        className={classes.badge}
+        variant="gradient"
+        gradient={{ from: "indigo", to: "cyan" }}
+      >
+        All
+      </Badge>
       {data.map((category, key) => (
-        <Badge
-          key={key}
-          className={classes.badge}
-          variant="gradient"
-          gradient={{ from: "indigo", to: "cyan" }}
-        >
+        <Badge key={key} className={classes.badge}>
           {category.category}
         </Badge>
       ))}
