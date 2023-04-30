@@ -65,6 +65,7 @@ public class AuthController {
             UserResponse userResponse = new UserResponse();
             BeanUtils.copyProperties(user, userResponse);
             session.setAttribute("user", userResponse);
+            userResponse.setSessionId(session.getId());
             return R.success(userResponse);
         } catch (Exception e){
             return R.error(400, e.getMessage());
