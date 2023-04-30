@@ -1,5 +1,6 @@
 package com.hugo.itireland.web.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hugo.itireland.domain.Category;
 import com.hugo.itireland.domain.Tag;
 import com.hugo.itireland.domain.User;
@@ -16,7 +17,11 @@ public class PostResponse {
     private String title;
     private String content;
     private Category category;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ctime;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime utime;
 
     private int views;
