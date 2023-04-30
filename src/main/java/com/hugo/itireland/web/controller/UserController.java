@@ -7,6 +7,7 @@ import com.hugo.itireland.web.dto.response.UserResponse;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.util.R;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,6 +22,7 @@ public class UserController {
 
     private UserService userService;
 
+    @Autowired
     public UserController(UserService userService){
         this.userService = userService;
     }

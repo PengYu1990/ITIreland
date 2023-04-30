@@ -1,4 +1,5 @@
 import { Badge, Box, Container, createStyles, rem } from "@mantine/core";
+import useCategory from "../hooks/useCategory";
 
 const useStyles = createStyles((theme) => ({
   category: {
@@ -20,21 +21,20 @@ const useStyles = createStyles((theme) => ({
 
 const Category = () => {
   const { classes } = useStyles();
-  const active = false;
+
+  const { data, error, isLoading } = useCategory();
   return (
     <Box className={classes.category}>
-      <Badge
-        className={classes.badge}
-        variant="gradient"
-        gradient={{ from: "indigo", to: "cyan" }}
-      >
-        Java
-      </Badge>
-      <Badge className={classes.badge}>Python</Badge>
-      <Badge className={classes.badge}>Node.js</Badge>
-      <Badge className={classes.badge}>React</Badge>
-      <Badge className={classes.badge}>C#</Badge>
-      <Badge className={classes.badge}>PHP</Badge>
+      {data.map((category, key) => (
+        <Badge
+          key={key}
+          className={classes.badge}
+          variant="gradient"
+          gradient={{ from: "indigo", to: "cyan" }}
+        >
+          {category.category}
+        </Badge>
+      ))}
     </Box>
   );
 };

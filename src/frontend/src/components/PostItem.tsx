@@ -11,6 +11,11 @@ import {
 import { IconCategory } from "@tabler/icons-react";
 import { IconTags } from "@tabler/icons-react";
 import { IconCalendarTime, IconEye } from "@tabler/icons-react";
+import { Post } from "../hooks/usePost";
+import dayjs from "dayjs";
+// extend dayjs
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 const useStyles = createStyles((theme) => ({
   postItem: {
@@ -35,12 +40,16 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const PostItem = () => {
+interface Props {
+  post: Post;
+}
+
+const PostItem = ({ post }: Props) => {
   const { classes } = useStyles();
   return (
     <Box className={classes.postItem}>
-      <h3 className={classes.heading}>Python is my favourate language</h3>
-      <Text>Sit optio et ut suscipit nesciunt quis sint.</Text>
+      <h3 className={classes.heading}>{post.title}</h3>
+      <Text>{post.content}</Text>
 
       <Flex
         className={classes.postItemBottom}
@@ -50,26 +59,26 @@ const PostItem = () => {
       >
         <Group spacing="xs">
           <Avatar color="cyan" radius="xl" size={23}>
-            MK
+            {post.user.username.substring(0, 2).toUpperCase()}
           </Avatar>
-          <Text>Eoin</Text>
+          <Text>{post.user.username}</Text>
         </Group>
 
         <Group spacing="xs" position="left">
           <IconCalendarTime size={20} />
-          <Text>7:06PM, May 2nd, 2023</Text>
+          <Text>{dayjs(post.ctime).fromNow()}</Text>
         </Group>
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
           <Group spacing="xs" position="left">
             <IconEye size={20} />
-            <Text>5</Text>
+            <Text>{post.views}</Text>
           </Group>
         </MediaQuery>
 
         <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
           <Group spacing="xs" position="left">
             <IconCategory size={20} />
-            <Text>Frontend</Text>
+            <Text>{post.category.category}</Text>
           </Group>
         </MediaQuery>
 
@@ -77,9 +86,9 @@ const PostItem = () => {
           <Group spacing="xs" position="left">
             <IconTags size={25} />
             <Flex gap={10} justify="flex-start" direction="row">
-              <Text>Java</Text>
-              <Text>Python</Text>
-              <Text>React</Text>
+              {post.tags.map((tag, key) => (
+                <Text key={key}>{tag.tag}</Text>
+              ))}
             </Flex>
           </Group>
         </MediaQuery>

@@ -8,10 +8,10 @@ import com.hugo.itireland.web.dto.response.CategoryResponse;
 import com.hugo.itireland.web.util.R;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
@@ -22,6 +22,23 @@ public class CategoryController {
     @Autowired
     public CategoryController(CategoryService categoryService){
         this.categoryService = categoryService;
+    }
+
+
+    @GetMapping
+    public R findAll(){
+        try {
+            List<CategoryResponse> categoryResponseList = new ArrayList<>();
+            List<Category> categories = categoryService.findAll();
+            for (Category category : categories) {
+                CategoryResponse cr = new CategoryResponse();
+                BeanUtils.copyProperties(category, cr);
+                categoryResponseList.add(cr);
+            }
+            return R.success(categoryResponseList);
+        } catch (Exception e){
+            return R.error(400, e.getMessage());
+        }
     }
 
     @PostMapping

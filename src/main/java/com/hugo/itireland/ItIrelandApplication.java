@@ -13,14 +13,5 @@ public class ItIrelandApplication {
         SpringApplication.run(ItIrelandApplication.class, args);
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api");//.allowedOrigins("http://localhost:8080");
-            }
-        };
-    }
 
 }

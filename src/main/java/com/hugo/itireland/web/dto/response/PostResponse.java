@@ -1,5 +1,6 @@
 package com.hugo.itireland.web.dto.response;
 
+import com.hugo.itireland.domain.Category;
 import com.hugo.itireland.domain.Tag;
 import com.hugo.itireland.domain.User;
 import jakarta.persistence.OneToMany;
@@ -14,12 +15,12 @@ public class PostResponse {
     private User user;
     private String title;
     private String content;
+    private Category category;
     private LocalDateTime ctime;
     private LocalDateTime utime;
 
     private int views;
     private int thumbs;
-    @OneToMany
     private List<Tag> tags;
 
 }
