@@ -9,9 +9,14 @@ import {
   ScrollArea,
   rem,
   createStyles,
+  Avatar,
+  Menu,
 } from "@mantine/core";
 import { MantineLogo } from "@mantine/ds";
 import { useDisclosure } from "@mantine/hooks";
+import { User } from "../hooks/useUser";
+import { IconLogout, IconUser } from "@tabler/icons-react";
+import { getSessionUser } from "../services/session-service";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -82,10 +87,22 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function NavBar() {
+interface Props {
+  onSignUpClicked: () => void;
+  onLoginClicked: () => void;
+  onLogoutClicked: () => void;
+}
+
+export function NavBar({
+  onSignUpClicked,
+  onLoginClicked,
+  onLogoutClicked,
+}: Props) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const { classes, theme } = useStyles();
+
+  const user: User | null = getSessionUser();
 
   return (
     <Box>
@@ -109,10 +126,32 @@ export function NavBar() {
             </a>
           </Group>
 
-          <Group className={classes.hiddenMobile}>
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
-          </Group>
+          {user ? (
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <Avatar color="cyan" radius="xl" size={35}>
+                  {user.username.substring(0, 2).toUpperCase()}
+                </Avatar>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Label>Account</Menu.Label>
+                <Menu.Item
+                  icon={<IconLogout size={14} />}
+                  onClick={onLogoutClicked}
+                >
+                  Log out
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          ) : (
+            <Group className={classes.hiddenMobile}>
+              <Button onClick={onLoginClicked} variant="default">
+                Log in
+              </Button>
+              <Button onClick={onSignUpClicked}>Sign up</Button>
+            </Group>
+          )}
 
           <Burger
             opened={drawerOpened}

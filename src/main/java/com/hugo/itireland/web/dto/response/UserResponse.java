@@ -29,4 +29,6 @@ public class UserResponse {
 
     private LocalDateTime ctime;
 
+    private String sessionId;
+
 }

@@ -22,7 +22,6 @@ const PostList = () => {
       <Box className={classes.postList}>
         <Category />
         {data.map((post) => {
-          console.log(post.ctime.getDay);
           return <PostItem post={post} key={post.id} />;
         })}
       </Box>

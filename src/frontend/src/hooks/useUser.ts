@@ -13,5 +13,5 @@ export interface User {
 
 
 }
-const usePost = () => usedata<User>("/api/users")
-export default usePost
+const useUser = () => usedata<User>("/api/users")
+export default useUser
