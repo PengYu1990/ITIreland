@@ -1,8 +1,9 @@
 import PostItem from "./PostItem";
 import { Box, Pagination, createStyles, rem } from "@mantine/core";
 import Category from "./Category";
-import usePosts from "../hooks/usePosts";
+import usePosts, { PostQuery } from "../hooks/usePosts";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   postList: {
@@ -16,11 +17,15 @@ const useStyles = createStyles((theme) => ({
 
 const PostList = () => {
   const { classes } = useStyles();
-  const { data, error, isLoading } = usePosts();
+  const [postQuery, setPostQuery] = useState<PostQuery>({} as PostQuery);
+  const { data, error, isLoading } = usePosts(postQuery);
   return (
     <Box>
       <Box className={classes.postList}>
-        <Category />
+        <Category
+          setCategory={(cate) => setPostQuery({ ...postQuery, category: cate })}
+          currentCategory={postQuery.category}
+        />
 
         {data &&
           data.map((post) => (

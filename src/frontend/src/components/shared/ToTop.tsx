@@ -7,7 +7,7 @@ export default function ToTop() {
 
   return (
     <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-      <Affix position={{ bottom: rem(105), right: rem(20) }}>
+      <Affix position={{ bottom: rem(105), right: rem(70) }}>
         <Transition transition="slide-up" mounted={scroll.y > 0}>
           {(transitionStyles) => (
             <Button

@@ -7,6 +7,7 @@ import com.hugo.itireland.domain.Tag;
 import com.hugo.itireland.domain.User;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
+import com.hugo.itireland.web.dto.request.PostQueryRequest;
 import com.hugo.itireland.web.dto.request.PostRequest;
 import com.hugo.itireland.web.dto.response.PostResponse;
 import com.hugo.itireland.web.common.R;
@@ -89,10 +90,19 @@ public class PostController {
     @GetMapping
     public R find(@RequestParam(defaultValue = "0", required = false) Integer page,
                   @RequestParam(defaultValue = "20", required = false) Integer size,
-                  @RequestParam(defaultValue = "id", required = false) String sort) {
+                  @RequestParam(required = false) String category,
+                  @RequestParam(required = false, defaultValue = "id") String sorting
+                  ) {
         try {
-            Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-            List<Post> posts = postService.findAll(pageable);
+            List<Post> posts;
+            Pageable pageable = PageRequest.of(page, size, Sort.by(sorting));
+            if(category != null && !category.equals("")){
+                Category cat = new Category(category);
+                posts = postService.findAllByCategory(pageable,cat);
+            } else {
+                posts = postService.findAll(pageable);
+            }
+
             List<PostResponse> postResponses = new ArrayList<>();
             for (Post post : posts) {
                 PostResponse postResponse = new PostResponse();

@@ -1,4 +1,11 @@
-import { Badge, Box, Container, createStyles, rem } from "@mantine/core";
+import {
+  Badge,
+  Box,
+  Button,
+  Container,
+  createStyles,
+  rem,
+} from "@mantine/core";
 import useCategories from "../hooks/useCategories";
 
 const useStyles = createStyles((theme) => ({
@@ -11,7 +18,6 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: "#ffffff",
   },
   badge: {
-    padding: rem(12),
     marginTop: rem(5),
     borderRadius: 0,
     fontSize: rem(14),
@@ -19,25 +25,74 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Category = () => {
+interface Props {
+  currentCategory?: string | null;
+  setCategory: (category: string) => void;
+}
+
+const Category = ({ currentCategory, setCategory }: Props) => {
   const { classes } = useStyles();
 
   const { data, error, isLoading } = useCategories();
   return (
     <Box className={classes.category}>
-      <Badge
-        className={classes.badge}
-        variant="gradient"
-        gradient={{ from: "indigo", to: "cyan" }}
-      >
-        All
-      </Badge>
+      {currentCategory == null || currentCategory === "" ? (
+        <Button
+          className={classes.badge}
+          variant="gradient"
+          gradient={{ from: "indigo", to: "cyan" }}
+          onClick={() => setCategory("")}
+          size="xs"
+        >
+          All
+        </Button>
+      ) : (
+        <Button
+          className={classes.badge}
+          variant="light"
+          gradient={{ from: "indigo", to: "cyan" }}
+          onClick={() => setCategory("")}
+          size="xs"
+        >
+          {" "}
+          All
+        </Button>
+      )}
+
       {data &&
-        data.map((category, key) => (
-          <Badge key={key} className={classes.badge}>
-            {category.category}
-          </Badge>
-        ))}
+        data.map((category, key) => {
+          if (currentCategory === category.category) {
+            return (
+              <Button
+                key={key}
+                className={classes.badge}
+                variant="gradient"
+                onClick={() => {
+                  console.log("cate clicked");
+                  setCategory(category.category);
+                }}
+                size="xs"
+              >
+                {category.category}
+              </Button>
+            );
+          }
+
+          return (
+            <Button
+              key={key}
+              className={classes.badge}
+              onClick={() => {
+                console.log("cate clicked");
+                setCategory(category.category);
+              }}
+              variant="light"
+              size="xs"
+            >
+              {category.category}
+            </Button>
+          );
+        })}
     </Box>
   );
 };

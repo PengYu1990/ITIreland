@@ -2,13 +2,23 @@ import { Footer } from "./components/shared/Footer";
 import "./App.css";
 import { NavBar } from "./components/shared/NavBar";
 
-import { AppShell, Container, Grid, createStyles, rem } from "@mantine/core";
+import {
+  AppShell,
+  Button,
+  Container,
+  Flex,
+  Grid,
+  MantineProvider,
+  createStyles,
+  rem,
+} from "@mantine/core";
 import RegisterModal from "./components/shared/Modal";
 import RegisterForm from "./components/forms/RegisterForm";
 import LoginForm from "./components/forms/LoginForm";
 import useAuth from "./hooks/useAuth";
 import ToTop from "./components/shared/ToTop";
 import { Outlet } from "react-router-dom";
+import PublishBox from "./components/sidebar/PublishBox";
 
 const useStyles = createStyles((theme) => ({
   content: {
@@ -43,18 +53,20 @@ export default function App() {
           />
         }
         padding={0}
+        footer={<Footer />}
       >
-        <Grid className={classes.content} grow>
-          <Grid.Col md={9} sm={12}>
-            <Container>
+        <Container size={1280}>
+          <Grid className={classes.content} grow>
+            <Grid.Col md={9} sm={12}>
               <Outlet />
-            </Container>
-          </Grid.Col>
-          <Grid.Col md={3} sm={12}></Grid.Col>
-        </Grid>
+            </Grid.Col>
 
-        <Footer />
-        <ToTop />
+            <Grid.Col md={3} sm={12}>
+              <PublishBox />
+            </Grid.Col>
+          </Grid>
+          <ToTop />
+        </Container>
       </AppShell>
       <RegisterModal
         opened={opened}

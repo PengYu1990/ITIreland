@@ -17,5 +17,16 @@ export interface Post {
     tags:Tag[]
 
 }
-const usePosts = () => usedata<Post>("/api/posts")
+
+export interface PostQuery {
+    category: string | null;
+    order: string;
+    searchText: string;
+  }
+  
+const usePosts = (postQuery:PostQuery) => usedata<Post>("/api/posts",{ 
+    params : { 
+      category : postQuery?.category, 
+      ordering:postQuery?.order,
+    }},[postQuery])
 export default usePosts

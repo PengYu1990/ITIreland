@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import PostMeta from "./components/shared/PostMeta";
 import usePost from "./hooks/usePost";
 import { Box, createStyles, rem, Text } from "@mantine/core";
+import PostForm from "./components/forms/PostForm";
 
 const useStyles = createStyles((theme) => ({
   postItem: {
@@ -34,14 +35,15 @@ const PostDetail = () => {
   const { classes } = useStyles();
   let { id } = useParams();
   const { data, error, isLoading } = usePost(id);
-  return (
-    data && (
-      <Box className={classes.postItem}>
-        <h3 className={classes.heading}>{data.title}</h3>
-        <PostMeta post={data} />
-        <Text className={classes.content}>{data.content}</Text>
-      </Box>
-    )
+  return data ? (
+    <Box className={classes.postItem}>
+      <h3 className={classes.heading}>{data.title}</h3>
+      <PostMeta post={data} />
+      <Text className={classes.content}>{data.content}</Text>
+      <PostForm />
+    </Box>
+  ) : (
+    <></>
   );
 };
 
