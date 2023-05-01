@@ -39,7 +39,9 @@ public class AuthController {
             user = userService.add(user);
             UserResponse userResponse = new UserResponse();
             BeanUtils.copyProperties(user, userResponse);
+            // set sessionId
             session.setAttribute("user", userResponse);
+            userResponse.setSessionId(session.getId());
             return R.success(userResponse);
         } catch (Exception e){
             return R.error(400, e.getMessage());
@@ -66,6 +68,7 @@ public class AuthController {
             UserResponse userResponse = new UserResponse();
             BeanUtils.copyProperties(user, userResponse);
             session.setAttribute("user", userResponse);
+            // set sessionId
             userResponse.setSessionId(session.getId());
             return R.success(userResponse);
         } catch (Exception e){

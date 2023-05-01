@@ -14,10 +14,8 @@ import {
 } from "@mantine/core";
 import { MantineLogo } from "@mantine/ds";
 import { useDisclosure } from "@mantine/hooks";
-import { User } from "../hooks/useUser";
 import { IconLogout } from "@tabler/icons-react";
 import { getSessionUser } from "../services/session-service";
-import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   link: {

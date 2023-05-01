@@ -5,11 +5,13 @@ import { User } from "./useUser";
 import { notifications } from "@mantine/notifications";
 import create from "../services/http-service";
 
+// Auth Hook
 const useAuth = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [user, setUser] = useState<User | null>(getSessionUser());
 
   const [isLogin, setLogin] = useState(true);
+
 
   const openLoginModal = () => {
     setLogin(true);
@@ -21,6 +23,7 @@ const useAuth = () => {
     open();
   };
 
+  // Request login api
   const login = (values: {}) => {
     console.log(values);
     create("/api/auth/login")
@@ -35,6 +38,7 @@ const useAuth = () => {
       });
   };
 
+  // Request sign up api
   const signup = (values: {}) => {
     console.log(values);
     create("/api/auth/signup")

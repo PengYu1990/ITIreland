@@ -1,6 +1,5 @@
-import React from "react";
 import PostItem from "./PostItem";
-import { Box, Center, Pagination, createStyles, rem } from "@mantine/core";
+import { Box, Pagination, createStyles, rem } from "@mantine/core";
 import Category from "./Category";
 import usePost from "../hooks/usePost";
 
