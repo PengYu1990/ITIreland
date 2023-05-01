@@ -1,14 +1,14 @@
-import { Footer } from "./components/Footer";
+import { Footer } from "./components/shared/Footer";
 import "./App.css";
-import { NavBar } from "./components/NavBar";
+import { NavBar } from "./components/shared/NavBar";
 
 import { AppShell, Container, Grid, createStyles, rem } from "@mantine/core";
 import PostList from "./components/PostList";
-import ToTop from "./components/ToTop";
-import RegisterModal from "./components/Modal";
-import RegisterForm from "./components/RegisterForm";
-import LoginForm from "./components/LoginForm";
+import RegisterModal from "./components/shared/Modal";
+import RegisterForm from "./components/forms/RegisterForm";
+import LoginForm from "./components/forms/LoginForm";
 import useAuth from "./hooks/useAuth";
+import ToTop from "./components/shared/ToTop";
 
 const useStyles = createStyles((theme) => ({
   content: {

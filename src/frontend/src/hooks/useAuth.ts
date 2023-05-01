@@ -66,11 +66,13 @@ const useAuth = () => {
         });
       })
       .catch((error) => {
-        notifications.show({
-          title: "Notification",
-          message: error.message,
-          color: "red",
-        });
+        removeSessionUser();
+        setUser(null);
+        // notifications.show({
+        //   title: "Notification",
+        //   message: error.message,
+        //   color: "red",
+        // });
       });
   };
 
