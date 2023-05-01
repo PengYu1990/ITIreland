@@ -11,8 +11,13 @@ import RegisterForm from "./components/RegisterForm";
 import LoginForm from "./components/LoginForm";
 import { useState } from "react";
 import { User } from "./hooks/useUser";
-import { removeSessionUser, setSessionUser } from "./services/session-service";
-import Cookies from "universal-cookie";
+import {
+  getSessionUser,
+  removeSessionUser,
+  setSessionUser,
+} from "./services/session-service";
+import create from "./services/http-service";
+import { notifications } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   content: {
@@ -26,6 +31,7 @@ const useStyles = createStyles((theme) => ({
 export default function App() {
   const { classes } = useStyles();
   const [opened, { open, close }] = useDisclosure(false);
+  const [user, setUser] = useState<User | null>(getSessionUser());
 
   const [login, setLogin] = useState(true);
 
@@ -42,18 +48,59 @@ export default function App() {
   const loginSuccess = (user: User) => {
     close();
     setSessionUser(user);
+    setUser(getSessionUser());
+    notifications.show({
+      title: "Notification",
+      message: "Login Success",
+      color: "blue",
+    });
   };
-  const loginError = () => {};
+  const loginError = () => {
+    notifications.show({
+      title: "Notification",
+      message: "Login Error",
+      color: "red",
+    });
+  };
 
   const registerSuccess = (user: User) => {
     close();
     setSessionUser(user);
+    setUser(getSessionUser());
+    notifications.show({
+      title: "Notification",
+      message: "Sign Success",
+      color: "blue",
+    });
   };
-  const registerError = () => {};
+  const registerError = () => {
+    notifications.show({
+      title: "Notification",
+      message: "Sign Up Error",
+      color: "red",
+    });
+  };
 
   const logout = () => {
-    removeSessionUser();
-    window.location.reload();
+    create("/api/auth/logout")
+      .create(null)
+      .then((resp) => {
+        removeSessionUser();
+        setUser(null);
+        notifications.show({
+          title: "Notification",
+          message: "Logout Success",
+          color: "blue",
+        });
+        // window.location.reload();
+      })
+      .catch((error) => {
+        notifications.show({
+          title: "Notification",
+          message: error.error.message,
+          color: "red",
+        });
+      });
   };
 
   return (

@@ -2,6 +2,7 @@ package com.hugo.itireland.web.controller;
 
 import com.hugo.itireland.domain.User;
 import com.hugo.itireland.service.UserService;
+import com.hugo.itireland.web.common.MySessionContext;
 import com.hugo.itireland.web.dto.request.LoginRequest;
 import com.hugo.itireland.web.dto.request.UserRequest;
 import com.hugo.itireland.web.dto.response.UserResponse;
@@ -9,10 +10,9 @@ import com.hugo.itireland.web.common.R;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.http.HttpRequest;
 
 @RestController
 @RequestMapping("/auth")
@@ -70,6 +70,17 @@ public class AuthController {
             return R.success(userResponse);
         } catch (Exception e){
             return R.error(400, e.getMessage());
+        }
+    }
+
+
+    @PostMapping("/logout")
+    public R logout(@RequestParam  String sessionId){
+        try {
+            MySessionContext.getSession(sessionId).removeAttribute("user");
+            return R.success(null);
+        } catch (Exception exception){
+            return R.error(400,"log out error");
         }
     }
 }

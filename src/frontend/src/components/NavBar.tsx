@@ -15,8 +15,9 @@ import {
 import { MantineLogo } from "@mantine/ds";
 import { useDisclosure } from "@mantine/hooks";
 import { User } from "../hooks/useUser";
-import { IconLogout, IconUser } from "@tabler/icons-react";
+import { IconLogout } from "@tabler/icons-react";
 import { getSessionUser } from "../services/session-service";
+import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -101,8 +102,7 @@ export function NavBar({
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const { classes, theme } = useStyles();
-
-  const user: User | null = getSessionUser();
+  const user = getSessionUser();
 
   const clickLogin = () => {
     closeDrawer();
@@ -112,6 +112,10 @@ export function NavBar({
   const clickSignUp = () => {
     closeDrawer();
     onSignUpClicked();
+  };
+
+  const clickLogout = () => {
+    onLogoutClicked();
   };
 
   return (
@@ -149,7 +153,7 @@ export function NavBar({
                   <Menu.Label>Account</Menu.Label>
                   <Menu.Item
                     icon={<IconLogout size={14} />}
-                    onClick={onLogoutClicked}
+                    onClick={clickLogout}
                   >
                     Log out
                   </Menu.Item>
@@ -219,4 +223,7 @@ export function NavBar({
       </Drawer>
     </Box>
   );
+}
+function userState<T>(): [any, any] {
+  throw new Error("Function not implemented.");
 }

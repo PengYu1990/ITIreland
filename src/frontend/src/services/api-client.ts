@@ -1,8 +1,7 @@
 import axios from "axios";
 import { getSessionUser } from "./session-service";
-import { User } from "../hooks/useUser";
 
-const user:User = getSessionUser();
+const user = getSessionUser();
 let sessionId = null;
 if(user != null){
     sessionId = user.sessionId;
