@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PostMeta from "./shared/PostMeta";
 import { createShortcut } from "../utils/common";
+import { Link } from "react-router-dom";
 dayjs.extend(relativeTime);
 
 const useStyles = createStyles((theme) => ({
@@ -40,11 +41,12 @@ const PostItem = ({ post }: Props) => {
 
   return (
     <Box className={classes.postItem}>
-      <h3 className={classes.heading}>{post.title}</h3>
-      <Text className={classes.summary}>
-        {createShortcut(post.content, 100)}
-      </Text>
-
+      <Link to={"/post/" + post.id} key={post.id}>
+        <h3 className={classes.heading}>{post.title}</h3>
+        <Text className={classes.summary}>
+          {createShortcut(post.content, 100)}
+        </Text>
+      </Link>
       <PostMeta post={post} />
     </Box>
   );
