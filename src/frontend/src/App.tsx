@@ -24,13 +24,11 @@ export default function App() {
   const {
     opened,
     close,
-    login,
+    isLogin,
     openLoginModal,
     openSignUpModal,
-    loginSuccess,
-    loginError,
-    registerSuccess,
-    registerError,
+    login,
+    signup,
     logout,
   } = useAuth();
 
@@ -61,12 +59,12 @@ export default function App() {
       <RegisterModal
         opened={opened}
         close={close}
-        title={login ? "Log in" : "Sign up"}
+        title={isLogin ? "Log in" : "Sign up"}
       >
-        {login ? (
-          <LoginForm success={loginSuccess} error={loginError} />
+        {isLogin ? (
+          <LoginForm login={login} />
         ) : (
-          <RegisterForm success={registerSuccess} error={registerError} />
+          <RegisterForm signup={signup} />
         )}
       </RegisterModal>
     </>

@@ -9,7 +9,7 @@ const useAuth = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [user, setUser] = useState<User | null>(getSessionUser());
 
-  const [login, setLogin] = useState(true);
+  const [isLogin, setLogin] = useState(true);
 
   const openLoginModal = () => {
     setLogin(true);
@@ -19,6 +19,55 @@ const useAuth = () => {
   const openSignUpModal = () => {
     setLogin(false);
     open();
+  };
+
+  const login = (values: {}) => {
+    console.log(values);
+    create("/api/auth/login")
+      .create(values)
+      .then((resp) => {
+        console.log(resp.data);
+        loginSuccess(resp.data.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        loginError();
+      });
+  };
+
+  const signup = (values: {}) => {
+    console.log(values);
+    create("/api/auth/signup")
+      .create(values)
+      .then((resp) => {
+        console.log(resp.data);
+        registerSuccess(resp.data.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        registerError();
+      });
+  };
+
+  const logout = () => {
+    create("/api/auth/logout")
+      .create(null)
+      .then((resp) => {
+        removeSessionUser();
+        setUser(null);
+        notifications.show({
+          title: "Notification",
+          message: "Logout Success",
+          color: "blue",
+        });
+      })
+      .catch((error) => {
+        notifications.show({
+          title: "Notification",
+          message: error.message,
+          color: "red",
+        });
+      });
   };
 
   const loginSuccess = (user: User) => {
@@ -45,7 +94,7 @@ const useAuth = () => {
     setUser(getSessionUser());
     notifications.show({
       title: "Notification",
-      message: "Sign Success",
+      message: "Sign Up Success",
       color: "blue",
     });
   };
@@ -57,31 +106,10 @@ const useAuth = () => {
     });
   };
 
-  const logout = () => {
-    create("/api/auth/logout")
-      .create(null)
-      .then((resp) => {
-        removeSessionUser();
-        setUser(null);
-        notifications.show({
-          title: "Notification",
-          message: "Logout Success",
-          color: "blue",
-        });
-        // window.location.reload();
-      })
-      .catch((error) => {
-        notifications.show({
-          title: "Notification",
-          message: error.message,
-          color: "red",
-        });
-      });
-  };
-  return {opened, open, close, login, user,
-    openLoginModal, openSignUpModal, loginSuccess, 
-    loginError, registerSuccess, registerError,
-    logout}
+  
+  return {opened, open, close,  isLogin, user,
+    openLoginModal, openSignUpModal, 
+    login, signup, logout}
 }
 
 export default useAuth;
