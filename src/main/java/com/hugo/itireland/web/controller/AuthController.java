@@ -77,7 +77,10 @@ public class AuthController {
     @PostMapping("/logout")
     public R logout(@RequestParam  String sessionId){
         try {
-            MySessionContext.getSession(sessionId).removeAttribute("user");
+            HttpSession session = MySessionContext.getSession(sessionId);
+            if(session!=null){
+                session.removeAttribute("user");
+            }
             return R.success(null);
         } catch (Exception exception){
             return R.error(400,"log out error");

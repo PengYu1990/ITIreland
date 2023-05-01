@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import apiClient from "../services/api-client";
+import createClient from "../services/api-client";
 
 interface FetchResponse<T> {
     status:number;
@@ -16,7 +16,7 @@ const useData = <T>(endpoint: string, deps?:any[]) => {
     useEffect(() => {
         setLoading(true);
         const controller = new AbortController();
-        apiClient.get<FetchResponse<T>>(endpoint).then(resp=>{
+        createClient().get<FetchResponse<T>>(endpoint).then(resp=>{
             setData(resp.data.data);
             setLoading(false);
         }).catch((err) => {
