@@ -1,21 +1,5 @@
-import { Category } from "./useCategory";
-import usedata from "./useData"
-import { User } from "./useUser";
-interface Tag {
-    tag:string;
-}
-export interface Post {
-    id:number;
-    title:string;
-    content:string;
-    ctime:Date;
-    utime:Date;
-    views:number;
-    thumbs:number;
-    category:Category;
-    user:User;
-    tags:Tag[]
+import { Post } from "./usePosts";
+import useSingleData from "./useSingleData";
 
-}
-const usePost = () => usedata<Post>("/api/posts")
+const usePost = (id:string|undefined) => useSingleData<Post>("/api/posts/"+id)
 export default usePost

@@ -3,12 +3,12 @@ import "./App.css";
 import { NavBar } from "./components/shared/NavBar";
 
 import { AppShell, Container, Grid, createStyles, rem } from "@mantine/core";
-import PostList from "./components/PostList";
 import RegisterModal from "./components/shared/Modal";
 import RegisterForm from "./components/forms/RegisterForm";
 import LoginForm from "./components/forms/LoginForm";
 import useAuth from "./hooks/useAuth";
 import ToTop from "./components/shared/ToTop";
+import { Outlet } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   content: {
@@ -47,13 +47,13 @@ export default function App() {
         <Grid className={classes.content} grow>
           <Grid.Col md={9} sm={12}>
             <Container>
-              <PostList />
+              <Outlet />
             </Container>
           </Grid.Col>
           <Grid.Col md={3} sm={12}></Grid.Col>
         </Grid>
-        <Footer />
 
+        <Footer />
         <ToTop />
       </AppShell>
       <RegisterModal

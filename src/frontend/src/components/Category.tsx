@@ -1,5 +1,5 @@
 import { Badge, Box, Container, createStyles, rem } from "@mantine/core";
-import useCategory from "../hooks/useCategory";
+import useCategories from "../hooks/useCategories";
 
 const useStyles = createStyles((theme) => ({
   category: {
@@ -22,7 +22,7 @@ const useStyles = createStyles((theme) => ({
 const Category = () => {
   const { classes } = useStyles();
 
-  const { data, error, isLoading } = useCategory();
+  const { data, error, isLoading } = useCategories();
   return (
     <Box className={classes.category}>
       <Badge
