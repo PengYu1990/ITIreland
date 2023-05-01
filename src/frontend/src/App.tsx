@@ -55,16 +55,8 @@ export default function App() {
         padding={0}
         footer={<Footer />}
       >
-        <Container size={1280}>
-          <Grid className={classes.content} grow>
-            <Grid.Col md={9} sm={12}>
-              <Outlet />
-            </Grid.Col>
-
-            <Grid.Col md={3} sm={12}>
-              <PublishBox />
-            </Grid.Col>
-          </Grid>
+        <Container className={classes.content} size={1280}>
+          <Outlet />
           <ToTop />
         </Container>
       </AppShell>
