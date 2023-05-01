@@ -27,7 +27,7 @@ const PostList = () => {
           currentCategory={postQuery.category}
         />
 
-        {data && data.map((post) => <PostItem post={post} />)}
+        {data && data.map((post, key) => <PostItem post={post} key={key} />)}
       </Box>
       <Box className={classes.page}>
         <Pagination total={5} />

@@ -1,5 +1,6 @@
 import { Button, Flex, createStyles, rem } from "@mantine/core";
 import { AiOutlineEdit, AiOutlineQuestionCircle } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   publish_box: {
@@ -17,9 +18,11 @@ const PublishBox = () => {
       justify="center"
       direction="row"
     >
-      <Button variant="gradient" leftIcon={<AiOutlineEdit size={rem(18)} />}>
-        Post
-      </Button>
+      <Link to="/post">
+        <Button variant="gradient" leftIcon={<AiOutlineEdit size={rem(18)} />}>
+          Post
+        </Button>
+      </Link>
       <Button
         leftIcon={<AiOutlineQuestionCircle size={rem(18)} />}
         variant="default"

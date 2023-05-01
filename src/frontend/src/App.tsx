@@ -57,7 +57,6 @@ export default function App() {
       >
         <Container className={classes.content} size={1280}>
           <Outlet />
-          <ToTop />
         </Container>
       </AppShell>
       <RegisterModal

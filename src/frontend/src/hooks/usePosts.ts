@@ -13,6 +13,7 @@ export interface Post {
     views:number;
     thumbs:number;
     category:Category;
+    userId:number;
     user:User;
     tags:Tag[]
 

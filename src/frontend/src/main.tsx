@@ -5,8 +5,9 @@ import "./App.css";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Index from ".";
 import PostDetail from "./PostDetail";
+import PostEdit from "./PostEdit";
+import Index from "./Index";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/post/:id",
         element: <PostDetail />,
+      },
+      {
+        path: "/post",
+        element: <PostEdit />,
       },
     ],
   },

@@ -1,19 +1,19 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import PostMeta from "./components/shared/PostMeta";
 import usePost from "./hooks/usePost";
-import { Box, createStyles, rem, Text } from "@mantine/core";
-import PostForm from "./components/forms/PostForm";
+import { Box, createStyles, Grid, rem, Text } from "@mantine/core";
+import PublishBox from "./components/sidebar/PublishBox";
+import ToTop from "./components/shared/ToTop";
+import { useEffect } from "react";
 
 const useStyles = createStyles((theme) => ({
-  postItem: {
-    paddingLeft: rem(10),
-    paddingRight: rem(10),
-    paddingTop: rem(2),
-    paddingBottom: rem(5),
-    borderBottom: `${rem(1)} solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1]
-    }`,
+  detail: {
+    paddingLeft: rem(20),
+    paddingRight: rem(20),
+    paddingTop: rem(10),
+    paddingBottom: rem(10),
     backgroundColor: "white",
+    marginBottom: rem(10),
   },
 
   heading: {
@@ -35,13 +35,30 @@ const PostDetail = () => {
   const { classes } = useStyles();
   let { id } = useParams();
   const { data, error, isLoading } = usePost(id);
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return data ? (
-    <Box className={classes.postItem}>
-      <h3 className={classes.heading}>{data.title}</h3>
-      <PostMeta post={data} />
-      <Text className={classes.content}>{data.content}</Text>
-      <PostForm />
-    </Box>
+    <>
+      <Grid grow>
+        <Grid.Col md={9} sm={12}>
+          <Box className={classes.detail}>
+            <h3 className={classes.heading}>{data.title}</h3>
+            <PostMeta post={data} />
+            <div dangerouslySetInnerHTML={{ __html: data.content }} />
+          </Box>
+        </Grid.Col>
+
+        <Grid.Col md={3} sm={12}>
+          <PublishBox />
+        </Grid.Col>
+      </Grid>
+      <ToTop />
+    </>
   ) : (
     <></>
   );

@@ -5,3 +5,7 @@ a {
 .bg_white {
     background-color: white;
 }
+
+.ProseMirror {
+    min-height: 25rem;
+}

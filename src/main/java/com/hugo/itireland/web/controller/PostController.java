@@ -46,19 +46,24 @@ public class PostController {
             post.setUser(user);
 
 
-            // Process Tags
-            List<Tag> tags = new ArrayList<>();
-            for (String t : postRequest.getTags()) {
-                Tag tag = new Tag();
-                tag.setTag(t);
-                tags.add(tag);
-            }
-            post.setTags(tags);
-
             // Process category
+            if(postRequest.getCategory() == null) {
+                throw new IllegalArgumentException("Category can not be null");
+            }
             Category category = new Category(postRequest.getCategory());
             post.setCategory(category);
 
+
+            // Process Tags
+            if(postRequest.getTags() != null) {
+                List<Tag> tags = new ArrayList<>();
+                for (String t : postRequest.getTags()) {
+                    Tag tag = new Tag();
+                    tag.setTag(t);
+                    tags.add(tag);
+                }
+                post.setTags(tags);
+            }
 
             // save post
             post = postService.add(post);

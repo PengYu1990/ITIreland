@@ -35,16 +35,19 @@ public class PostServiceImpl implements PostService {
         post.setUtime(LocalDateTime.now());
 
         // Process duplicated tag: replace duplicated data with the data from database
+
         List<Tag> tags = post.getTags();
-        List<Tag> saveTags = new ArrayList<>();
-        for(Tag tag : tags){
-            Tag oldTag = tagService.find(tag);
-            if(oldTag != null) {
-                tag = oldTag;
+        if(tags != null) {
+            List<Tag> saveTags = new ArrayList<>();
+            for (Tag tag : tags) {
+                Tag oldTag = tagService.find(tag);
+                if (oldTag != null) {
+                    tag = oldTag;
+                }
+                saveTags.add(tag);
             }
-            saveTags.add(tag);
+            post.setTags(saveTags);
         }
-        post.setTags(saveTags);
 
         // Process category
         Category category = categoryService.find(post.getCategory().getCategory());
