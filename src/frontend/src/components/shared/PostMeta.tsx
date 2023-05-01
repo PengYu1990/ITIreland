@@ -62,16 +62,18 @@ const PostMeta = ({ post }: Props) => {
         </Group>
       </MediaQuery>
 
-      <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-        <Group spacing="xs" position="left">
-          <IconTags size={25} />
-          <Flex gap={10} justify="flex-start" direction="row">
-            {post.tags.map((tag, key) => (
-              <Text key={key}>{tag.tag}</Text>
-            ))}
-          </Flex>
-        </Group>
-      </MediaQuery>
+      {post.tags.length > 0 && (
+        <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+          <Group spacing="xs" position="left">
+            <IconTags size={25} />
+            <Flex gap={10} justify="flex-start" direction="row">
+              {post.tags.map((tag, key) => (
+                <Text key={key}>{tag.tag}</Text>
+              ))}
+            </Flex>
+          </Group>
+        </MediaQuery>
+      )}
     </Flex>
   );
 };
