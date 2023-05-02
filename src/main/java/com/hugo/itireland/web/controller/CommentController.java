@@ -76,7 +76,7 @@ public class CommentController {
     @GetMapping
     public R find(@RequestParam(defaultValue = "0", required = false) Integer page,
                            @RequestParam(defaultValue = "20", required = false) Integer size,
-                           @RequestParam(defaultValue = "utime", required = false) String sort){
+                           @RequestParam(defaultValue = "id", required = false) String sort){
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
             List<Comment> comments = commentService.findAll(pageable);

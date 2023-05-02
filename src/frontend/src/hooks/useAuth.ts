@@ -14,7 +14,7 @@ const useAuth = () => {
   const [isLogin, setLogin] = useState(true);
 
   // record global user login state
-  const [loginState, setLoginState] = useState("no");
+  const [loginState, setLoginState] = useState(getSessionUser() == null ? "no":"yes");
 
 
   const openLoginModal = () => {

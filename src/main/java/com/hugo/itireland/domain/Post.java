@@ -52,6 +52,7 @@ public class Post {
     private Category category;
 
     @OneToMany(mappedBy = "post")
+    @OrderBy("utime DESC")
     @JsonManagedReference
     private List<Comment> comments;
 
