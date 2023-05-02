@@ -17,6 +17,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconLogout } from "@tabler/icons-react";
 import { getSessionUser } from "../../services/session-service";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../App";
+import { useContext } from "react";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -102,6 +104,7 @@ export function NavBar({
     useDisclosure(false);
   const { classes, theme } = useStyles();
   const user = getSessionUser();
+  const loginState = useContext(AuthContext);
 
   const clickLogin = () => {
     closeDrawer();
@@ -135,7 +138,7 @@ export function NavBar({
             </Link>
           </Group>
 
-          {user ? (
+          {loginState === "yes" && user ? (
             <Group className={classes.hiddenMobile}>
               <Menu shadow="md" width={200}>
                 <Menu.Target>
@@ -197,7 +200,7 @@ export function NavBar({
           />
 
           <Group position="center" grow pb="xl" px="md">
-            {user ? (
+            {loginState === "yes" && user ? (
               <Button onClick={onLogoutClicked}>Log out</Button>
             ) : (
               <>
@@ -212,7 +215,4 @@ export function NavBar({
       </Drawer>
     </Box>
   );
-}
-function userState<T>(): [any, any] {
-  throw new Error("Function not implemented.");
 }

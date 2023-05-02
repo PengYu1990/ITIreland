@@ -6,12 +6,13 @@ import {
   createStyles,
   rem,
 } from "@mantine/core";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { getSessionUser } from "../../services/session-service";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import create from "../../services/http-service";
 import { Comment } from "../../hooks/useComments";
+import { AuthContext } from "../../App";
 
 const useStyles = createStyles((theme) => ({
   form: {
@@ -34,8 +35,9 @@ interface Props {
 
 const CommentSection = ({ postId, addComment }: Props) => {
   const { classes } = useStyles();
-  const [htmlContent, setHtmlContent] = useState("");
   const user = getSessionUser();
+
+  const loginState = useContext(AuthContext);
 
   const form = useForm({
     initialValues: {
@@ -89,28 +91,31 @@ const CommentSection = ({ postId, addComment }: Props) => {
   };
 
   return (
-    <>
-      <form
-        className={classes.form}
-        onSubmit={form.onSubmit((values) => comment(values))}
+    <form
+      className={classes.form}
+      onSubmit={form.onSubmit((values) => comment(values))}
+    >
+      <Flex justify="space-between" direction="row">
+        <Avatar color="cyan" radius="xl" size={35}>
+          {user && user.username.substring(0, 2).toUpperCase()}
+        </Avatar>
+        <Textarea
+          className={classes.editor}
+          minRows={3}
+          w="100%"
+          disabled={loginState === "no"}
+          placeholder="Login and comment"
+          {...form.getInputProps("content")}
+        ></Textarea>
+      </Flex>
+      <Button
+        type="submit"
+        disabled={loginState === "no"}
+        className={classes.button}
       >
-        <Flex justify="space-between" direction="row">
-          <Avatar color="cyan" radius="xl" size={35}>
-            {user && user.username.substring(0, 2).toUpperCase()}
-          </Avatar>
-          <Textarea
-            className={classes.editor}
-            minRows={3}
-            w="100%"
-            placeholder="Comment content"
-            {...form.getInputProps("content")}
-          ></Textarea>
-        </Flex>
-        <Button type="submit" className={classes.button}>
-          Submit
-        </Button>
-      </form>
-    </>
+        Submit
+      </Button>
+    </form>
   );
 };
 

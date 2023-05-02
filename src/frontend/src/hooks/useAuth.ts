@@ -8,9 +8,13 @@ import create from "../services/http-service";
 // Auth Hook
 const useAuth = () => {
   const [opened, { open, close }] = useDisclosure(false);
-  const [user, setUser] = useState<User | null>(getSessionUser());
+  // const [user, setUser] = useState<User | null>(getSessionUser());
 
+  // decide display login form or register form
   const [isLogin, setLogin] = useState(true);
+
+  // record global user login state
+  const [loginState, setLoginState] = useState("no");
 
 
   const openLoginModal = () => {
@@ -58,16 +62,17 @@ const useAuth = () => {
       .create(null)
       .then((resp) => {
         removeSessionUser();
-        setUser(null);
+        // setUser(null);
         notifications.show({
           title: "Notification",
           message: "Logout Success",
           color: "blue",
         });
+        setLoginState("no");
       })
       .catch((error) => {
         removeSessionUser();
-        setUser(null);
+        // setUser(null);
         // notifications.show({
         //   title: "Notification",
         //   message: error.message,
@@ -79,12 +84,13 @@ const useAuth = () => {
   const loginSuccess = (user: User) => {
     close();
     setSessionUser(user);
-    setUser(getSessionUser());
+    // setUser(getSessionUser());
     notifications.show({
       title: "Notification",
       message: "Login Success",
       color: "blue",
     });
+    setLoginState("yes");
   };
   const loginError = () => {
     notifications.show({
@@ -97,7 +103,7 @@ const useAuth = () => {
   const registerSuccess = (user: User) => {
     close();
     setSessionUser(user);
-    setUser(getSessionUser());
+    // setUser(getSessionUser());
     notifications.show({
       title: "Notification",
       message: "Sign Up Success",
@@ -113,7 +119,7 @@ const useAuth = () => {
   };
 
   
-  return {opened, open, close,  isLogin, user,
+  return {opened, open, close,  isLogin, loginState,
     openLoginModal, openSignUpModal, 
     login, signup, logout}
 }

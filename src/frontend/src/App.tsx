@@ -2,23 +2,13 @@ import { Footer } from "./components/shared/Footer";
 import "./App.css";
 import { NavBar } from "./components/shared/NavBar";
 
-import {
-  AppShell,
-  Button,
-  Container,
-  Flex,
-  Grid,
-  MantineProvider,
-  createStyles,
-  rem,
-} from "@mantine/core";
+import { AppShell, Container, createStyles, rem } from "@mantine/core";
 import RegisterModal from "./components/shared/Modal";
 import RegisterForm from "./components/forms/RegisterForm";
 import LoginForm from "./components/forms/LoginForm";
 import useAuth from "./hooks/useAuth";
-import ToTop from "./components/shared/ToTop";
 import { Outlet } from "react-router-dom";
-import PublishBox from "./components/sidebar/PublishBox";
+import { createContext } from "react";
 
 const useStyles = createStyles((theme) => ({
   content: {
@@ -29,12 +19,15 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+export const AuthContext = createContext("auth");
+
 export default function App() {
   const { classes } = useStyles();
   const {
     opened,
     close,
     isLogin,
+    loginState,
     openLoginModal,
     openSignUpModal,
     login,
@@ -43,7 +36,7 @@ export default function App() {
   } = useAuth();
 
   return (
-    <>
+    <AuthContext.Provider value={loginState}>
       <AppShell
         header={
           <NavBar
@@ -70,6 +63,6 @@ export default function App() {
           <RegisterForm signup={signup} />
         )}
       </RegisterModal>
-    </>
+    </AuthContext.Provider>
   );
 }
