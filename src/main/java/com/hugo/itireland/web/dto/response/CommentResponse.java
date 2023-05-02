@@ -1,14 +1,18 @@
 package com.hugo.itireland.web.dto.response;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.domain.User;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 public class CommentResponse {
 
     private Long id;
@@ -20,6 +24,6 @@ public class CommentResponse {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime utime;
 
-    private User user;
-    private Post post;
+    private UserResponse user;
+
 }

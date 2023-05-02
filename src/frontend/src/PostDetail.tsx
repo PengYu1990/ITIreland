@@ -5,6 +5,8 @@ import { Box, createStyles, Grid, rem, Text } from "@mantine/core";
 import PublishBox from "./components/sidebar/PublishBox";
 import ToTop from "./components/shared/ToTop";
 import { useEffect } from "react";
+import CommentForm from "./components/forms/CommentForm";
+import CommentItem from "./components/post/CommentItem";
 
 const useStyles = createStyles((theme) => ({
   detail: {
@@ -29,6 +31,7 @@ const useStyles = createStyles((theme) => ({
     marginTop: rem(20),
     marginBottom: rem(30),
   },
+  commentForm: {},
 }));
 
 const PostDetail = () => {
@@ -51,6 +54,16 @@ const PostDetail = () => {
             <PostMeta post={data} />
             <div dangerouslySetInnerHTML={{ __html: data.content }} />
           </Box>
+          <Box className={classes.detail}>
+            <CommentForm postId={data.id} />
+          </Box>
+          {data.comments.length != 0 && (
+            <Box className={classes.detail}>
+              {data.comments.map((comment) => (
+                <CommentItem comment={comment} />
+              ))}
+            </Box>
+          )}
         </Grid.Col>
 
         <Grid.Col md={3} sm={12}>

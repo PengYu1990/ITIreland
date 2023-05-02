@@ -1,12 +1,16 @@
 package com.hugo.itireland.web.dto.response;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 
-@Data
+@Getter
+@Setter
 
 public class UserResponse {
 
@@ -27,6 +31,8 @@ public class UserResponse {
 
     private String headShotUrl;
 
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ctime;
 
     private String sessionId;

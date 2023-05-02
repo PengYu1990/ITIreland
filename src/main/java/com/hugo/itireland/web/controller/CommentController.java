@@ -10,6 +10,7 @@ import com.hugo.itireland.service.CommentService;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.common.R;
+import com.hugo.itireland.web.dto.response.UserResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -78,6 +79,11 @@ public class CommentController {
             for (Comment comment : comments) {
                 CommentResponse commentResponse = new CommentResponse();
                 BeanUtils.copyProperties(comment, commentResponse);
+
+                // Process UserResponse
+                UserResponse userResponse = new UserResponse();
+                BeanUtils.copyProperties(comment.getUser(), userResponse);
+                commentResponse.setUser(userResponse);
                 commentResponses.add(commentResponse);
             }
             return R.success(commentResponses);

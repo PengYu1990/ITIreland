@@ -1,12 +1,16 @@
 package com.hugo.itireland.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Post {
     @Id
@@ -46,6 +50,10 @@ public class Post {
             nullable = false,
             foreignKey = @ForeignKey(name = "post_category_fk"))
     private Category category;
+
+    @OneToMany(mappedBy = "post")
+    @JsonManagedReference
+    private List<Comment> comments;
 
 
 }

@@ -1,4 +1,5 @@
 import { Category } from "./useCategories";
+import { Comment } from "./useComments";
 import usedata from "./useData"
 import { User } from "./useUser";
 interface Tag {
@@ -15,7 +16,8 @@ export interface Post {
     category:Category;
     userId:number;
     user:User;
-    tags:Tag[]
+    tags:Tag[];
+    comments:Comment[];
 
 }
 

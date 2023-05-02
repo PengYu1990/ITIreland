@@ -7,22 +7,28 @@ import {
   createStyles,
   rem,
 } from "@mantine/core";
-import RichEditor from "./components/forms/RichEditor";
+import RichEditor from "./components/RichEditor";
 import { useEffect, useState } from "react";
 import create from "./services/http-service";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 import { getSessionUser } from "./services/session-service";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Post } from "./hooks/usePosts";
 
 const useStyles = createStyles((theme) => ({
   form: {
     paddingTop: rem(10),
     paddingBottom: rem(55),
   },
+  editor: {
+    minHeight: rem(500),
+  },
   mt10: {
     marginTop: rem(10),
+  },
+  mY10: {
+    marginTop: rem(10),
+    marginBottom: rem(10),
   },
 }));
 
@@ -100,13 +106,13 @@ const PostEdit = () => {
           {...form.getInputProps("title")}
         />
         <Select
-          className={classes.mt10}
+          className={classes.mY10}
           data={categories}
           placeholder="Category"
           {...form.getInputProps("category")}
         />
         <RichEditor
-          className={classes.mt10}
+          className={classes.editor}
           setHtmlContent={(content) => setHtmlContent(content)}
         />
         <Group position="right" mt="md">

@@ -1,16 +1,15 @@
 package com.hugo.itireland.web.controller;
 
 
-import com.hugo.itireland.domain.Category;
-import com.hugo.itireland.domain.Post;
-import com.hugo.itireland.domain.Tag;
-import com.hugo.itireland.domain.User;
+import com.hugo.itireland.domain.*;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.dto.request.PostQueryRequest;
 import com.hugo.itireland.web.dto.request.PostRequest;
+import com.hugo.itireland.web.dto.response.CommentResponse;
 import com.hugo.itireland.web.dto.response.PostResponse;
 import com.hugo.itireland.web.common.R;
+import com.hugo.itireland.web.dto.response.UserResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -71,7 +70,12 @@ public class PostController {
             // convert Post to PostResponse, return post to client
             PostResponse postResponse = new PostResponse();
             BeanUtils.copyProperties(post, postResponse);
-            postResponse.setUser(user);
+
+            // process UserResponse
+            UserResponse userResponse = new UserResponse();
+            BeanUtils.copyProperties(user, userResponse);
+            postResponse.setUser(userResponse);
+
             return R.success(postResponse);
         } catch (Exception e) {
             return R.error(400, e.getMessage());
@@ -85,6 +89,26 @@ public class PostController {
             PostResponse postResponse = new PostResponse();
             Post post = postService.findById(id);
             BeanUtils.copyProperties(post, postResponse);
+
+            // process CommentResponse
+            List<CommentResponse> commentResponses = new ArrayList<>();
+            for(Comment comment : post.getComments()){
+                CommentResponse commentResponse = new CommentResponse();
+                BeanUtils.copyProperties(comment,commentResponse);
+                commentResponses.add(commentResponse);
+
+                // process UserResponse for comments
+                UserResponse userResponse = new UserResponse();
+                BeanUtils.copyProperties(post.getUser(), userResponse);
+                commentResponse.setUser(userResponse);
+            }
+            postResponse.setComments(commentResponses);
+
+            // process UserResponse for post
+            UserResponse userResponse = new UserResponse();
+            BeanUtils.copyProperties(post.getUser(), userResponse);
+            postResponse.setUser(userResponse);
+
             return R.success(postResponse);
         } catch (Exception e) {
             return R.error(400, e.getMessage());
@@ -100,7 +124,7 @@ public class PostController {
                   ) {
         try {
             List<Post> posts;
-            Pageable pageable = PageRequest.of(page, size, Sort.by(sorting));
+            Pageable pageable = PageRequest.of(page, size, Sort.by(sorting).descending());
             if(category != null && !category.equals("")){
                 Category cat = new Category(category);
                 posts = postService.findAllByCategory(pageable,cat);
@@ -108,10 +132,32 @@ public class PostController {
                 posts = postService.findAll(pageable);
             }
 
+
+            // Process CommentResponse
             List<PostResponse> postResponses = new ArrayList<>();
             for (Post post : posts) {
                 PostResponse postResponse = new PostResponse();
                 BeanUtils.copyProperties(post, postResponse);
+
+                List<CommentResponse> commentResponses = new ArrayList<>();
+                for(Comment comment : post.getComments()){
+                    CommentResponse commentResponse = new CommentResponse();
+                    BeanUtils.copyProperties(comment,commentResponse);
+                    commentResponses.add(commentResponse);
+
+                    // process UserResponse for comments
+                    UserResponse userResponse = new UserResponse();
+                    BeanUtils.copyProperties(post.getUser(), userResponse);
+                    commentResponse.setUser(userResponse);
+                }
+                postResponse.setComments(commentResponses);
+
+
+                // process UserResponse for posts
+                UserResponse userResponse = new UserResponse();
+                BeanUtils.copyProperties(post.getUser(), userResponse);
+                postResponse.setUser(userResponse);
+
                 postResponses.add(postResponse);
             }
             return R.success(postResponses);

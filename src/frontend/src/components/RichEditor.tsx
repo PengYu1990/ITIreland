@@ -30,11 +30,7 @@ const RichEditor = ({ className, defaultContent, setHtmlContent }: Props) => {
   });
 
   return (
-    <RichTextEditor
-      className={className}
-      editor={editor}
-      withCodeHighlightStyles={true}
-    >
+    <RichTextEditor editor={editor} withCodeHighlightStyles={true}>
       <RichTextEditor.Toolbar sticky stickyOffset={60}>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Bold />
