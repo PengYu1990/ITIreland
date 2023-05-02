@@ -72,13 +72,9 @@ const useAuth = () => {
       })
       .catch((error) => {
         removeSessionUser();
-        // setUser(null);
-        // notifications.show({
-        //   title: "Notification",
-        //   message: error.message,
-        //   color: "red",
-        // });
+        setLoginState("no");
       });
+      
   };
 
   const loginSuccess = (user: User) => {
@@ -98,6 +94,7 @@ const useAuth = () => {
       message: "Login Error",
       color: "red",
     });
+    setLoginState("no");
   };
 
   const registerSuccess = (user: User) => {
@@ -109,6 +106,7 @@ const useAuth = () => {
       message: "Sign Up Success",
       color: "blue",
     });
+    setLoginState("yes");
   };
   const registerError = () => {
     notifications.show({
@@ -116,6 +114,7 @@ const useAuth = () => {
       message: "Sign Up Error",
       color: "red",
     });
+    setLoginState("no");
   };
 
   

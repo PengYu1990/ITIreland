@@ -36,6 +36,7 @@
     "@tiptap/react": "^2.0.3",
     "@tiptap/starter-kit": "^2.0.3",
     "axios": "^1.4.0",
+    "boxicons": "^2.1.4",
     "dayjs": "^1.11.7",
     "embla-carousel-react": "^7.1.0",
     "framer-motion": "^10.12.4",

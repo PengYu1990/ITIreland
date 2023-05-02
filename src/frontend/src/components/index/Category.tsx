@@ -1,12 +1,5 @@
-import {
-  Badge,
-  Box,
-  Button,
-  Container,
-  createStyles,
-  rem,
-} from "@mantine/core";
-import useCategories from "../hooks/useCategories";
+import { Box, Button, createStyles, rem } from "@mantine/core";
+import useCategories from "../../hooks/useCategories";
 
 const useStyles = createStyles((theme) => ({
   category: {

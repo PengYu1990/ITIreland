@@ -1,10 +1,10 @@
 import { Box, Text, createStyles, rem } from "@mantine/core";
-import { Post } from "../hooks/usePosts";
+import { Post } from "../../hooks/usePosts";
 import dayjs from "dayjs";
 // extend dayjs
 import relativeTime from "dayjs/plugin/relativeTime";
-import PostMeta from "./shared/PostMeta";
-import { createShortcut, removeTags } from "../utils/common";
+import PostMeta from "../shared/PostMeta";
+import { createShortcut, removeTags } from "../../utils/common";
 import { Link } from "react-router-dom";
 dayjs.extend(relativeTime);
 

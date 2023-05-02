@@ -7,13 +7,13 @@ import {
   createStyles,
   rem,
 } from "@mantine/core";
-import RichEditor from "./components/RichEditor";
 import { useEffect, useState } from "react";
 import create from "./services/http-service";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
 import { getSessionUser } from "./services/session-service";
 import { useLocation, useNavigate } from "react-router-dom";
+import RichEditor from "./components/shared/RichEditor";
 
 const useStyles = createStyles((theme) => ({
   form: {

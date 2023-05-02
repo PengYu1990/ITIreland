@@ -1,5 +1,5 @@
 import { Grid } from "@mantine/core";
-import PostList from "./components/PostList";
+import PostList from "./components/index/PostList";
 import PublishBox from "./components/sidebar/PublishBox";
 import ToTop from "./components/shared/ToTop";
 

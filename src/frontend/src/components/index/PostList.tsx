@@ -1,8 +1,7 @@
 import PostItem from "./PostItem";
 import { Box, Pagination, createStyles, rem } from "@mantine/core";
 import Category from "./Category";
-import usePosts, { PostQuery } from "../hooks/usePosts";
-import { Link } from "react-router-dom";
+import usePosts, { PostQuery } from "../../hooks/usePosts";
 import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
