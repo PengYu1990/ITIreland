@@ -104,7 +104,9 @@ const CommentSection = ({ postId, addComment }: Props) => {
           minRows={3}
           w="100%"
           disabled={loginState === "no"}
-          placeholder="Login and comment"
+          placeholder={
+            loginState === "no" ? "Login and comment" : "Enter comment"
+          }
           {...form.getInputProps("content")}
         ></Textarea>
       </Flex>
