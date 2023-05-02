@@ -11,6 +11,7 @@ import { getSessionUser } from "../../services/session-service";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import create from "../../services/http-service";
+import { Comment } from "../../hooks/useComments";
 
 const useStyles = createStyles((theme) => ({
   form: {
@@ -28,9 +29,10 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {
   postId: number;
+  addComment: (comment: Comment) => void;
 }
 
-const CommentSection = ({ postId }: Props) => {
+const CommentSection = ({ postId, addComment }: Props) => {
   const { classes } = useStyles();
   const [htmlContent, setHtmlContent] = useState("");
   const user = getSessionUser();
@@ -54,6 +56,7 @@ const CommentSection = ({ postId }: Props) => {
         message: "You need to login before comment",
         color: "red",
       });
+
       return;
     }
 
@@ -62,7 +65,6 @@ const CommentSection = ({ postId }: Props) => {
     }
 
     const comment = { ...values, postId: postId, userId: user.id };
-    console.log(comment);
     // return;
     create("/api/comments")
       .create(comment)
@@ -73,6 +75,8 @@ const CommentSection = ({ postId }: Props) => {
           message: "Comment success",
           color: "blue",
         });
+        form.reset();
+        addComment(resp.data.data);
       })
       .catch((error) => {
         notifications.show({

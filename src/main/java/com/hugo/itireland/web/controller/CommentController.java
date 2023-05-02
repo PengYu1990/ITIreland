@@ -48,6 +48,11 @@ public class CommentController {
             comment = commentService.add(comment);
             CommentResponse commentResponse = new CommentResponse();
             BeanUtils.copyProperties(comment, commentResponse);
+
+            // Process UserResponse
+            UserResponse userResponse = new UserResponse();
+            BeanUtils.copyProperties(comment.getUser(), userResponse);
+            commentResponse.setUser(userResponse);
             return R.success(commentResponse);
         } catch (Exception e){
             return R.error(400, e.getMessage());
@@ -71,9 +76,9 @@ public class CommentController {
     @GetMapping
     public R find(@RequestParam(defaultValue = "0", required = false) Integer page,
                            @RequestParam(defaultValue = "20", required = false) Integer size,
-                           @RequestParam(defaultValue = "id", required = false) String sort){
+                           @RequestParam(defaultValue = "utime", required = false) String sort){
         try {
-            Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+            Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
             List<Comment> comments = commentService.findAll(pageable);
             List<CommentResponse> commentResponses = new ArrayList<>();
             for (Comment comment : comments) {

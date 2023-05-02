@@ -4,9 +4,10 @@ import usePost from "./hooks/usePost";
 import { Box, createStyles, Grid, rem, Text } from "@mantine/core";
 import PublishBox from "./components/sidebar/PublishBox";
 import ToTop from "./components/shared/ToTop";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CommentForm from "./components/forms/CommentForm";
 import CommentItem from "./components/post/CommentItem";
+import { Comment } from "./hooks/useComments";
 
 const useStyles = createStyles((theme) => ({
   detail: {
@@ -37,7 +38,7 @@ const useStyles = createStyles((theme) => ({
 const PostDetail = () => {
   const { classes } = useStyles();
   let { id } = useParams();
-  const { data, error, isLoading } = usePost(id);
+  const { data, error, isLoading, setData } = usePost(id);
 
   const { pathname } = useLocation();
 
@@ -55,12 +56,17 @@ const PostDetail = () => {
             <div dangerouslySetInnerHTML={{ __html: data.content }} />
           </Box>
           <Box className={classes.detail}>
-            <CommentForm postId={data.id} />
+            <CommentForm
+              postId={data.id}
+              addComment={(comment) =>
+                setData({ ...data, comments: [comment, ...data.comments] })
+              }
+            />
           </Box>
-          {data.comments.length != 0 && (
+          {data.comments && data.comments.length != 0 && (
             <Box className={classes.detail}>
-              {data.comments.map((comment) => (
-                <CommentItem comment={comment} />
+              {data.comments.map((comment, key) => (
+                <CommentItem comment={comment} key={key} />
               ))}
             </Box>
           )}
