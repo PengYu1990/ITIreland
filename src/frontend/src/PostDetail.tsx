@@ -1,13 +1,12 @@
 import { useLocation, useParams } from "react-router-dom";
 import PostMeta from "./components/shared/PostMeta";
 import usePost from "./hooks/usePost";
-import { Box, createStyles, Grid, rem, Text } from "@mantine/core";
+import { Box, createStyles, Grid, rem } from "@mantine/core";
 import PublishBox from "./components/sidebar/PublishBox";
 import ToTop from "./components/shared/ToTop";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CommentForm from "./components/forms/CommentForm";
 import CommentItem from "./components/post/CommentItem";
-import { Comment } from "./hooks/useComments";
 
 const useStyles = createStyles((theme) => ({
   detail: {
@@ -38,7 +37,7 @@ const useStyles = createStyles((theme) => ({
 const PostDetail = () => {
   const { classes } = useStyles();
   let { id } = useParams();
-  const { data, error, isLoading, setData } = usePost(id);
+  const { data, /*error, isLoading,*/ setData } = usePost(id);
 
   const { pathname } = useLocation();
 

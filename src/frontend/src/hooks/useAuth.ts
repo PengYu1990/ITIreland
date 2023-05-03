@@ -55,7 +55,7 @@ const useAuth = () => {
   const logout = () => {
     create("/api/auth/logout")
       .create(null)
-      .then((resp) => {
+      .then(() => {
         removeSessionUser();
         notifications.show({
           title: "Notification",
@@ -64,7 +64,7 @@ const useAuth = () => {
         });
         setLoginState("no");
       })
-      .catch((error) => {
+      .catch(() => {
         removeSessionUser();
         notifications.show({
           title: "Notification",

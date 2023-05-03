@@ -2,7 +2,7 @@ import { Button, Flex, createStyles, rem } from "@mantine/core";
 import { AiOutlineEdit, AiOutlineQuestionCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   publish_box: {
     backgroundColor: "white",
     padding: rem(20),

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import createClient from "../services/api-client";
-import { Post } from "./usePosts";
 import { CanceledError } from "axios";
 import { notifications } from "@mantine/notifications";
 

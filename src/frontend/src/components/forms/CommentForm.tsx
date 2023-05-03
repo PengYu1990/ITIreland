@@ -6,7 +6,7 @@ import {
   createStyles,
   rem,
 } from "@mantine/core";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { getSessionUser } from "../../services/session-service";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
@@ -14,7 +14,7 @@ import create from "../../services/http-service";
 import { Comment } from "../../hooks/useComments";
 import { AuthContext } from "../../App";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   form: {
     paddingTop: rem(10),
     paddingBottom: rem(55),

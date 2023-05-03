@@ -4,7 +4,7 @@ import Category from "./Category";
 import usePosts, { PostQuery } from "../../hooks/usePosts";
 import { useState } from "react";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   postList: {
     backgroundColor: "#ffffff",
   },
@@ -20,7 +20,7 @@ const PostList = () => {
   const [postQuery, setPostQuery] = useState<PostQuery>({
     size: defaultPageSize,
   } as PostQuery);
-  const { data, error, isLoading } = usePosts(postQuery);
+  const { data /*error, isLoading*/ } = usePosts(postQuery);
 
   const changePage = (page: number) => {
     setPostQuery({ ...postQuery, page: page });

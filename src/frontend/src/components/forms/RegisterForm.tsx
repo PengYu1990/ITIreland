@@ -1,4 +1,4 @@
-import { Group, Button, TextInput, Checkbox, Flex } from "@mantine/core";
+import { Group, Button, TextInput, Checkbox } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 interface Props {

@@ -26,7 +26,7 @@ interface Props {
 const Category = ({ currentCategory, setCategory }: Props) => {
   const { classes } = useStyles();
 
-  const { data, error, isLoading } = useCategories();
+  const { data /*error, isLoading*/ } = useCategories();
   return (
     <Box className={classes.category}>
       {currentCategory == null || currentCategory === "" ? (

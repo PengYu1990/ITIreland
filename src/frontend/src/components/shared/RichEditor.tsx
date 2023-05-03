@@ -8,11 +8,10 @@ import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
 
 interface Props {
-  className: string;
   setHtmlContent: (content: string) => void;
   defaultContent?: string;
 }
-const RichEditor = ({ className, defaultContent, setHtmlContent }: Props) => {
+const RichEditor = ({ defaultContent, setHtmlContent }: Props) => {
   const editor = useEditor({
     extensions: [
       StarterKit,

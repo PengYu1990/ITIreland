@@ -30,7 +30,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById("root")!;
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <MantineProvider>

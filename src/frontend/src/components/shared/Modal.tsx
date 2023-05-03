@@ -1,13 +1,4 @@
-import { useDisclosure } from "@mantine/hooks";
-import {
-  Modal,
-  Group,
-  Button,
-  TextInput,
-  Checkbox,
-  useMantineTheme,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Modal, useMantineTheme } from "@mantine/core";
 import { ReactNode } from "react";
 
 interface Props {

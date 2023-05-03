@@ -15,7 +15,7 @@ import { getSessionUser } from "./services/session-service";
 import { useLocation, useNavigate } from "react-router-dom";
 import RichEditor from "./components/shared/RichEditor";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   form: {
     paddingTop: rem(10),
     paddingBottom: rem(55),
@@ -57,7 +57,7 @@ const PostEdit = () => {
     },
   });
 
-  const submitPost = (values) => {
+  const submitPost = (values: any) => {
     const user = getSessionUser();
     if (user === null) {
       notifications.show({
