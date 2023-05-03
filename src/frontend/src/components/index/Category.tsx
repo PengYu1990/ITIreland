@@ -52,8 +52,8 @@ const Category = ({ currentCategory, setCategory }: Props) => {
         </Button>
       )}
 
-      {data &&
-        data.map((category, key) => {
+      {data.data &&
+        data.data.map((category, key) => {
           if (currentCategory === category.category) {
             return (
               <Button

@@ -23,13 +23,17 @@ export interface Post {
 
 export interface PostQuery {
     category: string | null;
-    order: string;
+    sorting: string;
     searchText: string;
+    page?:number;
+    size?:number;
   }
   
 const usePosts = (postQuery:PostQuery) => usedata<Post>("/api/posts",{ 
     params : { 
       category : postQuery?.category, 
-      ordering:postQuery?.order,
+      sorting:postQuery?.sorting,
+      page:postQuery.page,
+      size:postQuery.size
     }},[postQuery])
 export default usePosts

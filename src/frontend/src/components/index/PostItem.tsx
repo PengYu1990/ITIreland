@@ -39,8 +39,6 @@ interface Props {
 const PostItem = ({ post }: Props) => {
   const { classes } = useStyles();
 
-  const regex = /<[^>]+>/g;
-
   return (
     <Box className={classes.postItem}>
       <Link to={`/post/${post.id}`} key={post.id}>

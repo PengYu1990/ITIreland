@@ -12,6 +12,7 @@ import com.hugo.itireland.web.common.R;
 import com.hugo.itireland.web.dto.response.UserResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -123,7 +124,7 @@ public class PostController {
                   @RequestParam(required = false, defaultValue = "utime") String sorting
                   ) {
         try {
-            List<Post> posts;
+            Page<Post> posts;
             Pageable pageable = PageRequest.of(page, size, Sort.by(sorting).descending());
             if(category != null && !category.equals("")){
                 Category cat = new Category(category);
@@ -160,7 +161,9 @@ public class PostController {
 
                 postResponses.add(postResponse);
             }
-            return R.success(postResponses);
+            return R.success(postResponses, posts.getTotalPages(),
+                    posts.getTotalElements(),
+                    posts.getPageable().getPageNumber());
         } catch (Exception e) {
             return R.error(400, e.getMessage());
         }

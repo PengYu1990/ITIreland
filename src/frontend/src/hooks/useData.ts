@@ -6,11 +6,14 @@ interface FetchResponse<T> {
     status:number;
     message:string;
     data:T[];
+    totalPages:number;
+    totalElements:number;
+    page:number;
 }
 
 const useData = <T>(endpoint: string, requestConfig?:AxiosRequestConfig, deps?:any[]) => {
 
-    const [data, setData] = useState<T[]>([]);
+    const [data, setData] = useState<FetchResponse<T>>({status:400,message:"",data:[],totalElements:0,totalPages:0,page:0});
     const [error, setError] = useState("");
     const [isLoading, setLoading] = useState(false);
 
@@ -18,13 +21,13 @@ const useData = <T>(endpoint: string, requestConfig?:AxiosRequestConfig, deps?:a
         setLoading(true);
         const controller = new AbortController();
         createClient().get<FetchResponse<T>>(endpoint, {signal:controller.signal,...requestConfig}).then(resp=>{
-            setData(resp.data.data);
+            setData(resp.data);
             setLoading(false);
         }).catch((err) => {
             if(err instanceof CanceledError) return;
             setError(err.response.data.message);
             setLoading(false);
-            setData([]);
+            // setData();
         })
         return () => controller.abort();
     }, deps ? [...deps] : []);

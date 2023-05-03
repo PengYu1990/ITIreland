@@ -7,6 +7,7 @@ import com.hugo.itireland.repository.PostRepository;
 import com.hugo.itireland.service.CategoryService;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.TagService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -67,12 +68,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findAll(Pageable pageable) {
-        return postRepository.findAll(pageable).toList();
+    public Page<Post> findAll(Pageable pageable) {
+        return postRepository.findAll(pageable);
     }
 
     @Override
-    public List<Post> findAllByCategory(Pageable pageable, Category category) {
+    public Page<Post> findAllByCategory(Pageable pageable, Category category) {
         return postRepository.findAllByCategory(pageable, category);
     }
 }
