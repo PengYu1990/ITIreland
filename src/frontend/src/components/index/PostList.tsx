@@ -31,7 +31,9 @@ const PostList = () => {
     <Box>
       <Box className={classes.postList}>
         <Category
-          setCategory={(cate) => setPostQuery({ ...postQuery, category: cate })}
+          setCategory={(cate) =>
+            setPostQuery({ ...postQuery, category: cate, page: 0 })
+          }
           currentCategory={postQuery.category}
         />
 
