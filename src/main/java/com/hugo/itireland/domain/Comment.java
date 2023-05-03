@@ -7,12 +7,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
+@DynamicUpdate
 public class Comment {
 
     @Id

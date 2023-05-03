@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@DynamicUpdate
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +45,7 @@ public class Post {
     )
     private List<Tag> tags;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(
             name = "category",
             referencedColumnName = "category",
@@ -53,7 +55,6 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     @OrderBy("utime DESC")
-    @JsonManagedReference
     private List<Comment> comments;
 
 

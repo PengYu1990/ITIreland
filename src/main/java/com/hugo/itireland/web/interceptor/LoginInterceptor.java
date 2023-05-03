@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.hugo.itireland.web.common.MySessionContext;
 import com.hugo.itireland.web.common.R;
+import com.hugo.itireland.web.exception.ApiRequestException;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,11 +18,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             String sessionId = request.getParameter("sessionId");
 
             if(sessionId == null || MySessionContext.getSession(sessionId) == null) {
-                R r = R.error(400,"You need to log in");
-                ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-                String json = ow.writeValueAsString(r);
-                response.getWriter().write(json);
-                return false;
+                throw new ApiRequestException("You need to log in");
             }
 
             return true;

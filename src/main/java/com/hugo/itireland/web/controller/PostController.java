@@ -84,8 +84,10 @@ public class PostController {
     public R findById(@PathVariable Long id) {
         PostResponse postResponse = new PostResponse();
         Post post = postService.findById(id);
+
         post.setViews(post.getViews()+1);
-        postService.save(post);
+        postService.updateViews(post);
+
         BeanUtils.copyProperties(post, postResponse);
 
         // process CommentResponse

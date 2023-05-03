@@ -13,4 +13,6 @@ public interface PostService {
     Page<Post> findAll(Pageable pageable);
 
     Page<Post> findAllByCategory(Pageable pageable, Category category);
+
+    void updateViews(Post post);
 }

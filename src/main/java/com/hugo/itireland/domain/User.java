@@ -3,6 +3,7 @@ package com.hugo.itireland.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Entity
+@DynamicUpdate
 public class User {
 
     @Id()
