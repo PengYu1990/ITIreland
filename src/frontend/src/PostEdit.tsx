@@ -112,10 +112,7 @@ const PostEdit = () => {
           placeholder="Category"
           {...form.getInputProps("category")}
         />
-        <RichEditor
-          className={classes.editor}
-          setHtmlContent={(content) => setHtmlContent(content)}
-        />
+        <RichEditor setHtmlContent={(content) => setHtmlContent(content)} />
         <Group position="right" mt="md">
           <Button type="submit">Submit</Button>
         </Group>
