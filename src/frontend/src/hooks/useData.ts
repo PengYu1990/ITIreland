@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import createClient from "../services/api-client";
 import { AxiosRequestConfig, CanceledError } from "axios";
+import { notifications } from "@mantine/notifications";
 
 interface FetchResponse<T> {
     status:number;
@@ -26,6 +27,11 @@ const useData = <T>(endpoint: string, requestConfig?:AxiosRequestConfig, deps?:a
         }).catch((err) => {
             if(err instanceof CanceledError) return;
             setError(err.response.data.message);
+            notifications.show({
+                title: "Notification",
+                message: err.response.data.message,
+                color: "red",
+              });
             setLoading(false);
             // setData();
         })

@@ -86,12 +86,13 @@ const PostEdit = () => {
           color: "blue",
         });
         const postId = resp.data.data.id;
+        // redirect to detail page
         history(`/post/${postId}`);
       })
       .catch((error) => {
         notifications.show({
           title: "Notification",
-          message: error.message,
+          message: error.response.data.message,
           color: "red",
         });
       });

@@ -29,16 +29,13 @@ const useAuth = () => {
 
   // Request login api
   const login = (values: {}) => {
-    console.log(values);
     create("/api/auth/login")
       .create(values)
       .then((resp) => {
-        console.log(resp.data);
         loginSuccess(resp.data.data);
       })
       .catch((error) => {
-        console.log(error.message);
-        loginError();
+        loginError(error.response.data);
       });
   };
 
@@ -48,12 +45,10 @@ const useAuth = () => {
     create("/api/auth/signup")
       .create(values)
       .then((resp) => {
-        console.log(resp.data);
         registerSuccess(resp.data.data);
       })
       .catch((error) => {
-        console.log(error.message);
-        registerError();
+        registerError(error.response.data);
       });
   };
 
@@ -62,7 +57,6 @@ const useAuth = () => {
       .create(null)
       .then((resp) => {
         removeSessionUser();
-        // setUser(null);
         notifications.show({
           title: "Notification",
           message: "Logout Success",
@@ -72,6 +66,11 @@ const useAuth = () => {
       })
       .catch((error) => {
         removeSessionUser();
+        notifications.show({
+          title: "Notification",
+          message: "Logout Success",
+          color: "blue",
+        });
         setLoginState("no");
       });
       
@@ -88,10 +87,10 @@ const useAuth = () => {
     });
     setLoginState("yes");
   };
-  const loginError = () => {
+  const loginError = (errorData:any) => {
     notifications.show({
       title: "Notification",
-      message: "Login Error",
+      message: errorData.message,
       color: "red",
     });
     setLoginState("no");
@@ -108,10 +107,10 @@ const useAuth = () => {
     });
     setLoginState("yes");
   };
-  const registerError = () => {
+  const registerError = (errorData:any) => {
     notifications.show({
       title: "Notification",
-      message: "Sign Up Error",
+      message: errorData.message,
       color: "red",
     });
     setLoginState("no");

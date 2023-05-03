@@ -71,7 +71,6 @@ const CommentSection = ({ postId, addComment }: Props) => {
     create("/api/comments")
       .create(comment)
       .then((resp) => {
-        console.log(resp.data);
         notifications.show({
           title: "Notification",
           message: "Comment success",
@@ -83,10 +82,9 @@ const CommentSection = ({ postId, addComment }: Props) => {
       .catch((error) => {
         notifications.show({
           title: "Notification",
-          message: "Comment error",
+          message: error.response.data.message,
           color: "red",
         });
-        return;
       });
   };
 

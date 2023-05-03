@@ -27,31 +27,24 @@ public class CategoryController {
 
     @GetMapping
     public R findAll(){
-        try {
-            List<CategoryResponse> categoryResponseList = new ArrayList<>();
-            List<Category> categories = categoryService.findAll();
-            for (Category category : categories) {
-                CategoryResponse cr = new CategoryResponse();
-                BeanUtils.copyProperties(category, cr);
-                categoryResponseList.add(cr);
-            }
-            return R.success(categoryResponseList);
-        } catch (Exception e){
-            return R.error(400, e.getMessage());
+        List<CategoryResponse> categoryResponseList = new ArrayList<>();
+        List<Category> categories = categoryService.findAll();
+        for (Category category : categories) {
+            CategoryResponse cr = new CategoryResponse();
+            BeanUtils.copyProperties(category, cr);
+            categoryResponseList.add(cr);
         }
+        return R.success(categoryResponseList);
+
     }
 
     @PostMapping
     public R add(@RequestBody CategoryRequest categoryRequest){
-        try {
-            Category category = new Category();
-            BeanUtils.copyProperties(categoryRequest, category);
-            category = categoryService.add(category);
-            CategoryResponse commentResponse = new CategoryResponse();
-            BeanUtils.copyProperties(category, commentResponse);
-            return R.success(commentResponse);
-        } catch (Exception e){
-            return R.error(400, e.getMessage());
-        }
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryRequest, category);
+        category = categoryService.add(category);
+        CategoryResponse commentResponse = new CategoryResponse();
+        BeanUtils.copyProperties(category, commentResponse);
+        return R.success(commentResponse);
     }
 }

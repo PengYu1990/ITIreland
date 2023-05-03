@@ -31,7 +31,7 @@ public class PostServiceImpl implements PostService {
         this.categoryService = categoryService;
     }
     @Override
-    public Post add(Post post) {
+    public Post save(Post post) {
         post.setCtime(LocalDateTime.now());
         post.setUtime(LocalDateTime.now());
 

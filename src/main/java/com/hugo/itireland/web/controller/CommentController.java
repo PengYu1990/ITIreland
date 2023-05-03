@@ -38,38 +38,30 @@ public class CommentController {
 
     @PostMapping
     public R add(@RequestBody CommentRequest commentRequest){
-        try {
-            Comment comment = new Comment();
-            User user = userService.findById(commentRequest.getUserId());
-            Post post = postService.findById(commentRequest.getPostId());
-            BeanUtils.copyProperties(commentRequest, comment);
-            comment.setUser(user);
-            comment.setPost(post);
-            comment = commentService.add(comment);
-            CommentResponse commentResponse = new CommentResponse();
-            BeanUtils.copyProperties(comment, commentResponse);
+        Comment comment = new Comment();
+        User user = userService.findById(commentRequest.getUserId());
+        Post post = postService.findById(commentRequest.getPostId());
+        BeanUtils.copyProperties(commentRequest, comment);
+        comment.setUser(user);
+        comment.setPost(post);
+        comment = commentService.add(comment);
+        CommentResponse commentResponse = new CommentResponse();
+        BeanUtils.copyProperties(comment, commentResponse);
 
-            // Process UserResponse
-            UserResponse userResponse = new UserResponse();
-            BeanUtils.copyProperties(comment.getUser(), userResponse);
-            commentResponse.setUser(userResponse);
-            return R.success(commentResponse);
-        } catch (Exception e){
-            return R.error(400, e.getMessage());
-        }
+        // Process UserResponse
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(comment.getUser(), userResponse);
+        commentResponse.setUser(userResponse);
+        return R.success(commentResponse);
     }
 
 
     @GetMapping("/{id}")
     public R findById(@PathVariable Long id){
-        try {
-            Comment comment = commentService.findById(id);
-            CommentResponse commentResponse = new CommentResponse();
-            BeanUtils.copyProperties(comment, commentResponse);
-            return R.success(commentResponse);
-        } catch (Exception e){
-            return R.error(400, e.getMessage());
-        }
+        Comment comment = commentService.findById(id);
+        CommentResponse commentResponse = new CommentResponse();
+        BeanUtils.copyProperties(comment, commentResponse);
+        return R.success(commentResponse);
     }
 
 
@@ -77,23 +69,20 @@ public class CommentController {
     public R find(@RequestParam(defaultValue = "0", required = false) Integer page,
                            @RequestParam(defaultValue = "20", required = false) Integer size,
                            @RequestParam(defaultValue = "id", required = false) String sort){
-        try {
-            Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-            List<Comment> comments = commentService.findAll(pageable);
-            List<CommentResponse> commentResponses = new ArrayList<>();
-            for (Comment comment : comments) {
-                CommentResponse commentResponse = new CommentResponse();
-                BeanUtils.copyProperties(comment, commentResponse);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        List<Comment> comments = commentService.findAll(pageable);
+        List<CommentResponse> commentResponses = new ArrayList<>();
+        for (Comment comment : comments) {
+            CommentResponse commentResponse = new CommentResponse();
+            BeanUtils.copyProperties(comment, commentResponse);
 
-                // Process UserResponse
-                UserResponse userResponse = new UserResponse();
-                BeanUtils.copyProperties(comment.getUser(), userResponse);
-                commentResponse.setUser(userResponse);
-                commentResponses.add(commentResponse);
-            }
-            return R.success(commentResponses);
-        } catch (Exception e){
-            return R.error(400, e.getMessage());
+            // Process UserResponse
+            UserResponse userResponse = new UserResponse();
+            BeanUtils.copyProperties(comment.getUser(), userResponse);
+            commentResponse.setUser(userResponse);
+            commentResponses.add(commentResponse);
         }
+        return R.success(commentResponses);
+
     }
 }
