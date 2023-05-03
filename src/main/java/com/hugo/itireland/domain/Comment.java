@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Table(name = "comments")
 @DynamicUpdate
 public class Comment {
 
@@ -21,7 +22,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "text")
     private String content;
     private LocalDateTime ctime;
     private LocalDateTime utime;
@@ -34,7 +35,6 @@ public class Comment {
             foreignKey = @ForeignKey(name = "comment_user_fk"))
     private User user;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(
             name = "post_id",

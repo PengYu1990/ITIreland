@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name = "posts")
 @DynamicUpdate
 public class Post {
     @Id
@@ -28,7 +29,7 @@ public class Post {
     private User user;
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "text")
     private String content;
 
     private LocalDateTime ctime;
@@ -37,7 +38,7 @@ public class Post {
     private int thumbs;
     @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinTable(
-            name = "post_tag",
+            name = "posts_tags",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag"),
             foreignKey = @ForeignKey(name="post_tag_fk"),

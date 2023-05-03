@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Entity
+@Table(name = "users")
 @DynamicUpdate
 public class User {
 
@@ -23,7 +24,7 @@ public class User {
     private String password;
     private String email;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "text")
     private String profile;
 
     //0:active, 1:disabled, 2:delete

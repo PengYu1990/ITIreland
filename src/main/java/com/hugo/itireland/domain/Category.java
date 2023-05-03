@@ -2,14 +2,14 @@ package com.hugo.itireland.domain;
 
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Data
 @Entity
+@Table(name = "categories")
 @DynamicUpdate
 public class Category {
 

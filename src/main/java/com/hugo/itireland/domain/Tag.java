@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 @Data
 @Entity
+@Table(name = "tags")
 @DynamicUpdate
 public class Tag {
     @Id
