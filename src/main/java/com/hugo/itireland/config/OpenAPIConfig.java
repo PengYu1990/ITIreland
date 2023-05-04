@@ -19,7 +19,7 @@ public class OpenAPIConfig {
     @Value("${bezkoder.openapi.dev-url}/api")
     private String devUrl;
 
-    @Value("${bezkoder.openapi.prod-url}")
+    @Value("${bezkoder.openapi.prod-url}/api")
     private String prodUrl;
 
     @Bean
