@@ -1,4 +1,4 @@
-import { Box, Button, Flex, createStyles, rem } from "@mantine/core";
+import { Button, Flex, createStyles, rem } from "@mantine/core";
 import useCategories from "../../hooks/useCategories";
 import CategorySkeleton from "./CategorySkeleton";
 
