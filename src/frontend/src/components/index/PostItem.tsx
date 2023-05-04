@@ -22,12 +22,11 @@ const useStyles = createStyles((theme) => ({
   heading: {
     textDecoration: "none",
     color: theme.colors.dark[4],
-    fontFamily: "Pathway Extreme",
+    fontFamily: `'Roboto Condensed', sans-serif`,
     padding: 0,
   },
   summary: {
     textDecoration: "none",
-    fontFamily: "Pathway Extreme",
     color: theme.colors.dark[4],
   },
 }));

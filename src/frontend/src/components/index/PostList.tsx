@@ -3,6 +3,7 @@ import { Box, Pagination, createStyles, rem } from "@mantine/core";
 import Category from "./Category";
 import usePosts, { PostQuery } from "../../hooks/usePosts";
 import { useState } from "react";
+import PostItemSkeleton from "./PostItemSkeleton";
 
 const useStyles = createStyles(() => ({
   postList: {
@@ -20,7 +21,8 @@ const PostList = () => {
   const [postQuery, setPostQuery] = useState<PostQuery>({
     size: defaultPageSize,
   } as PostQuery);
-  const { data /*error, isLoading*/ } = usePosts(postQuery);
+  const { data, isLoading } = usePosts(postQuery);
+  const skeleton = [1, 2, 3, 4, 5];
 
   const changePage = (page: number) => {
     setPostQuery({ ...postQuery, page: page });
@@ -40,6 +42,7 @@ const PostList = () => {
         {data.data &&
           data.data.map((post, key) => <PostItem post={post} key={key} />)}
       </Box>
+      {isLoading && skeleton.map(() => <PostItemSkeleton />)}
       {data && data.data && data.totalElements > defaultPageSize && (
         <Box className={classes.page}>
           <Pagination

@@ -7,6 +7,7 @@ import ToTop from "./components/shared/ToTop";
 import { useEffect } from "react";
 import CommentForm from "./components/forms/CommentForm";
 import CommentItem from "./components/post/CommentItem";
+import PostDetailSkeleton from "./components/index/PostDetailSkeleton";
 
 const useStyles = createStyles((theme) => ({
   detail: {
@@ -26,7 +27,7 @@ const useStyles = createStyles((theme) => ({
   },
   content: {
     textDecoration: "none",
-    fontFamily: "Pathway Extreme",
+    fontFamily: `'Pathway Extreme', sans-serif;`,
     color: theme.colors.dark[4],
     marginTop: rem(20),
     marginBottom: rem(30),
@@ -37,7 +38,7 @@ const useStyles = createStyles((theme) => ({
 const PostDetail = () => {
   const { classes } = useStyles();
   let { id } = useParams();
-  const { data, /*error, isLoading,*/ setData } = usePost(id);
+  const { data, isLoading, setData } = usePost(id);
 
   const { pathname } = useLocation();
 
@@ -45,12 +46,30 @@ const PostDetail = () => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  return data ? (
+  if (!data) {
+    return (
+      <>
+        <Grid grow>
+          <Grid.Col md={9} sm={12}>
+            {isLoading && <PostDetailSkeleton />}
+          </Grid.Col>
+
+          <Grid.Col md={3} sm={12}>
+            <PublishBox />
+          </Grid.Col>
+        </Grid>
+        <ToTop />
+      </>
+    );
+  }
+
+  return (
     <>
       <Grid grow>
         <Grid.Col md={9} sm={12}>
+          {isLoading && <PostDetailSkeleton />}
           <Box className={classes.detail}>
-            <h3 className={classes.heading}>{data.title}</h3>
+            <h1 className={classes.heading}>{data.title}</h1>
             <PostMeta post={data} />
             <div dangerouslySetInnerHTML={{ __html: data.content }} />
           </Box>
@@ -77,8 +96,6 @@ const PostDetail = () => {
       </Grid>
       <ToTop />
     </>
-  ) : (
-    <></>
   );
 };
 

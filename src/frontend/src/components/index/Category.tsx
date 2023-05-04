@@ -1,5 +1,6 @@
-import { Box, Button, createStyles, rem } from "@mantine/core";
+import { Box, Button, Flex, createStyles, rem } from "@mantine/core";
 import useCategories from "../../hooks/useCategories";
+import CategorySkeleton from "./CategorySkeleton";
 
 const useStyles = createStyles((theme) => ({
   category: {
@@ -26,9 +27,11 @@ interface Props {
 const Category = ({ currentCategory, setCategory }: Props) => {
   const { classes } = useStyles();
 
-  const { data /*error, isLoading*/ } = useCategories();
+  const { data, isLoading } = useCategories();
+  const skeleton = [1, 2, 3, 4, 5];
+
   return (
-    <Box className={classes.category}>
+    <Flex align="center" className={classes.category}>
       {currentCategory == null || currentCategory === "" ? (
         <Button
           className={classes.badge}
@@ -51,6 +54,7 @@ const Category = ({ currentCategory, setCategory }: Props) => {
           All
         </Button>
       )}
+      {isLoading && skeleton.map(() => <CategorySkeleton />)}
 
       {data.data &&
         data.data.map((category, key) => {
@@ -86,7 +90,7 @@ const Category = ({ currentCategory, setCategory }: Props) => {
             </Button>
           );
         })}
-    </Box>
+    </Flex>
   );
 };
 
