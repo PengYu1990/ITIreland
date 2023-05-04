@@ -42,7 +42,7 @@ const PostList = () => {
         {data.data &&
           data.data.map((post, key) => <PostItem post={post} key={key} />)}
       </Box>
-      {isLoading && skeleton.map(() => <PostItemSkeleton />)}
+      {isLoading && skeleton.map((key) => <PostItemSkeleton key={key} />)}
       {data && data.data && data.totalElements > defaultPageSize && (
         <Box className={classes.page}>
           <Pagination
