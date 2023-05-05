@@ -33,8 +33,8 @@ public class Post {
 
     private LocalDateTime ctime;
     private LocalDateTime utime;
-    private int views;
-    private int thumbs;
+    private Integer views;
+    private Integer thumbs;
     @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinTable(
             name = "posts_tags",

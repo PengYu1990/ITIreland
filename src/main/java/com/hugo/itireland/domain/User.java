@@ -31,11 +31,11 @@ public class User {
     private String profile;
 
     //0:active, 1:disabled, 2:delete
-    private int state;
+    private Integer state;
 
-    private int credits;
+    private Integer credits;
 
-    private int level;
+    private Integer level;
 
     private String headShotUrl;
 
