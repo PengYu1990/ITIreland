@@ -1,18 +1,23 @@
 package com.hugo.itireland.web.dto.request;
 
-import com.hugo.itireland.domain.Category;
-import com.hugo.itireland.domain.Tag;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 public class PostRequest {
     private Long userId;
     private String title;
-    private String content;
+
+    @JsonProperty("contentJson")
+    private JsonNode contentNode;
     private List<String> tags;
     private String category;
+
+    public Long getUserId() {
+        return userId;
+    }
 
 }

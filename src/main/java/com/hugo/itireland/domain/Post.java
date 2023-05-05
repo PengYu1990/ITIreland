@@ -1,8 +1,6 @@
 package com.hugo.itireland.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
@@ -30,6 +28,7 @@ public class Post {
     private String title;
 
     @Column(columnDefinition = "text")
+
     private String content;
 
     private LocalDateTime ctime;

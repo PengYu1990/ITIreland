@@ -1,6 +1,8 @@
 package com.hugo.itireland.web.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hugo.itireland.domain.*;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
@@ -26,18 +28,23 @@ public class PostController {
     private PostService postService;
     private UserService userService;
 
+    private  ObjectMapper objectMapper;
+
     @Autowired
-    public PostController(PostService postService, UserService userService) {
+    public PostController(PostService postService, UserService userService, ObjectMapper objectMapper) {
         this.postService = postService;
         this.userService = userService;
+        this.objectMapper = objectMapper;
     }
 
     @PostMapping
-    public R add(@RequestBody PostRequest postRequest) {
+    public R add(@RequestBody PostRequest postRequest) throws JsonProcessingException {
 
         // convert PostRequest to Post
         Post post = new Post();
         BeanUtils.copyProperties(postRequest, post);
+        String contentJsonString = objectMapper.writeValueAsString(postRequest.getContentNode());
+        post.setContent(contentJsonString);
 
         // associate suer
         User user = userService.findById(postRequest.getUserId());
