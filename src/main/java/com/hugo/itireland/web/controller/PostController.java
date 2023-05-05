@@ -40,8 +40,13 @@ public class PostController {
     @PostMapping
     public R add(@RequestBody PostRequest postRequest) throws JsonProcessingException {
 
-        // convert PostRequest to Post
-        Post post = new Post();
+        //convert PostRequest to Post
+        Post post;
+        if(postRequest.getId() != null) {
+            post = postService.findById(postRequest.getId());
+        } else {
+            post = new Post();
+        }
         BeanUtils.copyProperties(postRequest, post);
         String contentJsonString = objectMapper.writeValueAsString(postRequest.getContentNode());
         post.setContent(contentJsonString);

@@ -38,7 +38,12 @@ public class CommentController {
 
     @PostMapping
     public R add(@RequestBody CommentRequest commentRequest){
-        Comment comment = new Comment();
+        Comment comment;
+        if(commentRequest.getId() != null) {
+            comment = commentService.findById(commentRequest.getId());
+        } else {
+            comment = new Comment();
+        }
         User user = userService.findById(commentRequest.getUserId());
         Post post = postService.findById(commentRequest.getPostId());
         BeanUtils.copyProperties(commentRequest, comment);
