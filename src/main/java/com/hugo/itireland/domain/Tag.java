@@ -12,4 +12,7 @@ public class Tag {
     @Id
     private String tag;
 
+    // 0 normal, -1 delete
+    private int state;
+
 }

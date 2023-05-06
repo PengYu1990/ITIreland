@@ -60,6 +60,10 @@ public class CommentController {
         return R.success(commentResponse);
     }
 
+    public R delete(@RequestParam Long id){
+        commentService.delete(id);
+        return R.success(null);
+    }
 
     @GetMapping("/{id}")
     public R findById(@PathVariable Long id){
@@ -72,7 +76,7 @@ public class CommentController {
 
     @GetMapping
     public R find(@RequestParam(defaultValue = "0", required = false) Integer page,
-                           @RequestParam(defaultValue = "20", required = false) Integer size,
+                           @RequestParam(defaultValue = "100", required = false) Integer size,
                            @RequestParam(defaultValue = "id", required = false) String sort){
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
         List<Comment> comments = commentService.findAll(pageable);

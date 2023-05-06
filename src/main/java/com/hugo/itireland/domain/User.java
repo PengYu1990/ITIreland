@@ -30,7 +30,7 @@ public class User {
     @Column(columnDefinition = "text")
     private String profile;
 
-    //0:active, 1:disabled, 2:delete
+    //0:active, -1:delete, -2:disabled
     private int state;
 
     private int credits;

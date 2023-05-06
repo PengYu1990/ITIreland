@@ -13,4 +13,8 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findAllByCategory(Pageable pageable, Category category);
+
+    Page<Post> findAllByState(Pageable pageable, int state);
+
+    Page<Post> findAllByCategoryAndState(Pageable pageable, Category category, int state);
 }

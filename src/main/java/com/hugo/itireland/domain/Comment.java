@@ -27,6 +27,9 @@ public class Comment {
     private LocalDateTime ctime;
     private LocalDateTime utime;
 
+    // 0 normal, -1 delete
+    private int state;
+
     @ManyToOne
     @JoinColumn(
             name = "user_id",

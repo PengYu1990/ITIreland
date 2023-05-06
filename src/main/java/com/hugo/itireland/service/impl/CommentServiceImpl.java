@@ -34,6 +34,15 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findAll(Pageable pageable) {
-        return commentRepository.findAll(pageable).toList();
+        return commentRepository.findAllByState(pageable,0).toList();
+    }
+
+    @Override
+    public void delete(Long id) {
+        Comment comment = commentRepository.findById(id).get();
+        if(comment != null) {
+            comment.setState(-1);
+            commentRepository.save(comment);
+        }
     }
 }

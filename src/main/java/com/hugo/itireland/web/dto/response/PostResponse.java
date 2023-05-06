@@ -21,7 +21,7 @@ public class PostResponse {
     private UserResponse user;
     private String title;
     private String content;
-    private Category category;
+    private String category;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ctime;

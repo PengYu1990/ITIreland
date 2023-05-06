@@ -8,6 +8,7 @@ import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.common.MySessionContext;
 import com.hugo.itireland.web.dto.request.PostRequest;
+import com.hugo.itireland.web.dto.response.CategoryResponse;
 import com.hugo.itireland.web.dto.response.CommentResponse;
 import com.hugo.itireland.web.dto.response.PostResponse;
 import com.hugo.itireland.web.common.R;
@@ -156,6 +157,10 @@ public class PostController {
             PostResponse postResponse = new PostResponse();
             BeanUtils.copyProperties(post, postResponse);
 
+            // Process CategoryResponse
+            postResponse.setCategory(post.getCategory().getCategory());
+
+            // Process CommentResponse
             List<CommentResponse> commentResponses = new ArrayList<>();
             for(Comment comment : post.getComments()){
                 CommentResponse commentResponse = new CommentResponse();

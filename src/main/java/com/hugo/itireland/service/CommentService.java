@@ -12,4 +12,6 @@ public interface CommentService {
     Comment findById(Long id);
 
     List<Comment> findAll(Pageable pageable);
+
+    void delete(Long id);
 }

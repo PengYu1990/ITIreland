@@ -20,4 +20,9 @@ public class Category {
     @Id
     private String category;
 
+    // 0 normal, -1 delete
+    private int state;
+
+    private int sort;
+
 }
