@@ -112,7 +112,7 @@ public class PostController {
         BeanUtils.copyProperties(post, postResponse);
 
         // process CommentResponse
-        List<CommentResponse> commentResponses = new ArrayList<>();
+        /*List<CommentResponse> commentResponses = new ArrayList<>();
         for(Comment comment : post.getComments()){
             CommentResponse commentResponse = new CommentResponse();
             BeanUtils.copyProperties(comment,commentResponse);
@@ -123,7 +123,7 @@ public class PostController {
             BeanUtils.copyProperties(post.getUser(), userResponse);
             commentResponse.setUser(userResponse);
         }
-        postResponse.setComments(commentResponses);
+        postResponse.setComments(commentResponses);*/
 
         // process UserResponse for post
         UserResponse userResponse = new UserResponse();
@@ -161,7 +161,7 @@ public class PostController {
             postResponse.setCategory(post.getCategory().getCategory());
 
             // Process CommentResponse
-            List<CommentResponse> commentResponses = new ArrayList<>();
+           /* List<CommentResponse> commentResponses = new ArrayList<>();
             for(Comment comment : post.getComments()){
                 CommentResponse commentResponse = new CommentResponse();
                 BeanUtils.copyProperties(comment,commentResponse);
@@ -172,7 +172,7 @@ public class PostController {
                 BeanUtils.copyProperties(post.getUser(), userResponse);
                 commentResponse.setUser(userResponse);
             }
-            postResponse.setComments(commentResponses);
+            postResponse.setComments(commentResponses);*/
 
 
             // process UserResponse for posts

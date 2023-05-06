@@ -78,10 +78,12 @@ public class CommentController {
 
     @GetMapping
     public R find(@RequestParam(defaultValue = "0", required = false) Integer page,
-                           @RequestParam(defaultValue = "100", required = false) Integer size,
-                           @RequestParam(defaultValue = "id", required = false) String sort){
+                  @RequestParam(defaultValue = "100", required = false) Integer size,
+                  @RequestParam(defaultValue = "id", required = false) String sort,
+                  @RequestParam Long postId
+                  ){
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-        List<Comment> comments = commentService.findAll(pageable);
+        List<Comment> comments = commentService.findAllByPostId(pageable, postId);
         List<CommentResponse> commentResponses = new ArrayList<>();
         for (Comment comment : comments) {
             CommentResponse commentResponse = new CommentResponse();

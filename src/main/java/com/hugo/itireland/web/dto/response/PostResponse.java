@@ -33,7 +33,4 @@ public class PostResponse {
     private int thumbs;
     private List<Tag> tags;
 
-    @JsonManagedReference
-    private List<CommentResponse> comments;
-
 }

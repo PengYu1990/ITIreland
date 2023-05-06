@@ -57,7 +57,7 @@ public class Post {
             foreignKey = @ForeignKey(name = "post_category_fk"))
     private Category category;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     @OrderBy("utime DESC")
     private List<Comment> comments;
 

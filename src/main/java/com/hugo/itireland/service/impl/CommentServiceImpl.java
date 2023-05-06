@@ -47,4 +47,9 @@ public class CommentServiceImpl implements CommentService {
         comment.setState(-1);
         commentRepository.save(comment);
     }
+
+    @Override
+    public List<Comment> findAllByPostId(Pageable pageable, Long postId) {
+        return commentRepository.findAllByPostIdAndState(pageable, postId, 0);
+    }
 }
