@@ -187,4 +187,11 @@ public class PostController {
                 posts.getPageable().getPageNumber());
 
     }
+
+
+    @DeleteMapping("/{id}")
+    public R delete(@PathVariable Long id){
+        postService.delete(id);
+        return R.success(null);
+    }
 }

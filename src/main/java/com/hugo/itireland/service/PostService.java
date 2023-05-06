@@ -15,4 +15,6 @@ public interface PostService {
     Page<Post> findAllByCategory(Pageable pageable, Category category);
 
     void updateViews(Post post);
+
+    void delete(Long id);
 }

@@ -4,6 +4,7 @@ import com.hugo.itireland.domain.Comment;
 import com.hugo.itireland.repository.CommentRepository;
 import com.hugo.itireland.service.CommentService;
 import com.hugo.itireland.service.PostService;
+import com.hugo.itireland.web.exception.ApiRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -40,9 +41,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void delete(Long id) {
         Comment comment = commentRepository.findById(id).get();
-        if(comment != null) {
-            comment.setState(-1);
-            commentRepository.save(comment);
+        if(comment == null) {
+           throw new ApiRequestException("Comment doesn't exist!");
         }
+        comment.setState(-1);
+        commentRepository.save(comment);
     }
 }

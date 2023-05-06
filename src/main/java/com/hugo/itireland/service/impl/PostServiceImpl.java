@@ -7,6 +7,7 @@ import com.hugo.itireland.repository.PostRepository;
 import com.hugo.itireland.service.CategoryService;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.TagService;
+import com.hugo.itireland.web.exception.ApiRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -69,7 +70,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Page<Post> findAll(Pageable pageable) {
-        return postRepository.findAllByState(pageable,0);
+        return postRepository.findAll(pageable);
     }
 
     @Override
@@ -80,5 +81,17 @@ public class PostServiceImpl implements PostService {
     @Override
     public void updateViews(Post post) {
         postRepository.save(post);
+    }
+
+    @Override
+    public void delete(Long id) {
+        Post post = postRepository.findById(id).get();
+        if(post == null) {
+            throw  new ApiRequestException("Post doesn't exist!");
+        }
+
+        post.setState(-1);
+        postRepository.save(post);
+
     }
 }

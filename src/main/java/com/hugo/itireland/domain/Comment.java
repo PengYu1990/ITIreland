@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 
 import java.time.LocalDateTime;
 
@@ -28,6 +30,8 @@ public class Comment {
     private LocalDateTime utime;
 
     // 0 normal, -1 delete
+
+    @Column(name="state")
     private int state;
 
     @ManyToOne

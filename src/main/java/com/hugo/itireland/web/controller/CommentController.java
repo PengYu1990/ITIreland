@@ -60,7 +60,9 @@ public class CommentController {
         return R.success(commentResponse);
     }
 
-    public R delete(@RequestParam Long id){
+
+    @DeleteMapping("/{id}")
+    public R delete(@PathVariable Long id){
         commentService.delete(id);
         return R.success(null);
     }
