@@ -6,11 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hugo.itireland.domain.*;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
+import com.hugo.itireland.web.common.MySessionContext;
 import com.hugo.itireland.web.dto.request.PostRequest;
 import com.hugo.itireland.web.dto.response.CommentResponse;
 import com.hugo.itireland.web.dto.response.PostResponse;
 import com.hugo.itireland.web.common.R;
 import com.hugo.itireland.web.dto.response.UserResponse;
+import com.hugo.itireland.web.exception.ApiRequestException;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,13 +40,18 @@ public class PostController {
         this.objectMapper = objectMapper;
     }
 
-    @PostMapping
-    public R add(@RequestBody PostRequest postRequest) throws JsonProcessingException {
+    @PostMapping("/save")
+    public R add(@RequestBody PostRequest postRequest, @RequestParam String sessionId) throws JsonProcessingException {
 
         //convert PostRequest to Post
         Post post;
         if(postRequest.getId() != null) {
             post = postService.findById(postRequest.getId());
+            HttpSession session = MySessionContext.getSession(sessionId);
+            UserResponse userResponse = (UserResponse) session.getAttribute("user");
+            if(userResponse.getId() != post.getUser().getId()){
+                throw new ApiRequestException("Sorry, you can only edit your own post.");
+            }
         } else {
             post = new Post();
         }
