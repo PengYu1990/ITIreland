@@ -16,10 +16,10 @@ import io.swagger.v3.oas.models.servers.Server;
 @Configuration
 public class OpenAPIConfig {
 
-    @Value("${bezkoder.openapi.dev-url}/api")
+    @Value("${itireland.openapi.dev-url}/api")
     private String devUrl;
 
-    @Value("${bezkoder.openapi.prod-url}/api")
+    @Value("${itireland.openapi.prod-url}/api")
     private String prodUrl;
 
     @Bean
@@ -33,9 +33,9 @@ public class OpenAPIConfig {
         prodServer.setDescription("Server URL in Production environment");
 
         Contact contact = new Contact();
-        contact.setEmail("bezkoder@gmail.com");
-        contact.setName("BezKoder");
-        contact.setUrl("https://www.bezkoder.com");
+        contact.setEmail("yp1990@gmail.com");
+        contact.setName("PengYu");
+        contact.setUrl("https://itireland.vercel.app/");
 
         License mitLicense = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
 

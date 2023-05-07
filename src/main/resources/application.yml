@@ -9,11 +9,23 @@ spring:
 #  generate-ddl: true
 #  show-sql: true
 
+#    datasource:
+#      driver-class-name: org.postgresql.Driver
+#      url: jdbc:postgresql://dpg-ch9dgq5269v21css9jp0-a.frankfurt-postgres.render.com:5432/itireland?currentSchema=public
+#      username: pengyu
+#      password: KHT7ztrYLWrdbm75D7sUbvxF4exHV3p2
+#
+#    jpa:
+#      hibernate.ddl-auto: update
+#      generate-ddl: true
+#      show-sql: true
+
+
     datasource:
       driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://dpg-ch9dgq5269v21css9jp0-a.frankfurt-postgres.render.com:5432/itireland?currentSchema=public
-      username: pengyu
-      password: KHT7ztrYLWrdbm75D7sUbvxF4exHV3p2
+      url: jdbc:postgresql://ec2-52-50-161-219.eu-west-1.compute.amazonaws.com:5432/dc5hkalrrp4ktj?currentSchema=public
+      username: eskpzzazssjsfa
+      password: eedeaf473aad7df542d7f9fa38564cbf7fd936437e1c8932fb770bba4bbf452c
 
     jpa:
       hibernate.ddl-auto: update
@@ -26,7 +38,7 @@ server:
     context-path: /api
 
 
-bezkoder:
+itireland:
   openapi:
     dev-url: http://localhost:8080
-    prod-url: https://itireland.onrender.com
+    prod-url: https://itireland.herokuapp.com/
