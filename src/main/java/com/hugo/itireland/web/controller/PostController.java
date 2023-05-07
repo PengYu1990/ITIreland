@@ -111,6 +111,8 @@ public class PostController {
 
         BeanUtils.copyProperties(post, postResponse);
 
+        postResponse.setCategory(post.getCategory().getCategory());
+
         // process CommentResponse
         /*List<CommentResponse> commentResponses = new ArrayList<>();
         for(Comment comment : post.getComments()){
