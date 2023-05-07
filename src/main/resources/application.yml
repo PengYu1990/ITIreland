@@ -31,11 +31,14 @@ spring:
       hibernate.ddl-auto: update
       generate-ddl: true
       show-sql: true
+    jackson:
+      time-zone: Europe/Dublin
 
 
 server:
   servlet:
     context-path: /api
+
 
 
 itireland:
