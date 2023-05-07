@@ -41,4 +41,4 @@ server:
 itireland:
   openapi:
     dev-url: http://localhost:8080
-    prod-url: https://itireland.herokuapp.com/
+    prod-url: https://itireland.herokuapp.com
