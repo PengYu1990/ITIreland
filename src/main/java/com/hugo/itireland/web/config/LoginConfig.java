@@ -1,4 +1,4 @@
-package com.hugo.itireland.config;
+package com.hugo.itireland.web.config;
 
 
 import com.hugo.itireland.web.interceptor.LoginInterceptor;
@@ -13,7 +13,9 @@ public class LoginConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         //Login Config
         InterceptorRegistration adminReg = registry.addInterceptor(new LoginInterceptor());
-        adminReg.addPathPatterns("/posts/save/**");
+        adminReg.addPathPatterns("/**");
+        adminReg.excludePathPatterns("/auth/login");
+        adminReg.excludePathPatterns("/auth/signup");
 
     }
 }

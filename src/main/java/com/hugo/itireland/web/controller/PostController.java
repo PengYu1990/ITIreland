@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hugo.itireland.domain.*;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
+import com.hugo.itireland.web.annotation.LoginRequired;
 import com.hugo.itireland.web.common.MySessionContext;
 import com.hugo.itireland.web.dto.request.PostRequest;
 import com.hugo.itireland.web.dto.response.CategoryResponse;
@@ -42,6 +43,7 @@ public class PostController {
     }
 
     @PostMapping("/save")
+    @LoginRequired
     public R add(@RequestBody PostRequest postRequest, @RequestParam String sessionId) throws JsonProcessingException {
 
         //convert PostRequest to Post
@@ -192,6 +194,7 @@ public class PostController {
 
 
     @DeleteMapping("/{id}")
+    @LoginRequired
     public R delete(@PathVariable Long id){
         postService.delete(id);
         return R.success(null);

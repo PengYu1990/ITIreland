@@ -4,6 +4,7 @@ package com.hugo.itireland.web.controller;
 import com.hugo.itireland.domain.Comment;
 import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.domain.User;
+import com.hugo.itireland.web.annotation.LoginRequired;
 import com.hugo.itireland.web.dto.request.CommentRequest;
 import com.hugo.itireland.web.dto.response.CommentResponse;
 import com.hugo.itireland.service.CommentService;
@@ -37,6 +38,7 @@ public class CommentController {
     }
 
     @PostMapping
+    @LoginRequired
     public R add(@RequestBody CommentRequest commentRequest){
         Comment comment;
         if(commentRequest.getId() != null) {
@@ -62,6 +64,7 @@ public class CommentController {
 
 
     @DeleteMapping("/{id}")
+    @LoginRequired
     public R delete(@PathVariable Long id){
         commentService.delete(id);
         return R.success(null);

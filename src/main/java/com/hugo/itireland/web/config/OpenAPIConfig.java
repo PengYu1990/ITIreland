@@ -1,4 +1,4 @@
-package com.hugo.itireland.config;
+package com.hugo.itireland.web.config;
 
 
 import java.util.List;
