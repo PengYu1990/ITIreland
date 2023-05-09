@@ -92,6 +92,10 @@ public class CommentController {
             CommentResponse commentResponse = new CommentResponse();
             BeanUtils.copyProperties(comment, commentResponse);
 
+            // Process postId
+
+            commentResponse.setPostId(comment.getPost().getId());
+
             // Process UserResponse
             UserResponse userResponse = new UserResponse();
             BeanUtils.copyProperties(comment.getUser(), userResponse);

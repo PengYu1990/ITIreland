@@ -26,4 +26,6 @@ public class CommentResponse {
 
     private UserResponse user;
 
+    private Long postId;
+
 }
