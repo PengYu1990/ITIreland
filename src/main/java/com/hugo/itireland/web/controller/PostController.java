@@ -42,6 +42,7 @@ public class PostController {
         this.objectMapper = objectMapper;
     }
 
+    // remove save
     @PostMapping
     @LoginRequired
     public R add(@RequestBody PostRequest postRequest, @RequestParam String sessionId) throws JsonProcessingException {
