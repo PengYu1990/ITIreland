@@ -2,17 +2,17 @@ package com.hugo.itireland.web.dto.response;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 
 @Getter
 @Setter
-
-public class UserResponse {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class AuthResponse {
 
 
     private Long id;

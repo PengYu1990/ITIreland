@@ -1,35 +1,36 @@
 package com.hugo.itireland.service.impl;
 
+import com.hugo.itireland.domain.Role;
 import com.hugo.itireland.domain.User;
 import com.hugo.itireland.repository.UserRepository;
+import com.hugo.itireland.web.dto.request.LoginRequest;
+import com.hugo.itireland.web.security.JwtService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.util.PasswordUtil;
+import com.hugo.itireland.web.dto.request.RegisterRequest;
+import com.hugo.itireland.web.dto.response.AuthResponse;
+import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Resource
     private UserRepository userRepository;
-
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository){
-        this.userRepository = userRepository;
-    }
-
-    public User add(User user){
-        user.setCtime(LocalDateTime.now());
-        user.setPassword(PasswordUtil.md5(user.getPassword()));
-        return userRepository.save(user);
-    }
-
-
 
     @Override
     public List<User> findAll() {
@@ -57,4 +58,11 @@ public class UserServiceImpl implements UserService {
         password = PasswordUtil.md5(password);
         return userRepository.findByUsernameAndPassword(username,password);
     }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+
 }

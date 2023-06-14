@@ -3,21 +3,22 @@ package com.hugo.itireland.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hugo.itireland.domain.*;
+import com.hugo.itireland.domain.Category;
+import com.hugo.itireland.domain.Post;
+import com.hugo.itireland.domain.Tag;
+import com.hugo.itireland.domain.User;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
-import com.hugo.itireland.web.annotation.LoginRequired;
-import com.hugo.itireland.web.common.MySessionContext;
-import com.hugo.itireland.web.dto.request.PostRequest;
-import com.hugo.itireland.web.dto.response.CategoryResponse;
-import com.hugo.itireland.web.dto.response.CommentResponse;
-import com.hugo.itireland.web.dto.response.PostResponse;
 import com.hugo.itireland.web.common.R;
+import com.hugo.itireland.web.dto.request.PostRequest;
+import com.hugo.itireland.web.dto.response.PostResponse;
 import com.hugo.itireland.web.dto.response.UserResponse;
 import com.hugo.itireland.web.exception.ApiRequestException;
+import com.hugo.itireland.web.security.JwtService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,31 +30,26 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
+@RequiredArgsConstructor
 public class PostController {
-    private PostService postService;
-    private UserService userService;
+    private final PostService postService;
+    private final UserService userService;
 
-    private  ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    public PostController(PostService postService, UserService userService, ObjectMapper objectMapper) {
-        this.postService = postService;
-        this.userService = userService;
-        this.objectMapper = objectMapper;
-    }
+    private final JwtService jwtService;
 
     // remove save
     @PostMapping
-    @LoginRequired
-    public R add(@RequestBody PostRequest postRequest, @RequestParam String sessionId) throws JsonProcessingException {
+    public R save(HttpServletRequest request, @RequestBody PostRequest postRequest) throws JsonProcessingException {
 
         //convert PostRequest to Post
         Post post;
         if(postRequest.getId() != null) {
             post = postService.findById(postRequest.getId());
-            HttpSession session = MySessionContext.getSession(sessionId);
-            UserResponse userResponse = (UserResponse) session.getAttribute("user");
-            if(userResponse.getId() != post.getUser().getId()){
+            String username = jwtService.extractUsername(request.getHeader("Authorization"));
+            User user = userService.findByUsername(username);
+            if(user.getId() != post.getUser().getId()){
                 throw new ApiRequestException("Sorry, you can only edit your own post.");
             }
         } else {
@@ -195,7 +191,6 @@ public class PostController {
 
 
     @DeleteMapping("/{id}")
-    @LoginRequired
     public R delete(@PathVariable Long id){
         postService.delete(id);
         return R.success(null);

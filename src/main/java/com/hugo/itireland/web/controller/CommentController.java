@@ -4,16 +4,16 @@ package com.hugo.itireland.web.controller;
 import com.hugo.itireland.domain.Comment;
 import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.domain.User;
-import com.hugo.itireland.web.annotation.LoginRequired;
-import com.hugo.itireland.web.dto.request.CommentRequest;
-import com.hugo.itireland.web.dto.response.CommentResponse;
 import com.hugo.itireland.service.CommentService;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.common.R;
+import com.hugo.itireland.web.dto.request.CommentRequest;
+import com.hugo.itireland.web.dto.response.CommentResponse;
 import com.hugo.itireland.web.dto.response.UserResponse;
+import com.hugo.itireland.web.security.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,22 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/comments")
 public class CommentController {
-    private CommentService commentService;
-    private UserService userService;
-    private PostService postService;
+    private final CommentService commentService;
+    private final UserService userService;
+    private final PostService postService;
 
+    private final JwtService jwtService;
 
-    @Autowired
-    public CommentController(CommentService commentService, UserService userService, PostService postService){
-        this.commentService = commentService;
-        this.userService = userService;
-        this.postService = postService;
-    }
 
     @PostMapping
-    @LoginRequired
     public R add(@RequestBody CommentRequest commentRequest){
         Comment comment;
         if(commentRequest.getId() != null) {
@@ -64,9 +59,9 @@ public class CommentController {
 
 
     @DeleteMapping("/{id}")
-    @LoginRequired
-    public R delete(@PathVariable Long id){
-        commentService.delete(id);
+    public R delete(@PathVariable Long id, @RequestHeader String Authorization){
+        String username = jwtService.extractUsername(Authorization);
+        commentService.delete(id, username);
         return R.success(null);
     }
 

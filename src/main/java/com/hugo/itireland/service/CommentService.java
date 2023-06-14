@@ -13,7 +13,7 @@ public interface CommentService {
 
     List<Comment> findAll(Pageable pageable);
 
-    void delete(Long id);
+    void delete(Long id, String username);
 
     List<Comment> findAllByPostId(Pageable pageable, Long postId);
 }

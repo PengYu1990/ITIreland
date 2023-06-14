@@ -4,6 +4,7 @@ import com.hugo.itireland.domain.User;
 import com.hugo.itireland.web.dto.response.UserResponse;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.common.R;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,14 +17,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    public UserController(UserService userService){
-        this.userService = userService;
-    }
 
     @GetMapping
     public R findAll(@RequestParam(defaultValue = "0", required = false) Integer page,

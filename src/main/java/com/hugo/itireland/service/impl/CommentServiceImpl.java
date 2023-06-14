@@ -1,7 +1,9 @@
 package com.hugo.itireland.service.impl;
 
 import com.hugo.itireland.domain.Comment;
+import com.hugo.itireland.domain.User;
 import com.hugo.itireland.repository.CommentRepository;
+import com.hugo.itireland.repository.UserRepository;
 import com.hugo.itireland.service.CommentService;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.web.exception.ApiRequestException;
@@ -16,10 +18,13 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     private CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository){
+    public CommentServiceImpl(CommentRepository commentRepository,
+                              UserRepository userRepository){
         this.commentRepository = commentRepository;
+        this.userRepository = userRepository;
     }
     @Override
     public Comment add(Comment comment) {
@@ -39,8 +44,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id, String username) {
         Comment comment = commentRepository.findById(id).get();
+        if(!comment.getUser().getUsername().equals(username)){
+            throw new ApiRequestException("You can't delete a comment which doesn't belong to you!");
+        }
         if(comment == null) {
            throw new ApiRequestException("Comment doesn't exist!");
         }
