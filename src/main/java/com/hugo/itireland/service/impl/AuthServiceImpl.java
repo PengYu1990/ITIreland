@@ -2,6 +2,7 @@ package com.hugo.itireland.service.impl;
 
 import com.hugo.itireland.domain.Role;
 import com.hugo.itireland.domain.User;
+import com.hugo.itireland.exception.ApiRequestException;
 import com.hugo.itireland.repository.UserRepository;
 import com.hugo.itireland.service.AuthService;
 import com.hugo.itireland.web.dto.request.LoginRequest;
@@ -33,14 +34,27 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse register(RegisterRequest registerRequest) {
+        // Validate Register Infomation
+        if(userRepository.existsByUsername(registerRequest.getUsername())){
+            throw new ApiRequestException("Username already has been used!");
+        } else if(userRepository.existsByEmail(registerRequest.getEmail())){
+            throw new ApiRequestException("Email already has been used!");
+        }
+
+
+        // Do register
         User user = new User();
         BeanUtils.copyProperties(registerRequest, user);
         user.setCtime(LocalDateTime.now());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
         user = userRepository.save(user);
+
+        // Return Information
         var authResponse = new AuthResponse();
         BeanUtils.copyProperties(user, authResponse);
+
+        // Authenticate
         String jwtToken = jwtService.generateToken(user);
         authResponse.setToken(jwtToken);
         authenticationManager.authenticate(
@@ -66,5 +80,10 @@ public class AuthServiceImpl implements AuthService {
         BeanUtils.copyProperties(user, authResponse);
         authResponse.setToken(jwtToken);
         return authResponse;
+    }
+
+    @Override
+    public void logout(String token) {
+
     }
 }

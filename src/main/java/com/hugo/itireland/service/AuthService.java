@@ -7,4 +7,6 @@ import com.hugo.itireland.web.dto.response.AuthResponse;
 public interface AuthService {
     AuthResponse register(RegisterRequest registerRequest);
     AuthResponse login(LoginRequest loginRequest);
+
+    void logout(String token);
 }

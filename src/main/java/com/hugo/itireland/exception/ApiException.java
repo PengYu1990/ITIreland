@@ -1,4 +1,4 @@
-package com.hugo.itireland.web.exception;
+package com.hugo.itireland.exception;
 
 import org.springframework.http.HttpStatus;
 

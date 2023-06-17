@@ -14,23 +14,11 @@ spring:
       hibernate:
         format_sql: true
 
-#    datasource:
-#      driver-class-name: org.postgresql.Driver
-#      url: jdbc:postgresql://ec2-52-50-161-219.eu-west-1.compute.amazonaws.com:5432/dc5hkalrrp4ktj?currentSchema=public
-#      username: eskpzzazssjsfa
-#      password: eedeaf473aad7df542d7f9fa38564cbf7fd936437e1c8932fb770bba4bbf452c
-#
-#    jpa:
-#      hibernate.ddl-auto: update
-#      generate-ddl: true
-#      show-sql: true
-#    jackson:
-#      time-zone: Europe/Dublin
-
-
 server:
   servlet:
     context-path: /api
+  error:
+    include-message: always # Return Customized Exception Message to Client
 
 cors:
   allowed-origins: "*"

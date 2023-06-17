@@ -3,24 +3,33 @@ package com.hugo.itireland.service.impl;
 import com.hugo.itireland.domain.Category;
 import com.hugo.itireland.repository.CategoryRepository;
 import com.hugo.itireland.service.CategoryService;
+import com.hugo.itireland.web.dto.request.CategoryRequest;
+import com.hugo.itireland.web.dto.response.CategoryResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository){
-        this.categoryRepository = categoryRepository;
-    }
     @Override
-    public Category add(Category category) {
-        return categoryRepository.save(category);
+    public CategoryResponse add(CategoryRequest categoryRequest) {
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryRequest, category);
+        CategoryResponse commentResponse = new CategoryResponse();
+        BeanUtils.copyProperties(category, commentResponse);
+        category = categoryRepository.save(category);
+        CategoryResponse categoryResponse = new CategoryResponse();
+        BeanUtils.copyProperties(category, categoryResponse);
+        return categoryResponse;
     }
 
     @Override
@@ -41,7 +50,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> findAll() {
-        return categoryRepository.findAllByOrderBySortDesc();
+    public List<CategoryResponse> findAll() {
+        return categoryRepository.findAllByOrderBySortDesc().stream().map(category -> {
+            CategoryResponse categoryResponse = new CategoryResponse();
+            BeanUtils.copyProperties(category, categoryResponse);
+            return categoryResponse;
+        }).collect(Collectors.toList());
     }
 }

@@ -17,6 +17,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,50 +29,26 @@ import java.util.List;
 @RequestMapping("/comments")
 public class CommentController {
     private final CommentService commentService;
-    private final UserService userService;
-    private final PostService postService;
-
     private final JwtService jwtService;
 
 
     @PostMapping
-    public R add(@RequestBody CommentRequest commentRequest){
-        Comment comment;
-        if(commentRequest.getId() != null) {
-            comment = commentService.findById(commentRequest.getId());
-        } else {
-            comment = new Comment();
-        }
-        User user = userService.findById(commentRequest.getUserId());
-        Post post = postService.findById(commentRequest.getPostId());
-        BeanUtils.copyProperties(commentRequest, comment);
-        comment.setUser(user);
-        comment.setPost(post);
-        comment = commentService.add(comment);
-        CommentResponse commentResponse = new CommentResponse();
-        BeanUtils.copyProperties(comment, commentResponse);
-
-        // Process UserResponse
-        UserResponse userResponse = new UserResponse();
-        BeanUtils.copyProperties(comment.getUser(), userResponse);
-        commentResponse.setUser(userResponse);
-        return R.success(commentResponse);
+    public R save(@RequestBody CommentRequest commentRequest){
+        return R.success(commentService.add(commentRequest));
     }
 
 
     @DeleteMapping("/{id}")
     public R delete(@PathVariable Long id, @RequestHeader String Authorization){
-        String username = jwtService.extractUsername(Authorization);
-        commentService.delete(id, username);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        commentService.delete(id, authentication.getName());
         return R.success(null);
     }
 
     @GetMapping("/{id}")
-    public R findById(@PathVariable Long id){
-        Comment comment = commentService.findById(id);
-        CommentResponse commentResponse = new CommentResponse();
-        BeanUtils.copyProperties(comment, commentResponse);
-        return R.success(commentResponse);
+    public R get(@PathVariable Long id){
+
+        return R.success(commentService.findById(id));
     }
 
 
@@ -81,23 +59,8 @@ public class CommentController {
                   @RequestParam Long postId
                   ){
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-        List<Comment> comments = commentService.findAllByPostId(pageable, postId);
-        List<CommentResponse> commentResponses = new ArrayList<>();
-        for (Comment comment : comments) {
-            CommentResponse commentResponse = new CommentResponse();
-            BeanUtils.copyProperties(comment, commentResponse);
-
-            // Process postId
-
-            commentResponse.setPostId(comment.getPost().getId());
-
-            // Process UserResponse
-            UserResponse userResponse = new UserResponse();
-            BeanUtils.copyProperties(comment.getUser(), userResponse);
-            commentResponse.setUser(userResponse);
-            commentResponses.add(commentResponse);
-        }
-        return R.success(commentResponses);
+        List<CommentResponse> comments = commentService.findAllByPostId(pageable, postId);
+        return R.success(comments);
 
     }
 }

@@ -17,8 +17,5 @@ public interface UserService {
 
     boolean exist(String username);
 
-    User login(String username, String password);
-
-
     User findByUsername(String username);
 }

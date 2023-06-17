@@ -37,6 +37,4 @@ public class UserResponse {
 
     private String sessionId;
 
-    private String token;
-
 }

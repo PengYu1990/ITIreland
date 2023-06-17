@@ -36,8 +36,8 @@ public class AuthController {
 
 
     @PostMapping("/logout")
-    public R logout(@RequestParam  String sessionId){
-
+    public R logout(@RequestParam String token){
+        authService.logout(token);
         return R.success(null);
     }
 }
