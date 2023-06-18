@@ -12,4 +12,5 @@ public class CommentRequest {
     private String content;
     private Long userId;
     private Long postId;
+    private Long parentId;
 }

@@ -4,6 +4,7 @@ import com.hugo.itireland.domain.Comment;
 import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.domain.User;
 import com.hugo.itireland.repository.CommentRepository;
+import com.hugo.itireland.repository.PostRepository;
 import com.hugo.itireland.repository.UserRepository;
 import com.hugo.itireland.service.CommentService;
 import com.hugo.itireland.exception.ApiRequestException;
@@ -33,6 +34,7 @@ public class CommentServiceImpl implements CommentService {
     private final UserService userService;
     private final PostService postService;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     @Override
     public CommentResponse add(CommentRequest commentRequest) {
@@ -44,10 +46,26 @@ public class CommentServiceImpl implements CommentService {
         }
 
         BeanUtils.copyProperties(commentRequest, comment);
+
+        // Process User
         User user = userRepository.findById(commentRequest.getUserId()).orElseThrow();
         comment.setUser(user);
+
+        // Process Post
+        Post post = postRepository.findById(commentRequest.getPostId()).orElseThrow();
+        comment.setPost(post);
+
+        // Process Parent Comment
+        if(commentRequest.getParentId() != null) {
+            Comment parentComment = commentRepository.findById(commentRequest.getParentId()).orElseThrow();
+            comment.setParentComment(parentComment);
+        }
+
+        // Process Time
         comment.setCtime(LocalDateTime.now());
         comment.setUtime(LocalDateTime.now());
+
+        // Save
         comment = commentRepository.save(comment);
 
         // Process Return Value
@@ -73,12 +91,9 @@ public class CommentServiceImpl implements CommentService {
         });
         CommentResponse commentResponse = new CommentResponse();
         BeanUtils.copyProperties(comment, commentResponse);
-        return commentResponse;
-    }
 
-    @Override
-    public List<Comment> findAll(Pageable pageable) {
-        return commentRepository.findAllByState(pageable,0).toList();
+        // Process Children Comments
+        return processChildrenComments(comment, commentResponse);
     }
 
     @Override
@@ -105,7 +120,30 @@ public class CommentServiceImpl implements CommentService {
                 UserResponse userResponse = new UserResponse();
                 BeanUtils.copyProperties(comment.getUser(), userResponse);
                 commentResponse.setUser(userResponse);
-                return commentResponse;
+
+                // Process Children Comments
+            return processChildrenComments(comment, commentResponse);
         }).collect(Collectors.toList());
+    }
+
+
+    /**
+     * Recursively process children comments
+     * @param comment
+     * @return
+     */
+    private CommentResponse processChildrenComments(Comment comment, CommentResponse commentResponse){
+
+        List<CommentResponse> list = null;
+        if(!comment.getComments().isEmpty()) {
+             list = new ArrayList<>();
+        }
+        BeanUtils.copyProperties(comment, commentResponse);
+        for(Comment c : comment.getComments()){
+            CommentResponse cr = new CommentResponse();
+           list.add(processChildrenComments(c, cr));
+        }
+        commentResponse.setChildrenComments(list);
+        return commentResponse;
     }
 }

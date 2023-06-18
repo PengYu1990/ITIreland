@@ -12,6 +12,8 @@ import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -41,6 +43,17 @@ public class Comment {
             nullable = false,
             foreignKey = @ForeignKey(name = "comment_user_fk"))
     private User user;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "parent_comment_id",
+            referencedColumnName = "id",
+            nullable = true,
+            foreignKey = @ForeignKey(name = "comment_comment_fk"))
+    private Comment parentComment;
+
+    @OneToMany(mappedBy = "parentComment", fetch = FetchType.EAGER)
+    private List<Comment> comments;
 
     @ManyToOne
     @JoinColumn(
