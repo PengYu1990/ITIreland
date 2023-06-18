@@ -1,19 +1,12 @@
 package com.hugo.itireland.web.controller;
 
 
-import com.hugo.itireland.domain.Comment;
-import com.hugo.itireland.domain.Post;
-import com.hugo.itireland.domain.User;
 import com.hugo.itireland.service.CommentService;
-import com.hugo.itireland.service.PostService;
-import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.common.R;
 import com.hugo.itireland.web.dto.request.CommentRequest;
 import com.hugo.itireland.web.dto.response.CommentResponse;
-import com.hugo.itireland.web.dto.response.UserResponse;
 import com.hugo.itireland.web.security.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

@@ -32,6 +32,7 @@ public class CommentServiceImpl implements CommentService {
 
     private final UserService userService;
     private final PostService postService;
+    private final UserRepository userRepository;
 
     @Override
     public CommentResponse add(CommentRequest commentRequest) {
@@ -43,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
         }
 
         BeanUtils.copyProperties(commentRequest, comment);
-        User user = userService.findById(commentRequest.getUserId());
+        User user = userRepository.findById(commentRequest.getUserId()).orElseThrow();
         comment.setUser(user);
         comment.setCtime(LocalDateTime.now());
         comment.setUtime(LocalDateTime.now());

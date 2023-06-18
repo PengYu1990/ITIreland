@@ -7,14 +7,14 @@ import com.hugo.itireland.web.dto.response.PostResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface PostService {
     PostResponse save(PostRequest postRequest, String username);
 
     PostResponse findById(Long id);
 
-    Page<Post> findAll(Pageable pageable);
-
-    Page<Post> findAllByCategory(Pageable pageable, Category category);
+    Page<PostResponse> findAll(Pageable pageable, String category);
 
     void updateViews(Post post);
 

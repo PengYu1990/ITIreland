@@ -3,21 +3,14 @@ package com.hugo.itireland.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hugo.itireland.domain.Category;
-import com.hugo.itireland.domain.Post;
-import com.hugo.itireland.domain.Tag;
-import com.hugo.itireland.domain.User;
-import com.hugo.itireland.exception.ApiRequestException;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.common.R;
 import com.hugo.itireland.web.dto.request.PostRequest;
 import com.hugo.itireland.web.dto.response.PostResponse;
-import com.hugo.itireland.web.dto.response.UserResponse;
 import com.hugo.itireland.web.security.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,9 +18,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -62,35 +52,14 @@ public class PostController {
                   @RequestParam(required = false) String category,
                   @RequestParam(required = false, defaultValue = "utime") String sorting
                   ) {
-        Page<Post> posts;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sorting).descending());
-        if(category != null && !category.equals("")){
-            Category cat = new Category(category);
-            posts = postService.findAllByCategory(pageable,cat);
-        } else {
-            posts = postService.findAll(pageable);
-        }
+
+        Page<PostResponse> postResponses = postService.findAll(pageable, category);
 
 
-        // Process CommentResponse
-        List<PostResponse> postResponses = new ArrayList<>();
-        for (Post post : posts) {
-            PostResponse postResponse = new PostResponse();
-            BeanUtils.copyProperties(post, postResponse);
-
-            // Process CategoryResponse
-            postResponse.setCategory(post.getCategory().getCategory());
-
-            // process UserResponse for posts
-            UserResponse userResponse = new UserResponse();
-            BeanUtils.copyProperties(post.getUser(), userResponse);
-            postResponse.setUser(userResponse);
-
-            postResponses.add(postResponse);
-        }
-        return R.success(postResponses, posts.getTotalPages(),
-                posts.getTotalElements(),
-                posts.getPageable().getPageNumber());
+        return R.success(postResponses.stream().toList(), postResponses.getTotalPages(),
+                postResponses.getTotalElements(),
+                postResponses.getPageable().getPageNumber());
 
     }
 
