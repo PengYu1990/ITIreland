@@ -111,7 +111,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentResponse> findAllByPostId(Pageable pageable, Long postId) {
-        return commentRepository.findAllByPostIdAndState(pageable, postId, 0).stream().map( comment -> {
+        return commentRepository.findAllByPostIdAndStateAndParentCommentIsNull(pageable, postId, 0).stream().map( comment -> {
                 CommentResponse commentResponse = new CommentResponse();
                 BeanUtils.copyProperties(comment, commentResponse);
                 // Process postId
