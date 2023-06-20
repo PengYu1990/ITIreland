@@ -7,7 +7,10 @@ import com.hugo.itireland.web.dto.request.LoginRequest;
 import com.hugo.itireland.web.dto.request.RegisterRequest;
 import com.hugo.itireland.web.dto.response.AuthResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import com.hugo.itireland.exception.ValidationException;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,8 +22,11 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public R register(@RequestBody RegisterRequest registerRequest){
-
+    public R register(@Validated @RequestBody RegisterRequest registerRequest, BindingResult errors){
+        //Throw Validation Exception
+        if (errors.hasErrors()) {
+            throw new ValidationException(errors);
+        }
        AuthResponse authResponse = authService.register(registerRequest);
        return R.success(authResponse);
     }
@@ -28,7 +34,11 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public R<AuthResponse> login(@RequestBody LoginRequest loginRequest){
+    public R<AuthResponse> login(@Validated @RequestBody LoginRequest loginRequest, BindingResult errors){
+        //Throw Validation Exception
+        if (errors.hasErrors()) {
+            throw new ValidationException(errors);
+        }
 
         return R.success(authService.login(loginRequest));
 

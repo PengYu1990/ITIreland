@@ -1,6 +1,7 @@
 package com.hugo.itireland.web.controller;
 
 
+import com.hugo.itireland.exception.ValidationException;
 import com.hugo.itireland.service.CommentService;
 import com.hugo.itireland.web.common.R;
 import com.hugo.itireland.web.dto.request.CommentRequest;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +28,11 @@ public class CommentController {
 
 
     @PostMapping
-    public R save(@RequestBody CommentRequest commentRequest){
+    public R save(@Validated @RequestBody CommentRequest commentRequest, BindingResult errors){
+        //Throw Validation Exception
+        if (errors.hasErrors()) {
+            throw new ValidationException(errors);
+        }
         return R.success(commentService.add(commentRequest));
     }
 

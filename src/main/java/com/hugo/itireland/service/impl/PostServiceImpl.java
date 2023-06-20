@@ -6,6 +6,7 @@ import com.hugo.itireland.domain.Category;
 import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.domain.Tag;
 import com.hugo.itireland.domain.User;
+import com.hugo.itireland.exception.ResourceNotFoundException;
 import com.hugo.itireland.repository.PostRepository;
 import com.hugo.itireland.repository.UserRepository;
 import com.hugo.itireland.service.CategoryService;
@@ -20,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -41,7 +43,7 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public PostResponse save(PostRequest postRequest, String username) {
+    public PostResponse save(PostRequest postRequest, String username) throws JsonProcessingException {
 
         //convert PostRequest to Post
         Post post;
@@ -49,7 +51,7 @@ public class PostServiceImpl implements PostService {
         if(postRequest.getId() != null) {
             post = postRepository.findById(postRequest.getId()).orElseThrow();
             if(user == null || user.getId() != post.getUser().getId()){
-                throw new ApiRequestException("Sorry, you can only edit your own post.");
+                throw new InsufficientAuthenticationException("Sorry, you can only edit your own post.");
             }
         } else {
             post = new Post();
@@ -59,12 +61,8 @@ public class PostServiceImpl implements PostService {
         // associate user
         post.setUser(user);
 
-        String contentJsonString = null;
-        try {
-            contentJsonString = objectMapper.writeValueAsString(postRequest.getContentNode());
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        String contentJsonString = objectMapper.writeValueAsString(postRequest.getContentNode());
+
         post.setContent(contentJsonString);
 
 
@@ -180,7 +178,7 @@ public class PostServiceImpl implements PostService {
     public void delete(Long id) {
         Post post = postRepository.findById(id).get();
         if(post == null) {
-            throw  new ApiRequestException("Post doesn't exist!");
+            throw  new ResourceNotFoundException("Post doesn't exist!");
         }
 
         post.setState(-1);

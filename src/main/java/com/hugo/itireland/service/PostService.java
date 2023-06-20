@@ -1,5 +1,6 @@
 package com.hugo.itireland.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hugo.itireland.domain.Category;
 import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.web.dto.request.PostRequest;
@@ -10,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface PostService {
-    PostResponse save(PostRequest postRequest, String username);
+    PostResponse save(PostRequest postRequest, String username) throws JsonProcessingException;
 
     PostResponse findById(Long id);
 

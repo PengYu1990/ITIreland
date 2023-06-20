@@ -3,6 +3,7 @@ package com.hugo.itireland.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hugo.itireland.exception.ValidationException;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.common.R;
@@ -17,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,7 +35,11 @@ public class PostController {
 
     // remove save
     @PostMapping
-    public R save(HttpServletRequest request, @RequestBody PostRequest postRequest) throws JsonProcessingException {
+    public R save(HttpServletRequest request, @Validated  @RequestBody PostRequest postRequest, BindingResult errors) throws JsonProcessingException {
+        //Throw Validation Exception
+        if (errors.hasErrors()) {
+            throw new ValidationException(errors);
+        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return R.success(postService.save(postRequest, authentication.getName()));
     }

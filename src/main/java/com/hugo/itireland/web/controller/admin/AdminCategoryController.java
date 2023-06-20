@@ -1,4 +1,4 @@
-package com.hugo.itireland.web.controller;
+package com.hugo.itireland.web.controller.admin;
 
 
 import com.hugo.itireland.exception.ValidationException;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/categories")
-public class CategoryController {
+@RequestMapping("/admin/categories")
+public class AdminCategoryController {
     private final CategoryService categoryService;
 
 
@@ -21,5 +21,15 @@ public class CategoryController {
     public R findAll(){
         return R.success(categoryService.findAll());
 
+    }
+
+    @PostMapping
+    public R add(@Validated  @RequestBody CategoryRequest categoryRequest, BindingResult errors){
+        //Throw Validation Exception
+        if (errors.hasErrors()) {
+            throw new ValidationException(errors);
+        }
+
+        return R.success(categoryService.add(categoryRequest));
     }
 }

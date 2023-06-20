@@ -3,6 +3,7 @@ package com.hugo.itireland.service.impl;
 import com.hugo.itireland.domain.Comment;
 import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.domain.User;
+import com.hugo.itireland.exception.ResourceNotFoundException;
 import com.hugo.itireland.repository.CommentRepository;
 import com.hugo.itireland.repository.PostRepository;
 import com.hugo.itireland.repository.UserRepository;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -87,7 +89,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentResponse findById(Long id) {
         Comment comment =  commentRepository.findById(id).orElseThrow(()->{
-            return new ApiRequestException("Comment id doesn't exist.");
+            return new ResourceNotFoundException("Comment id doesn't exist.");
         });
         CommentResponse commentResponse = new CommentResponse();
         BeanUtils.copyProperties(comment, commentResponse);
@@ -100,10 +102,10 @@ public class CommentServiceImpl implements CommentService {
     public void delete(Long id, String username) {
         Comment comment = commentRepository.findById(id).get();
         if(!comment.getUser().getUsername().equals(username)){
-            throw new ApiRequestException("You can't delete a comment which doesn't belong to you!");
+            throw new InsufficientAuthenticationException("You can't delete a comment which doesn't belong to you!");
         }
         if(comment == null) {
-           throw new ApiRequestException("Comment doesn't exist!");
+           throw new ResourceNotFoundException("Comment doesn't exist!");
         }
         comment.setState(-1);
         commentRepository.save(comment);
