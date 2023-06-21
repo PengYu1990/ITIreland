@@ -9,6 +9,7 @@ import com.hugo.itireland.s3.S3Buckets;
 import com.hugo.itireland.s3.S3Service;
 import com.hugo.itireland.service.ImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,14 +28,14 @@ public class ImageServiceImpl implements ImageService {
 
     private final UserRepository userRepository;
     @Override
-    public String upload(Long userId, MultipartFile file, int type) throws IOException {
-        User user = userRepository.findById(userId).orElse(null);
+    public String upload(String username, MultipartFile file, int type) throws IOException {
+        User user = userRepository.findByUsername(username);
         if(user == null)
-            throw new ResourceNotFoundException("User id is not valid!");
+            throw new InsufficientAuthenticationException("You need to login first!");
         String imageName = UUID.randomUUID().toString();
         s3Service.putObject(
                 s3Buckets.getImage(),
-                "images/%s/%s".formatted(userId, imageName),
+                "images/%s/%s".formatted(username, imageName),
                 file.getBytes()
         );
         Image image = new Image(imageName, user,type);
@@ -45,10 +46,10 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public byte[] get(Long userId, String imageName) {
+    public byte[] get(String username, String imageName) {
         return s3Service.getObject(
                 s3Buckets.getImage(),
-                "images/%s/%s".formatted(userId, imageName)
+                "images/%s/%s".formatted(username, imageName)
         );
     }
 }

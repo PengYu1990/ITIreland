@@ -4,3 +4,4 @@
 ### Post: save, query, Delete, following users' post 
 ### Comment: post comment, reply, delete
 ### Follow: follow, unfollow, get followers, get followings 
+### Image(S3): upload, view

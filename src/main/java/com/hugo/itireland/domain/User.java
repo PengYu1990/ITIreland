@@ -42,6 +42,8 @@ public class User implements UserDetails {
     @Column(columnDefinition = "text")
     private String profile;
 
+    private String profileImageName;
+
     //0:active, -1:delete, -2:disabled
     private int state;
 
