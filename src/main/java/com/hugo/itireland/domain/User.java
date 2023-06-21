@@ -53,6 +53,19 @@ public class User implements UserDetails {
 
     private LocalDateTime ctime;
 
+  /*  @ManyToMany
+    @JoinTable(
+            name = "users_followers",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "follower_id"),
+            foreignKey = @ForeignKey(name="user_follower_fk"),
+            inverseForeignKey = @ForeignKey(name="follower_user_fk")
+    )
+    private List<User> followers;
+
+    @ManyToMany(mappedBy = "followers")
+    private List<User> following;*/
+
 
     @Enumerated(EnumType.STRING)
     private Role role;
