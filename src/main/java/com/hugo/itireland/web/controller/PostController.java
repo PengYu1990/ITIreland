@@ -4,6 +4,8 @@ package com.hugo.itireland.web.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hugo.itireland.exception.ValidationException;
+import com.hugo.itireland.s3.S3Buckets;
+import com.hugo.itireland.s3.S3Service;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.common.R;
@@ -16,11 +18,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/posts")
@@ -32,6 +39,7 @@ public class PostController {
     private final ObjectMapper objectMapper;
 
     private final JwtService jwtService;
+
 
     // remove save
     @PostMapping
@@ -70,10 +78,28 @@ public class PostController {
 
     }
 
+    @GetMapping("/following/{userId}")
+    public R following(@PathVariable Long userId,
+                       @RequestParam(defaultValue = "0", required = false) Integer page,
+                       @RequestParam(defaultValue = "20", required = false) Integer size,
+                       @RequestParam(required = false, defaultValue = "utime") String sorting){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(sorting).descending());
+        Page<PostResponse> postResponses = postService.findAllFollowingPosts(userId, pageable);
+        return R.success(postResponses.toList(),
+                postResponses.getTotalPages(),
+                postResponses.getTotalElements(),
+                postResponses.getPageable().getPageNumber());
+    }
+
 
     @DeleteMapping("/{id}")
     public R delete(@PathVariable Long id){
         postService.delete(id);
         return R.success(null);
     }
+
+
+
+
+    //c466729d-783d-4022-b89a-421544aaabab
 }

@@ -1,9 +1,11 @@
 package com.hugo.itireland.repository;
 
 import com.hugo.itireland.domain.Following;
+import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +21,9 @@ public interface FollowingRepository extends JpaRepository<Following, Long> {
 
     @Query("SELECT f.following FROM Following f WHERE f.follower = :user")
     Page<User> findFollowingsByUser(User user, Pageable pageable);
+
+    @Query("SELECT p FROM Post p WHERE p.user IN (SELECT f.following FROM Following f WHERE f.follower = :user)")
+    Page<Post> findPostsOfFollowingUsers(@Param("user") User user, Pageable pageable);
+
+
 }

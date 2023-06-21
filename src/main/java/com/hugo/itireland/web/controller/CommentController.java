@@ -45,14 +45,14 @@ public class CommentController {
     }
 
     @GetMapping("/{id}")
-    public R get(@PathVariable Long id){
+    public R find(@PathVariable Long id){
 
         return R.success(commentService.findById(id));
     }
 
 
     @GetMapping
-    public R find(@RequestParam(defaultValue = "0", required = false) Integer page,
+    public R findAll(@RequestParam(defaultValue = "0", required = false) Integer page,
                   @RequestParam(defaultValue = "100", required = false) Integer size,
                   @RequestParam(defaultValue = "id", required = false) String sort,
                   @RequestParam Long postId

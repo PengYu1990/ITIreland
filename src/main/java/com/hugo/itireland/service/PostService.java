@@ -20,4 +20,6 @@ public interface PostService {
     void updateViews(Post post);
 
     void delete(Long id);
+
+    Page<PostResponse> findAllFollowingPosts(Long userId, Pageable pageable);
 }

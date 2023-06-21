@@ -7,6 +7,7 @@ import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.domain.Tag;
 import com.hugo.itireland.domain.User;
 import com.hugo.itireland.exception.ResourceNotFoundException;
+import com.hugo.itireland.repository.FollowingRepository;
 import com.hugo.itireland.repository.PostRepository;
 import com.hugo.itireland.repository.UserRepository;
 import com.hugo.itireland.service.CategoryService;
@@ -38,6 +39,8 @@ public class PostServiceImpl implements PostService {
     private final TagService tagService;
     private final CategoryService categoryService;
     private final UserRepository userRepository;
+
+    private final FollowingRepository followingRepository;
     private final ObjectMapper objectMapper;
 
 
@@ -184,5 +187,21 @@ public class PostServiceImpl implements PostService {
         post.setState(-1);
         postRepository.save(post);
 
+    }
+
+    @Override
+    public Page<PostResponse> findAllFollowingPosts(Long userId, Pageable pageable) {
+        User user = userRepository.findById(userId).orElseThrow();
+        return followingRepository.findPostsOfFollowingUsers(user, pageable).map(new Function<Post, PostResponse>() {
+            @Override
+            public PostResponse apply(Post post) {
+                PostResponse postResponse = new PostResponse();
+                BeanUtils.copyProperties(post, postResponse);
+                UserResponse userResponse = new UserResponse();
+                BeanUtils.copyProperties(post.getUser(), userResponse);
+                postResponse.setUser(userResponse);
+                return postResponse;
+            }
+        });
     }
 }
