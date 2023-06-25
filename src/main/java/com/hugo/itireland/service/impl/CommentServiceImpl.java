@@ -67,6 +67,12 @@ public class CommentServiceImpl implements CommentService {
         comment.setCtime(LocalDateTime.now());
         comment.setUtime(LocalDateTime.now());
 
+        // Process Parent Comment
+        if(commentRequest.getParentId() != null) {
+            Comment parentComment = commentRepository.findById(commentRequest.getParentId()).orElseThrow();
+            comment.setParentComment(parentComment);
+        }
+
         // Save
         comment = commentRepository.save(comment);
 
@@ -143,6 +149,9 @@ public class CommentServiceImpl implements CommentService {
         BeanUtils.copyProperties(comment, commentResponse);
         for(Comment c : comment.getComments()){
             CommentResponse cr = new CommentResponse();
+            UserResponse userResponse = new UserResponse();
+            BeanUtils.copyProperties(c.getUser(), userResponse);
+            cr.setUser(userResponse);
            list.add(processChildrenComments(c, cr));
         }
         commentResponse.setChildrenComments(list);
