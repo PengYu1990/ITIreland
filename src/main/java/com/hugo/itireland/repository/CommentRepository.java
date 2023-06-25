@@ -19,6 +19,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findAllByPostIdAndState(Pageable pageable, Long postId, int state);
 
 
-    @Query("SELECT c FROM Comment c LEFT JOIN FETCH c.comments cc WHERE c.parentComment IS NULL and c.state = 0 AND (cc.state = 0 or cc IS NULL)")
+    @Query("SELECT c FROM Comment c LEFT JOIN FETCH c.comments cc WHERE c.post.id = :postId and c.parentComment IS NULL and c.state = :state AND (cc.state = :state or cc IS NULL)")
     List<Comment> findAllByPostIdAndStateAndParentCommentIsNull(Pageable pageable, Long postId, int state);
 }
