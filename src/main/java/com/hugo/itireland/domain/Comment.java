@@ -53,6 +53,7 @@ public class Comment {
     private Comment parentComment;
 
     @OneToMany(mappedBy = "parentComment", fetch = FetchType.EAGER)
+    @OrderBy("ctime ASC")
     private List<Comment> comments;
 
     @ManyToOne

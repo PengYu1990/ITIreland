@@ -54,7 +54,7 @@ public class CommentController {
     @GetMapping
     public R findAll(@RequestParam(defaultValue = "0", required = false) Integer page,
                   @RequestParam(defaultValue = "100", required = false) Integer size,
-                  @RequestParam(defaultValue = "id", required = false) String sort,
+                  @RequestParam(defaultValue = "ctime", required = false) String sort,
                   @RequestParam Long postId
                   ){
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
