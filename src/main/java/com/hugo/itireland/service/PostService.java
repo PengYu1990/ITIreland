@@ -15,7 +15,7 @@ public interface PostService {
 
     PostResponse findById(Long id);
 
-    Page<PostResponse> findAll(Pageable pageable, String category);
+    Page<PostResponse> findAll(Pageable pageable, String category, Long userId);
 
     void updateViews(Post post);
 

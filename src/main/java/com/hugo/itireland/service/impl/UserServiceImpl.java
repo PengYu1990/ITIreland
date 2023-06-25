@@ -90,6 +90,7 @@ public class UserServiceImpl implements UserService {
 
         // Update User
         user.setProfileImageName(imageName);
+        user.setHeadShotUrl("/images/"+user.getUsername()+"/"+imageName);
         userRepository.save(user);
 
         return imageName;

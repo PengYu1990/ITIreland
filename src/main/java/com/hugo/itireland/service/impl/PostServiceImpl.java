@@ -141,14 +141,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostResponse> findAll(Pageable pageable, String category) {
+    public Page<PostResponse> findAll(Pageable pageable, String category, Long userId) {
         Category cat = null;
-        Page<Post> posts;
+        Page<Post> posts = null;
         if(category != null) {
             cat = categoryService.find(category);
         }
-        if(cat != null ) {
-            posts = postRepository.findAllByCategory(pageable, cat);
+
+        if(cat != null && userId == null) {
+            posts = postRepository.findAllByCategoryAndState(pageable, cat, 0);
+        } else if(cat == null && userId != null) {
+            posts = postRepository.findAllByUserIdAndState(pageable, userId, 0);
+        } else if(cat != null && userId != null) {
+            posts = postRepository.findAllByCategoryAndUserIdAndState(pageable, cat, userId, 0);
         } else {
             posts = postRepository.findAll(pageable);
         }

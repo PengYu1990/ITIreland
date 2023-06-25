@@ -65,11 +65,12 @@ public class PostController {
     public R find(@RequestParam(defaultValue = "0", required = false) Integer page,
                   @RequestParam(defaultValue = "20", required = false) Integer size,
                   @RequestParam(required = false) String category,
+                  @RequestParam(required = false) Long userId,
                   @RequestParam(required = false, defaultValue = "utime") String sorting
                   ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sorting).descending());
 
-        Page<PostResponse> postResponses = postService.findAll(pageable, category);
+        Page<PostResponse> postResponses = postService.findAll(pageable, category, userId);
 
 
         return R.success(postResponses.stream().toList(), postResponses.getTotalPages(),
