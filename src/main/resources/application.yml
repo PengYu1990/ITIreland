@@ -36,7 +36,7 @@ cors:
 aws:
   region: eu-west-1
   s3:
-    mock: true
+    mock: false
     buckets:
       image: bucketeer-ffab8d38-4137-4522-a16c-881871c8e426
 
