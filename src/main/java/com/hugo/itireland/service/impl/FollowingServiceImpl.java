@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,18 +29,20 @@ public class FollowingServiceImpl implements FollowingService {
     private final UserRepository userRepository;
 
     @Override
-    public void follow(FollowRequest followRequest) {
-        User followingUser = userRepository.findById(followRequest.getFollowingId()).orElseThrow();
-        User followerUser = userRepository.findById(followRequest.getFollowerId()).orElseThrow();
+    public void follow(Long userId) {
+        User followingUser = userRepository.findById(userId).orElseThrow();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User followerUser = userRepository.findByUsername(username);
         Following following = new Following(followingUser, followerUser, LocalDateTime.now());
         followingRepository.save(following);
     }
 
     @Override
-    public void unFollow(FollowRequest followRequest) {
-        User followingUser = userRepository.findById(followRequest.getFollowingId()).orElseThrow();
-        User followerUser = userRepository.findById(followRequest.getFollowerId()).orElseThrow();
-        Following following = new Following(followingUser, followerUser, LocalDateTime.now());
+    public void unFollow(Long userId) {
+        User followingUser = userRepository.findById(userId).orElseThrow();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User followerUser = userRepository.findByUsername(username);
+        Following following = followingRepository.findByFollowingAndFollower(followingUser, followerUser).orElseThrow();
         followingRepository.delete(following);
     }
 
@@ -72,5 +75,14 @@ public class FollowingServiceImpl implements FollowingService {
         });
 
         return followings;
+    }
+
+    @Override
+    public boolean isFollowing(Long userId) {
+        User followingUser = userRepository.findById(userId).orElseThrow();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User followerUser = userRepository.findByUsername(username);
+        Following following = followingRepository.findByFollowingAndFollower(followingUser, followerUser).orElse(null);
+        return following != null;
     }
 }

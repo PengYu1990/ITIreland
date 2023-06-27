@@ -19,16 +19,21 @@ public class FollowingController {
     private final FollowingService followingService;
 
 
-    @PostMapping("/follow")
-    public R follow(@RequestBody FollowRequest followRequest){
-        followingService.follow(followRequest);
+    @PostMapping("/follow/{userId}")
+    public R follow(@PathVariable("userId") Long userId){
+        followingService.follow(userId);
         return R.success(null);
     }
 
-    @PostMapping("/unfollow")
-    public R unFollow(@RequestBody FollowRequest followRequest){
-        followingService.unFollow(followRequest);
+    @PostMapping("/unfollow/{userId}")
+    public R unFollow(@PathVariable("userId") Long userId){
+        followingService.unFollow(userId);
         return R.success(null);
+    }
+
+    @GetMapping("/isFollowing/{userId}")
+    public R isFollowing(@PathVariable("userId") Long userId){
+        return R.success(followingService.isFollowing(userId));
     }
 
     @GetMapping("/followers/{userId}")

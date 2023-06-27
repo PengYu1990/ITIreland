@@ -8,9 +8,11 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface FollowingService {
-    public void follow(FollowRequest followRequest);
-    public void unFollow(FollowRequest followRequest);
+    public void follow(Long userId);
+    public void unFollow(Long userId);
 
     public Page<UserResponse> getFollowers(Long userId, Pageable pageable);
     public Page<UserResponse> getFollowings(Long userId, Pageable pageable);
+
+    public boolean isFollowing(Long userId);
 }
