@@ -21,5 +21,5 @@ public interface PostService {
 
     void delete(Long id);
 
-    Page<PostResponse> findAllFollowingPosts(Long userId, Pageable pageable);
+    Page<PostResponse> findAllFollowingPosts(String username, Pageable pageable);
 }

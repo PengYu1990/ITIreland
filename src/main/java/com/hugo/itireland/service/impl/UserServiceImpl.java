@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(username);
         if(user == null)
             throw new InsufficientAuthenticationException("Please sign in first!");
-        String imageName = user.getUsername()+"_profile_image";
+        String imageName = user.getUsername()+"_profle_"+UUID.randomUUID();
 
         // Upload Image
         s3Service.putObject(

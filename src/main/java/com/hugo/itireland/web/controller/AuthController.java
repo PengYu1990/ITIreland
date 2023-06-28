@@ -7,6 +7,7 @@ import com.hugo.itireland.web.dto.request.LoginRequest;
 import com.hugo.itireland.web.dto.request.RegisterRequest;
 import com.hugo.itireland.web.dto.response.AuthResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +47,8 @@ public class AuthController {
 
 
     @PostMapping("/logout")
-    public R logout(@RequestParam String token){
-        authService.logout(token);
+    public R logout(){
+        authService.logout();
         return R.success(null);
     }
 }

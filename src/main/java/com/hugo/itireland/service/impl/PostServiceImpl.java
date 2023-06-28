@@ -195,8 +195,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostResponse> findAllFollowingPosts(Long userId, Pageable pageable) {
-        User user = userRepository.findById(userId).orElseThrow();
+    public Page<PostResponse> findAllFollowingPosts(String username, Pageable pageable) {
+        User user = userRepository.findByUsername(username);
         return followingRepository.findPostsOfFollowingUsers(user, pageable).map(new Function<Post, PostResponse>() {
             @Override
             public PostResponse apply(Post post) {
