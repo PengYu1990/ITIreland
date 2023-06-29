@@ -27,6 +27,10 @@ public class S3Config {
 
     @Bean
     public S3Client s3Client() {
+        System.out.println("=============================== S3 ===============================");
+        System.out.println("access key"+accessKeyId);
+        System.out.println("secretAccessKey"+secretAccessKey);
+        System.out.println("==================================================================");
         if (mock) {
             return new FakeS3();
         }
