@@ -1,4 +1,7 @@
 spring:
+  config:
+    import: optional:file:.env[.yaml] # root path
+#    import: optional:classpath:.env[.yaml] # resources path
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/itireland?currentSchema=public
@@ -40,7 +43,7 @@ aws:
   s3:
     mock: false
     buckets:
-      image: bucketeer-ffab8d38-4137-4522-a16c-881871c8e426
+      image: ${BUCKETEER_BUCKET_NAME}
 
 
 
