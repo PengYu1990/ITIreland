@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
-import software.amazon.awssdk.auth.credentials.CredentialUtils;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
@@ -16,10 +15,10 @@ public class S3Config {
     @Value("${aws.region}")
     private String awsRegion;
 
-    @Value("accessKeyId")
+    @Value("${aws.accessKeyId}")
     private String accessKeyId;
 
-    @Value("secretAccessKey")
+    @Value("${aws.secretAccessKey}")
     private String secretAccessKey;
 
     @Value("${aws.s3.mock}")
