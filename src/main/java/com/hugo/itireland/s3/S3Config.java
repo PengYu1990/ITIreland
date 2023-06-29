@@ -34,7 +34,7 @@ public class S3Config {
                 .credentialsProvider(new AwsCredentialsProvider() {
                     @Override
                     public AwsCredentials resolveCredentials() {
-                        return AwsBasicCredentials.create("test", "test");
+                        return AwsBasicCredentials.create(accessKeyId, secretAccessKey);
                     }
                 })
                 .region(Region.of(awsRegion))
