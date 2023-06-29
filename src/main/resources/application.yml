@@ -34,7 +34,9 @@ cors:
 
 
 aws:
-  region: eu-west-1
+  region: ${BUCKETEER_AWS_REGION}
+  accessKeyId: ${BUCKETEER_AWS_ACCESS_KEY_ID}
+  secretAccessKey: ${BUCKETEER_AWS_SECRET_ACCESS_KEY}
   s3:
     mock: false
     buckets:
