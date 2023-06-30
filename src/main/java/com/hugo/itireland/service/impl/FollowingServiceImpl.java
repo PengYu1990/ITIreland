@@ -2,6 +2,7 @@ package com.hugo.itireland.service.impl;
 
 import com.hugo.itireland.domain.Following;
 import com.hugo.itireland.domain.User;
+import com.hugo.itireland.exception.DuplicateResourceException;
 import com.hugo.itireland.repository.FollowingRepository;
 import com.hugo.itireland.repository.UserRepository;
 import com.hugo.itireland.service.FollowingService;
@@ -30,6 +31,9 @@ public class FollowingServiceImpl implements FollowingService {
 
     @Override
     public void follow(Long userId) {
+        if(isFollowing(userId)){
+            throw new DuplicateResourceException("You've already followed this user");
+        }
         User followingUser = userRepository.findById(userId).orElseThrow();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User followerUser = userRepository.findByUsername(username);
