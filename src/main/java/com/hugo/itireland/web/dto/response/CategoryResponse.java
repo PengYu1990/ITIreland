@@ -1,6 +1,5 @@
 package com.hugo.itireland.web.dto.response;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

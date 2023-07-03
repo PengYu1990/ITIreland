@@ -2,15 +2,13 @@ package com.hugo.itireland.service.impl;
 
 import com.hugo.itireland.domain.Image;
 import com.hugo.itireland.domain.User;
-import com.hugo.itireland.exception.ResourceNotFoundException;
 import com.hugo.itireland.repository.ImageRepository;
+import com.hugo.itireland.repository.PostRepository;
 import com.hugo.itireland.repository.UserRepository;
 import com.hugo.itireland.s3.S3Buckets;
 import com.hugo.itireland.s3.S3Service;
-import com.hugo.itireland.service.ImageService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.dto.response.UserResponse;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -22,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -30,6 +27,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ImageRepository imageRepository;
+    private final PostRepository postRepository;
 
     private final S3Service s3Service;
     private final S3Buckets s3Buckets;
@@ -43,19 +41,31 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserResponse> findAll(Pageable pageable) {
         return userRepository.findAll(pageable).map(user ->{
-            UserResponse userResponse = new UserResponse();
-            BeanUtils.copyProperties(user, userResponse);
+            UserResponse userResponse = getUserResponse(user);
             return userResponse;
 
         });
     }
 
+    private UserResponse getUserResponse(User user) {
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(user, userResponse);
+
+        // Calculate Level
+        int credits = user.getCredits();
+        userResponse.setLevel(credits % 20);
+
+        userResponse.setPosts(postRepository.countByUser(user));
+        return userResponse;
+    }
+
     @Override
     public UserResponse findById(Long id) {
         return userRepository.findById(id).map(user ->{
-                    UserResponse userResponse = new UserResponse();
-                    BeanUtils.copyProperties(user, userResponse);
-                    return userResponse;
+//                    UserResponse userResponse = new UserResponse();
+//                    BeanUtils.copyProperties(user, userResponse);
+//            userResponse.setPosts(postRepository.countByUser(user));
+                    return getUserResponse(user);
                 }).orElseThrow();
     }
 

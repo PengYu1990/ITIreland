@@ -1,5 +1,6 @@
 package com.hugo.itireland.web.controller;
 
+import com.hugo.itireland.exception.ValidationException;
 import com.hugo.itireland.service.AuthService;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.common.R;
@@ -7,11 +8,12 @@ import com.hugo.itireland.web.dto.request.LoginRequest;
 import com.hugo.itireland.web.dto.request.RegisterRequest;
 import com.hugo.itireland.web.dto.response.AuthResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import com.hugo.itireland.exception.ValidationException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor

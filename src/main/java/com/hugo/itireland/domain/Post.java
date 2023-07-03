@@ -3,9 +3,6 @@ package com.hugo.itireland.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,7 +32,10 @@ public class Post {
     private LocalDateTime ctime;
     private LocalDateTime utime;
     private int views;
-    private int thumbs;
+
+
+    private int upvotes = 0;
+    private int downvotes = 0;
 
     // 0 normal, -1 delete
     private int state;
@@ -60,6 +60,7 @@ public class Post {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     @OrderBy("utime DESC")
     private List<Comment> comments;
+
 
 
 }

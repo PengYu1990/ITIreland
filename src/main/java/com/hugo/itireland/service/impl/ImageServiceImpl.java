@@ -2,7 +2,6 @@ package com.hugo.itireland.service.impl;
 
 import com.hugo.itireland.domain.Image;
 import com.hugo.itireland.domain.User;
-import com.hugo.itireland.exception.ResourceNotFoundException;
 import com.hugo.itireland.repository.ImageRepository;
 import com.hugo.itireland.repository.UserRepository;
 import com.hugo.itireland.s3.S3Buckets;

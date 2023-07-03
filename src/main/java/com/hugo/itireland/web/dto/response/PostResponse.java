@@ -1,13 +1,7 @@
 package com.hugo.itireland.web.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.hugo.itireland.domain.Category;
-import com.hugo.itireland.domain.Comment;
 import com.hugo.itireland.domain.Tag;
-import com.hugo.itireland.domain.User;
-import jakarta.persistence.OneToMany;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +16,10 @@ public class PostResponse {
     private String title;
     private String content;
     private String category;
+    private int commentCount;
 
+    private boolean isUpvoted;
+    private boolean isDownvoted;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ctime;
 
@@ -30,7 +27,8 @@ public class PostResponse {
     private LocalDateTime utime;
 
     private int views;
-    private int thumbs;
+    private int upvotes;
+    private int downvotes;
     private List<Tag> tags;
 
 }

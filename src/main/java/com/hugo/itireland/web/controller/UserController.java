@@ -1,30 +1,23 @@
 package com.hugo.itireland.web.controller;
 
-import com.hugo.itireland.domain.User;
-import com.hugo.itireland.s3.S3Buckets;
 import com.hugo.itireland.service.ImageService;
-import com.hugo.itireland.web.dto.response.ImageUploadResponse;
-import com.hugo.itireland.web.dto.response.UserResponse;
 import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.common.R;
+import com.hugo.itireland.web.dto.response.ImageUploadResponse;
+import com.hugo.itireland.web.dto.response.UserResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")

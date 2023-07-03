@@ -2,7 +2,6 @@ package com.hugo.itireland.web.security;
 
 import com.hugo.itireland.domain.User;
 import com.hugo.itireland.repository.UserRepository;
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

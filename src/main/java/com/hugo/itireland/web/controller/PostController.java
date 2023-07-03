@@ -93,8 +93,33 @@ public class PostController {
         return R.success(null);
     }
 
+    @GetMapping("/upvote/{postId}")
+    public R upvote(@PathVariable Long postId){
+        int thumbs = postService.upvote(postId);
+        return R.success(thumbs);
+    }
+
+
+    @GetMapping("/unUpvote/{postId}")
+    public R unUpvote(@PathVariable Long postId){
+        int thumbs = postService.unUpvote(postId);
+        return R.success(thumbs);
+    }
+
+    @GetMapping("/downvote/{postId}")
+    public R downvote(@PathVariable Long postId){
+        int thumbs = postService.downvote(postId);
+        return R.success(thumbs);
+    }
+
+
+    @GetMapping("/unDownvote/{postId}")
+    public R unDownvote(@PathVariable Long postId){
+        int thumbs = postService.unDownvote(postId);
+        return R.success(thumbs);
+    }
 
 
 
-    //c466729d-783d-4022-b89a-421544aaabab
+
 }

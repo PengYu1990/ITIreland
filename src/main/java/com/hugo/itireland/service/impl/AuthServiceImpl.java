@@ -2,7 +2,6 @@ package com.hugo.itireland.service.impl;
 
 import com.hugo.itireland.domain.Role;
 import com.hugo.itireland.domain.User;
-import com.hugo.itireland.exception.ApiRequestException;
 import com.hugo.itireland.exception.DuplicateResourceException;
 import com.hugo.itireland.repository.UserRepository;
 import com.hugo.itireland.service.AuthService;
@@ -14,7 +13,6 @@ import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,9 +51,7 @@ public class AuthServiceImpl implements AuthService {
         user.setRole(Role.USER);
         user = userRepository.save(user);
 
-        // Return Information
-        var authResponse = new AuthResponse();
-        BeanUtils.copyProperties(user, authResponse);
+        AuthResponse authResponse = getAuthResponse(user);
 
         // Authenticate
         String jwtToken = jwtService.generateToken(user);
@@ -69,6 +65,16 @@ public class AuthServiceImpl implements AuthService {
         return authResponse;
     }
 
+    private static AuthResponse getAuthResponse(User user) {
+        // Return Information
+        var authResponse = new AuthResponse();
+        BeanUtils.copyProperties(user, authResponse);
+
+        //Calculate Lever
+        authResponse.setLevel(user.getCredits() % 20);
+        return authResponse;
+    }
+
     @Override
     public AuthResponse login(LoginRequest loginRequest) {
         authenticationManager.authenticate(
@@ -79,8 +85,7 @@ public class AuthServiceImpl implements AuthService {
         );
         User user = userRepository.findByUsername(loginRequest.getUsername());
         String jwtToken = jwtService.generateToken(user);
-        AuthResponse authResponse = new AuthResponse();
-        BeanUtils.copyProperties(user, authResponse);
+        AuthResponse authResponse = getAuthResponse(user);
         authResponse.setToken(jwtToken);
         return authResponse;
     }

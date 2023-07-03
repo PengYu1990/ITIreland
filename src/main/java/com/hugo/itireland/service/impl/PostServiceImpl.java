@@ -2,45 +2,42 @@ package com.hugo.itireland.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hugo.itireland.domain.Category;
-import com.hugo.itireland.domain.Post;
-import com.hugo.itireland.domain.Tag;
-import com.hugo.itireland.domain.User;
+import com.hugo.itireland.domain.*;
+import com.hugo.itireland.exception.ApiRequestException;
 import com.hugo.itireland.exception.ResourceNotFoundException;
-import com.hugo.itireland.repository.FollowingRepository;
-import com.hugo.itireland.repository.PostRepository;
-import com.hugo.itireland.repository.UserRepository;
+import com.hugo.itireland.repository.*;
 import com.hugo.itireland.service.CategoryService;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.TagService;
-import com.hugo.itireland.exception.ApiRequestException;
 import com.hugo.itireland.web.dto.request.PostRequest;
 import com.hugo.itireland.web.dto.response.PostResponse;
 import com.hugo.itireland.web.dto.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
     private final TagService tagService;
     private final CategoryService categoryService;
     private final UserRepository userRepository;
 
     private final FollowingRepository followingRepository;
+    private final UpvoteRepository upvoteRepository;
+    private final DownvoteRepository downvoteRepository;
     private final ObjectMapper objectMapper;
 
 
@@ -58,6 +55,8 @@ public class PostServiceImpl implements PostService {
             }
         } else {
             post = new Post();
+            // Credits + 5 when a user post a new post
+            user.setCredits(user.getCredits() + 5);
         }
         BeanUtils.copyProperties(postRequest, post);
 
@@ -127,17 +126,18 @@ public class PostServiceImpl implements PostService {
         post.setViews(post.getViews()+1);
         updateViews(post);
 
-        BeanUtils.copyProperties(post, postResponse);
+//        BeanUtils.copyProperties(post, postResponse);
+//
+//        // Process Category
+//        postResponse.setCategory(post.getCategory().getCategory());
+//
+//        // process UserResponse for post
+//        UserResponse userResponse = new UserResponse();
+//        BeanUtils.copyProperties(post.getUser(), userResponse);
+//        userResponse.setPosts(postRepository.countByUser(post.getUser()));
+//        postResponse.setUser(userResponse);
 
-        // Process Category
-        postResponse.setCategory(post.getCategory().getCategory());
-
-        // process UserResponse for post
-        UserResponse userResponse = new UserResponse();
-        BeanUtils.copyProperties(post.getUser(), userResponse);
-        postResponse.setUser(userResponse);
-
-        return postResponse;
+        return getPostResponse(post);
     }
 
     @Override
@@ -161,20 +161,41 @@ public class PostServiceImpl implements PostService {
         Page<PostResponse> postResponses = posts.map((new Function<Post, PostResponse>() {
                     @Override
                     public PostResponse apply(Post post) {
-                        PostResponse postResponse = new PostResponse();
-                        BeanUtils.copyProperties(post, postResponse);
-                        // Process CategoryResponse
-                        postResponse.setCategory(post.getCategory().getCategory());
-
-                        // process UserResponse for posts
-                        UserResponse userResponse = new UserResponse();
-                        BeanUtils.copyProperties(post.getUser(), userResponse);
-                        postResponse.setUser(userResponse);
-                        return postResponse;
+                        return getPostResponse(post);
                     }
                 }));
 
         return postResponses;
+    }
+
+    private PostResponse getPostResponse(Post post) {
+        PostResponse postResponse = new PostResponse();
+        BeanUtils.copyProperties(post, postResponse);
+        // Process CategoryResponse
+        postResponse.setCategory(post.getCategory().getCategory());
+
+        // process UserResponse for posts
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(post.getUser(), userResponse);
+        userResponse.setPosts(postRepository.countByUser(post.getUser()));
+        postResponse.setUser(userResponse);
+
+        // process Comment count
+        int commentCount = commentRepository.countByPostAndStateIs(post, 0);
+        postResponse.setCommentCount(commentCount);
+
+        // process isUpvoted
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username);
+        Upvote upvote = upvoteRepository.findByPostAndUser(post, user);
+        boolean isUpvoted = upvote != null;
+        postResponse.setUpvoted(isUpvoted);
+
+        // process isDownvoted
+        Downvote downvote = downvoteRepository.findByPostAndUser(post, user);
+        boolean isDownvoted = downvote != null;
+        postResponse.setDownvoted(isDownvoted);
+        return postResponse;
     }
 
     @Override
@@ -200,13 +221,75 @@ public class PostServiceImpl implements PostService {
         return followingRepository.findPostsOfFollowingUsers(user, pageable).map(new Function<Post, PostResponse>() {
             @Override
             public PostResponse apply(Post post) {
-                PostResponse postResponse = new PostResponse();
-                BeanUtils.copyProperties(post, postResponse);
-                UserResponse userResponse = new UserResponse();
-                BeanUtils.copyProperties(post.getUser(), userResponse);
-                postResponse.setUser(userResponse);
-                return postResponse;
+                return getPostResponse(post);
             }
         });
+    }
+
+    @Override
+    public int upvote(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username);
+        Upvote upvote = upvoteRepository.findByPostAndUser(post, user);
+        if(upvote != null){
+            throw new ApiRequestException("You've already upvoted!");
+        }
+
+        upvote = new Upvote(post, user);
+        upvoteRepository.save(upvote);
+        post.setUpvotes(post.getUpvotes()+1);
+        post = postRepository.save(post);
+        return post.getUpvotes();
+    }
+
+    @Override
+    public int unUpvote(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username);
+        Upvote upvote = upvoteRepository.findByPostAndUser(post, user);
+        if(upvote == null)
+            throw new ApiRequestException("You didn't upvote yet.");
+
+        post.setUpvotes(post.getUpvotes()-1);
+        upvoteRepository.delete(upvote);
+        post = postRepository.save(post);
+        return post.getUpvotes();
+    }
+
+
+    @Override
+    public int downvote(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username);
+        Downvote downvote = downvoteRepository.findByPostAndUser(post, user);
+        if(downvote != null){
+            throw new ApiRequestException("You've already downvoted!");
+        }
+
+        downvote = new Downvote(post, user);
+        downvoteRepository.save(downvote);
+
+        post.setDownvotes(post.getDownvotes()+1);
+        post = postRepository.save(post);
+        return post.getDownvotes();
+    }
+
+    @Override
+    public int unDownvote(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username);
+        Downvote downvote = downvoteRepository.findByPostAndUser(post, user);
+        if(downvote == null){
+            throw new ApiRequestException("You didn't downvote yet!");
+        }
+        downvoteRepository.delete(downvote);
+        post.setDownvotes(post.getDownvotes()-1);
+        post = postRepository.save(post);
+        return post.getDownvotes();
     }
 }

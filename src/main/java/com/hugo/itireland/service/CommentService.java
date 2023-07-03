@@ -1,7 +1,5 @@
 package com.hugo.itireland.service;
 
-import com.hugo.itireland.domain.Comment;
-import com.hugo.itireland.domain.Post;
 import com.hugo.itireland.web.dto.request.CommentRequest;
 import com.hugo.itireland.web.dto.response.CommentResponse;
 import org.springframework.data.domain.Pageable;

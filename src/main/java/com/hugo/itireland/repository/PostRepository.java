@@ -2,6 +2,7 @@ package com.hugo.itireland.repository;
 
 import com.hugo.itireland.domain.Category;
 import com.hugo.itireland.domain.Post;
+import com.hugo.itireland.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Page<Post> findAllByCategoryAndUserIdAndState(Pageable pageable, Category category, Long userId, int state);
     Page<Post> findAllByUserIdAndState(Pageable pageable, Long userId, int state);
+
+    int countByUser(User user);
+
 }

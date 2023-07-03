@@ -1,6 +1,5 @@
 package com.hugo.itireland.web.security;
 
-import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

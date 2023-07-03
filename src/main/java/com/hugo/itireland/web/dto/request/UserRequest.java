@@ -1,7 +1,6 @@
 package com.hugo.itireland.web.dto.request;
 
 
-import jakarta.persistence.*;
 import lombok.Data;
 
 @Data

@@ -1,11 +1,11 @@
 package com.hugo.itireland.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -76,6 +76,17 @@ public class DefaultExceptionHandler {
                 LocalDateTime.now()
         );
 
+        return new ResponseEntity<>(apiExceptionResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ApiExceptionResponse> handleException(HttpServletRequest request,ExpiredJwtException e){
+        ApiExceptionResponse apiExceptionResponse = new ApiExceptionResponse(
+                request.getRequestURI(),
+                e.getMessage(),
+                HttpStatus.BAD_REQUEST.value(),
+                LocalDateTime.now()
+        );
         return new ResponseEntity<>(apiExceptionResponse, HttpStatus.UNAUTHORIZED);
     }
 

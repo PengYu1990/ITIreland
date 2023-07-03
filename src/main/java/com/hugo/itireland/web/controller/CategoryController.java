@@ -1,14 +1,12 @@
 package com.hugo.itireland.web.controller;
 
 
-import com.hugo.itireland.exception.ValidationException;
 import com.hugo.itireland.service.CategoryService;
 import com.hugo.itireland.web.common.R;
-import com.hugo.itireland.web.dto.request.CategoryRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor

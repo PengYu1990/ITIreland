@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -55,18 +54,7 @@ public class User implements UserDetails {
 
     private LocalDateTime ctime;
 
-  /*  @ManyToMany
-    @JoinTable(
-            name = "users_followers",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "follower_id"),
-            foreignKey = @ForeignKey(name="user_follower_fk"),
-            inverseForeignKey = @ForeignKey(name="follower_user_fk")
-    )
-    private List<User> followers;
-
-    @ManyToMany(mappedBy = "followers")
-    private List<User> following;*/
+    private String location;
 
 
     @Enumerated(EnumType.STRING)

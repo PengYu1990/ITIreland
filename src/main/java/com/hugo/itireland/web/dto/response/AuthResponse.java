@@ -31,6 +31,8 @@ public class AuthResponse {
 
     private String headShotUrl;
 
+    private String location;
+
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ctime;

@@ -3,7 +3,6 @@ package com.hugo.itireland.web.controller;
 
 import com.hugo.itireland.service.FollowingService;
 import com.hugo.itireland.web.common.R;
-import com.hugo.itireland.web.dto.request.FollowRequest;
 import com.hugo.itireland.web.dto.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

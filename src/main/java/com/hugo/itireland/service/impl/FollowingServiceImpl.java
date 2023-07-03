@@ -6,7 +6,6 @@ import com.hugo.itireland.exception.DuplicateResourceException;
 import com.hugo.itireland.repository.FollowingRepository;
 import com.hugo.itireland.repository.UserRepository;
 import com.hugo.itireland.service.FollowingService;
-import com.hugo.itireland.web.dto.request.FollowRequest;
 import com.hugo.itireland.web.dto.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -16,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.function.Function;
 
 

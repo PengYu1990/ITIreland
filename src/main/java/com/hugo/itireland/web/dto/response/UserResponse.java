@@ -2,7 +2,6 @@ package com.hugo.itireland.web.dto.response;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +29,10 @@ public class UserResponse {
     private int level;
 
     private String headShotUrl;
+
+    private int posts;
+
+    private String location;
 
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
