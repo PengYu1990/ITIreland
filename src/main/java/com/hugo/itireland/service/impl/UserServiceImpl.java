@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
         // Calculate Level
         int credits = user.getCredits();
-        userResponse.setLevel(credits % 20);
+        userResponse.setLevel(credits / 20);
 
         userResponse.setPosts(postRepository.countByUser(user));
         return userResponse;

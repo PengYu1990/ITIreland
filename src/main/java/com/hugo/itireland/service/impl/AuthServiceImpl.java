@@ -71,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
         BeanUtils.copyProperties(user, authResponse);
 
         //Calculate Lever
-        authResponse.setLevel(user.getCredits() % 20);
+        authResponse.setLevel(user.getCredits() / 20);
         return authResponse;
     }
 
