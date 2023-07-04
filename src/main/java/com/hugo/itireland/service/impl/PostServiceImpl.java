@@ -231,6 +231,9 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(postId).orElseThrow();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new InsufficientAuthenticationException("Login before upvote");
+        }
         Upvote upvote = upvoteRepository.findByPostAndUser(post, user);
         if(upvote != null){
             throw new ApiRequestException("You've already upvoted!");
@@ -248,6 +251,9 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(postId).orElseThrow();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new InsufficientAuthenticationException("Login before unUpvote");
+        }
         Upvote upvote = upvoteRepository.findByPostAndUser(post, user);
         if(upvote == null)
             throw new ApiRequestException("You didn't upvote yet.");
@@ -264,6 +270,9 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(postId).orElseThrow();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new InsufficientAuthenticationException("Login before downvote");
+        }
         Downvote downvote = downvoteRepository.findByPostAndUser(post, user);
         if(downvote != null){
             throw new ApiRequestException("You've already downvoted!");
@@ -283,6 +292,9 @@ public class PostServiceImpl implements PostService {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new InsufficientAuthenticationException("Login before unDownvote");
+        }
         Downvote downvote = downvoteRepository.findByPostAndUser(post, user);
         if(downvote == null){
             throw new ApiRequestException("You didn't downvote yet!");

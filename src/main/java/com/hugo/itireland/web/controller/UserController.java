@@ -5,6 +5,7 @@ import com.hugo.itireland.service.UserService;
 import com.hugo.itireland.web.common.R;
 import com.hugo.itireland.web.dto.response.ImageUploadResponse;
 import com.hugo.itireland.web.dto.response.UserResponse;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -51,6 +52,7 @@ public class UserController {
 
     @PostMapping(value = "profile-image-upload",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @RolesAllowed("USER")
     public R profileImageUpload(
             @RequestParam("file") MultipartFile file,
             HttpServletRequest request) throws IOException {

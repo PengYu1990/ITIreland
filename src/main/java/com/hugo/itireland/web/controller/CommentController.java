@@ -7,6 +7,7 @@ import com.hugo.itireland.web.common.R;
 import com.hugo.itireland.web.dto.request.CommentRequest;
 import com.hugo.itireland.web.dto.response.CommentResponse;
 import com.hugo.itireland.web.security.JwtService;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,7 @@ public class CommentController {
 
 
     @PostMapping
+    @RolesAllowed("USER")
     public R save(@Validated @RequestBody CommentRequest commentRequest, BindingResult errors){
         //Throw Validation Exception
         if (errors.hasErrors()) {
@@ -38,6 +40,7 @@ public class CommentController {
 
 
     @DeleteMapping("/{id}")
+    @RolesAllowed("USER")
     public R delete(@PathVariable Long id, @RequestHeader String Authorization){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         commentService.delete(id, authentication.getName());

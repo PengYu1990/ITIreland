@@ -3,6 +3,7 @@ package com.hugo.itireland.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hugo.itireland.domain.Role;
 import com.hugo.itireland.exception.ValidationException;
 import com.hugo.itireland.service.PostService;
 import com.hugo.itireland.service.UserService;
@@ -10,12 +11,14 @@ import com.hugo.itireland.web.common.R;
 import com.hugo.itireland.web.dto.request.PostRequest;
 import com.hugo.itireland.web.dto.response.PostResponse;
 import com.hugo.itireland.web.security.JwtService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -36,6 +39,7 @@ public class PostController {
 
     // remove save
     @PostMapping
+    @RolesAllowed("USER")
     public R save(HttpServletRequest request, @Validated  @RequestBody PostRequest postRequest, BindingResult errors) throws JsonProcessingException {
         //Throw Validation Exception
         if (errors.hasErrors()) {
@@ -73,6 +77,7 @@ public class PostController {
     }
 
     @GetMapping("/following")
+    @RolesAllowed("USER")
     public R following(
                        @RequestParam(defaultValue = "0", required = false) Integer page,
                        @RequestParam(defaultValue = "20", required = false) Integer size,
@@ -94,6 +99,7 @@ public class PostController {
     }
 
     @GetMapping("/upvote/{postId}")
+    @RolesAllowed("USER")
     public R upvote(@PathVariable Long postId){
         int thumbs = postService.upvote(postId);
         return R.success(thumbs);
@@ -101,12 +107,14 @@ public class PostController {
 
 
     @GetMapping("/unUpvote/{postId}")
+    @RolesAllowed("USER")
     public R unUpvote(@PathVariable Long postId){
         int thumbs = postService.unUpvote(postId);
         return R.success(thumbs);
     }
 
     @GetMapping("/downvote/{postId}")
+    @RolesAllowed("USER")
     public R downvote(@PathVariable Long postId){
         int thumbs = postService.downvote(postId);
         return R.success(thumbs);
@@ -114,6 +122,7 @@ public class PostController {
 
 
     @GetMapping("/unDownvote/{postId}")
+    @RolesAllowed("USER")
     public R unDownvote(@PathVariable Long postId){
         int thumbs = postService.unDownvote(postId);
         return R.success(thumbs);

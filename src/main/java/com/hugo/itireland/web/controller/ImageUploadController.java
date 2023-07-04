@@ -4,6 +4,7 @@ package com.hugo.itireland.web.controller;
 import com.hugo.itireland.service.ImageService;
 import com.hugo.itireland.web.common.R;
 import com.hugo.itireland.web.dto.response.ImageUploadResponse;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ public class ImageUploadController {
 
     @PostMapping(value = "post-image-upload",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @RolesAllowed("USER")
     public R postImageUpload(
             @RequestParam("file") MultipartFile file,
             HttpServletRequest request) throws IOException {

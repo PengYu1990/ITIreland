@@ -4,6 +4,7 @@ package com.hugo.itireland.web.controller;
 import com.hugo.itireland.service.FollowingService;
 import com.hugo.itireland.web.common.R;
 import com.hugo.itireland.web.dto.response.UserResponse;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,23 +20,27 @@ public class FollowingController {
 
 
     @PostMapping("/follow/{userId}")
+    @RolesAllowed("USER")
     public R follow(@PathVariable("userId") Long userId){
         followingService.follow(userId);
         return R.success(null);
     }
 
     @PostMapping("/unfollow/{userId}")
+    @RolesAllowed("USER")
     public R unFollow(@PathVariable("userId") Long userId){
         followingService.unFollow(userId);
         return R.success(null);
     }
 
     @GetMapping("/isFollowing/{userId}")
+    @RolesAllowed("USER")
     public R isFollowing(@PathVariable("userId") Long userId){
         return R.success(followingService.isFollowing(userId));
     }
 
     @GetMapping("/followers/{userId}")
+    @RolesAllowed("USER")
     public R followers(@PathVariable(name = "userId") Long userId,
                        @RequestParam(defaultValue = "0", required = false) Integer page,
                        @RequestParam(defaultValue = "20", required = false) Integer size,
@@ -50,6 +55,7 @@ public class FollowingController {
     }
 
     @GetMapping("/followings/{userId}")
+    @RolesAllowed("USER")
     public R followings(@PathVariable(name = "userId") Long userId,
                        @RequestParam(defaultValue = "0", required = false) Integer page,
                        @RequestParam(defaultValue = "20", required = false) Integer size,
