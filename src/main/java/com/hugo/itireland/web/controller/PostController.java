@@ -81,10 +81,11 @@ public class PostController {
     public R following(
                        @RequestParam(defaultValue = "0", required = false) Integer page,
                        @RequestParam(defaultValue = "20", required = false) Integer size,
+                       @RequestParam(required = false) String category,
                        @RequestParam(required = false, defaultValue = "utime") String sorting){
         Pageable pageable = PageRequest.of(page,size,Sort.by(sorting).descending());
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        Page<PostResponse> postResponses = postService.findAllFollowingPosts(userName, pageable);
+        Page<PostResponse> postResponses = postService.findAllFollowingPosts(userName, category, pageable);
         return R.success(postResponses.toList(),
                 postResponses.getTotalPages(),
                 postResponses.getTotalElements(),

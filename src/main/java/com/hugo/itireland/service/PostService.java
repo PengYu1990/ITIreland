@@ -18,7 +18,7 @@ public interface PostService {
 
     void delete(Long id);
 
-    Page<PostResponse> findAllFollowingPosts(String username, Pageable pageable);
+    Page<PostResponse> findAllFollowingPosts(String username, String category, Pageable pageable);
 
     int upvote(Long postId);
 

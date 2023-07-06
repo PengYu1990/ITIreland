@@ -168,6 +168,29 @@ public class PostServiceImpl implements PostService {
         return postResponses;
     }
 
+    @Override
+    public Page<PostResponse> findAllFollowingPosts(String username, String category, Pageable pageable) {
+        User user = userRepository.findByUsername(username);
+        Category cat = null;
+        if(category != null) {
+            cat = categoryService.find(category);
+        }
+        if(cat != null)
+            return followingRepository.findPostsOfFollowingUsersAndCategory(user, cat, pageable).map(new Function<Post, PostResponse>() {
+                @Override
+                public PostResponse apply(Post post) {
+                    return getPostResponse(post);
+                }
+            });
+        else
+            return followingRepository.findPostsOfFollowingUsers(user, pageable).map(new Function<Post, PostResponse>() {
+                @Override
+                public PostResponse apply(Post post) {
+                    return getPostResponse(post);
+                }
+            });
+    }
+
     private PostResponse getPostResponse(Post post) {
         PostResponse postResponse = new PostResponse();
         BeanUtils.copyProperties(post, postResponse);
@@ -215,16 +238,7 @@ public class PostServiceImpl implements PostService {
 
     }
 
-    @Override
-    public Page<PostResponse> findAllFollowingPosts(String username, Pageable pageable) {
-        User user = userRepository.findByUsername(username);
-        return followingRepository.findPostsOfFollowingUsers(user, pageable).map(new Function<Post, PostResponse>() {
-            @Override
-            public PostResponse apply(Post post) {
-                return getPostResponse(post);
-            }
-        });
-    }
+
 
     @Override
     public int upvote(Long postId) {
