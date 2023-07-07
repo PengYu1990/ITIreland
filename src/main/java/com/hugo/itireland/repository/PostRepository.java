@@ -22,4 +22,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     int countByUser(User user);
 
+    Page<Post> findAllByState(int state, Pageable pageable);
 }

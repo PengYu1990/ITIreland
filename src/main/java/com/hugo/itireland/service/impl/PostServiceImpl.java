@@ -155,7 +155,7 @@ public class PostServiceImpl implements PostService {
         } else if(cat != null && userId != null) {
             posts = postRepository.findAllByCategoryAndUserIdAndState(pageable, cat, userId, 0);
         } else {
-            posts = postRepository.findAll(pageable);
+            posts = postRepository.findAllByState(0, pageable);
         }
 
         Page<PostResponse> postResponses = posts.map((new Function<Post, PostResponse>() {
@@ -228,13 +228,21 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void delete(Long id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username);
         Post post = postRepository.findById(id).get();
+        if(user == null) {
+            throw  new InsufficientAuthenticationException("Login before delete post!");
+        }
+
         if(post == null) {
             throw  new ResourceNotFoundException("Post doesn't exist!");
         }
 
-        post.setState(-1);
-        postRepository.save(post);
+        if(user.getUsername().equals(post.getUser().getUsername())) {
+            post.setState(-1);
+            postRepository.save(post);
+        }
 
     }
 
