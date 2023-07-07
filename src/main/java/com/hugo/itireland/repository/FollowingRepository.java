@@ -24,12 +24,12 @@ public interface FollowingRepository extends JpaRepository<Following, Long> {
     @Query("SELECT f.following FROM Following f WHERE f.follower = :user")
     Page<User> findFollowingsByUser(User user, Pageable pageable);
 
-    @Query("SELECT p FROM Post p WHERE p.user IN (SELECT f.following FROM Following f WHERE f.follower = :user)")
+    @Query("SELECT p FROM Post p WHERE p.user IN (SELECT f.following FROM Following f WHERE f.follower = :user) and p.state=0")
     Page<Post> findPostsOfFollowingUsers(@Param("user") User user, Pageable pageable);
 
 
     Optional<Following> findByFollowingAndFollower(User followingUser, User followerUser);
 
-    @Query("SELECT p FROM Post p WHERE p.user IN (SELECT f.following FROM Following f WHERE f.follower = :user) and p.category=:cat")
+    @Query("SELECT p FROM Post p WHERE p.user IN (SELECT f.following FROM Following f WHERE f.follower = :user) and p.category=:cat and p.state=0")
     Page<Post> findPostsOfFollowingUsersAndCategory(User user, Category cat, Pageable pageable);
 }
