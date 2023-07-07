@@ -21,3 +21,7 @@ Utilized React.js, Vite, Axios, React Query, and the Mantine component library t
 By actively contributing to IT Ireland, I gained hands-on experience in the full software development lifecycle, including requirements analysis, system design, implementation, testing, and deployment. This project not only enhanced my technical skills but also deepened my understanding of web application development, RESTful APIs, and database management.
 
 Overall, IT Ireland is a testament to my ability to deliver scalable and user-centric solutions while collaborating effectively within a development team.
+
+## Contact Me
+Linkedin: https://www.linkedin.com/in/pengyu-hugo
+Email: yp1990@gmail.com
