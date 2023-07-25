@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 
 public class UserResponse {
 
-
     private Long id;
 
     private String username;
@@ -35,9 +34,14 @@ public class UserResponse {
     private String location;
 
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ctime;
 
     private String sessionId;
 
+    @Override
+    public boolean equals(Object obj) {
+        UserResponse ur = (UserResponse) obj;
+        return this.id == ur.id;
+    }
 }
