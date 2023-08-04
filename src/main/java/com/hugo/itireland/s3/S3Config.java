@@ -33,15 +33,19 @@ public class S3Config {
         if (mock) {
             return new FakeS3();
         }
+
         return S3Client.builder()
-                .credentialsProvider(new AwsCredentialsProvider() {
-                    @Override
-                    public AwsCredentials resolveCredentials() {
-                        return AwsBasicCredentials.create(accessKeyId, secretAccessKey);
-                    }
-                })
                 .region(Region.of(awsRegion))
                 .build();
+//        return S3Client.builder()
+//                .credentialsProvider(new AwsCredentialsProvider() {
+//                    @Override
+//                    public AwsCredentials resolveCredentials() {
+//                        return AwsBasicCredentials.create(accessKeyId, secretAccessKey);
+//                    }
+//                })
+//                .region(Region.of(awsRegion))
+//                .build();
     }
 
 }
