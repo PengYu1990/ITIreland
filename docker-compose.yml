@@ -15,10 +15,12 @@ services:
     restart: unless-stopped
 
   itireland:
-    container_name: ITIreland
+    container_name: itireland
     build: ./
     networks:
       - spring
+      - postgres
+    depends_on:
       - postgres
 
 networks:
@@ -29,4 +31,3 @@ networks:
 
 volumes:
   postgres:
-  pgadmin:
