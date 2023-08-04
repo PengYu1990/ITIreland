@@ -15,11 +15,11 @@ public class S3Config {
     @Value("${aws.region}")
     private String awsRegion;
 
-    @Value("${aws.accessKeyId}")
-    private String accessKeyId;
-
-    @Value("${aws.secretAccessKey}")
-    private String secretAccessKey;
+//    @Value("${aws.accessKeyId}")
+//    private String accessKeyId;
+//
+//    @Value("${aws.secretAccessKey}")
+//    private String secretAccessKey;
 
     @Value("${aws.s3.mock}")
     private boolean mock;

@@ -36,13 +36,11 @@ cors:
 
 
 aws:
-  region: ${BUCKETEER_AWS_REGION}
-  accessKeyId: ${BUCKETEER_AWS_ACCESS_KEY_ID}
-  secretAccessKey: ${BUCKETEER_AWS_SECRET_ACCESS_KEY}
+  region: eu-west-1
   s3:
     mock: false
     buckets:
-      image: ${BUCKETEER_BUCKET_NAME}
+      image: elasticbeanstalk-eu-west-1-845708981828
 
 
 
