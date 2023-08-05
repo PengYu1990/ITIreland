@@ -27,6 +27,7 @@ server:
     context-path: /api
   error:
     include-message: always # Return Customized Exception Message to Client
+  port: 80
 
 cors:
   allowed-origins: "*"
@@ -46,6 +47,6 @@ aws:
 
 itireland:
   openapi:
-    dev-url: http://localhost:8080
-    prod-url: https://itireland.herokuapp.com
+    dev-url: http://localhost
+    prod-url: http://52.49.11.159
 
