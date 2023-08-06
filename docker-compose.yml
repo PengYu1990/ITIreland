@@ -24,7 +24,6 @@ services:
       - postgres
     ports:
       - "8080:80"
-      -
   nginx:
     image: nginx
     container_name: nginx-container
