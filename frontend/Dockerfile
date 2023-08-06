@@ -5,7 +5,7 @@ FROM nginx
 RUN rm /etc/nginx/conf.d/default.conf
 
 # 将React应用的静态文件复制到Nginx的默认网站目录
-COPY build/ /usr/share/nginx/html
+COPY ./build/ /usr/share/nginx/html
 
 # 暴露80端口
 EXPOSE 80
