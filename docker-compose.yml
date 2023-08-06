@@ -32,7 +32,6 @@ services:
       - "80:80"
     networks:
       - spring
-      - nginx
     volumes:
       - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
 
@@ -42,8 +41,6 @@ networks:
   postgres:
     driver: bridge
   spring:
-    driver: bridge
-  nginx:
     driver: bridge
 
 volumes:
