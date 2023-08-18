@@ -3,9 +3,9 @@ spring:
     import: optional:file:.env[.properties]
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://postgres:5432/itireland?currentSchema=public
+    url: jdbc:postgresql://localhost:5432/itireland_fullstack?currentSchema=public
     username: itireland
-    password: 123456
+    password: 123
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: true
@@ -43,6 +43,16 @@ aws:
     buckets:
       image: elasticbeanstalk-eu-west-1-845708981828
 
+openapi:
+  service:
+    title: ITIreland doc #title that you will want to display in the swagger ui
+    version: 1.0.0
+    url: http://localhost/api #api gateway url
+springdoc:
+  api-docs:
+    path: /api/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
+  swagger-ui:
+    path: /swagger-ui.html
 
 
 itireland:
