@@ -16,7 +16,11 @@ services:
 
   itireland:
     container_name: itireland
-    build: ./
+    image: ypydd88/itireland:latest
+#    environment:
+#      POSTGRES_USER: itireland
+#      POSTGRES_PASSWORD: 123456
+#      PGDATA: /data/postgres
     networks:
       - spring
       - postgres
@@ -24,6 +28,17 @@ services:
       - postgres
     ports:
       - "8080:80"
+
+#  itireland:
+#    container_name: itireland
+#    build: ./
+#    networks:
+#      - spring
+#      - postgres
+#    depends_on:
+#      - postgres
+#    ports:
+#      - "8080:80"
 
   frontend:
     build:
