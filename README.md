@@ -1,7 +1,7 @@
 # IT Ireland: A Twitter-like Social Media Website for IT Practitioners
 
 ## Depolyed Demo Website
-https://itireland.vercel.app/
+
 
 IT Ireland is a cutting-edge social media platform developed specifically for IT practitioners to foster online communication and collaboration. As a full-stack developer, I successfully contributed to this front-end and back-end separation project, honing my skills and gaining invaluable experience.
 
@@ -14,9 +14,10 @@ User-Following Functionality: Implemented a follow system to allow users to conn
 Personalized Feed: Created a tailored feed that displays posts from followed users, providing a streamlined user experience.
 Technology Stack:
 
-## Backend:
+
+## Backend: 
 Leveraged Java, Spring Boot, Spring Data JPA, Spring Security, JWT, Amazon S3, and PostgreSQL to provide robust and secure web API services.
-## Frontend:
+## Frontend: 
 Utilized React.js, Vite, Axios, React Query, and the Mantine component library to develop an intuitive user interface and efficient HTTP requests.
 By actively contributing to IT Ireland, I gained hands-on experience in the full software development lifecycle, including requirements analysis, system design, implementation, testing, and deployment. This project not only enhanced my technical skills but also deepened my understanding of web application development, RESTful APIs, and database management.
 

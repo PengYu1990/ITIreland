@@ -1,0 +1,63 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    driverClassName: org.postgresql.Driver
+#    url: jdbc:postgresql://awseb-e-urv2tfpd2c-stack-awsebrdsdatabase-e7okrvdq0py4.c0gjpymvrdhw.eu-west-1.rds.amazonaws.com:5432/itireland_fullstack?currentSchema=public
+    url: jdbc:postgresql://postgres:5432/itireland?currentSchema=public
+    username: itireland
+    password: 123456
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+    jackson:
+      time-zone: Europe/Dublin
+    properties:
+      hibernate:
+        format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  codec:
+    max-in-memory-size: 5MB
+
+server:
+  servlet:
+    context-path: /api
+  error:
+    include-message: always # Return Customized Exception Message to Client
+  port: 80
+
+cors:
+  allowed-origins: "*"
+  allowed-methods: "*"
+  allowed-headers: "*"
+  exposed-headers: "*"
+
+
+aws:
+  region: eu-west-1
+  s3:
+    mock: false
+    buckets:
+      image: elasticbeanstalk-eu-west-1-845708981828
+
+openapi:
+  service:
+    title: ITIreland doc #title that you will want to display in the swagger ui
+    version: 1.0.0
+    url: http://localhost/api #api gateway url
+springdoc:
+  api-docs:
+    path: /api/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
+  swagger-ui:
+    path: /swagger-ui.html
+
+
+itireland:
+  openapi:
+    dev-url: http://localhost
+    prod-url: http://52.49.11.159
+

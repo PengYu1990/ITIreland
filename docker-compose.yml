@@ -1,0 +1,62 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: itireland
+      POSTGRES_PASSWORD: 123456
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  itireland:
+    container_name: itireland
+    image: ypydd88/itireland:latest
+#    environment:
+#      POSTGRES_USER: itireland
+#      POSTGRES_PASSWORD: 123456
+#      PGDATA: /data/postgres
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - postgres
+    ports:
+      - "8080:80"
+
+#  itireland:
+#    container_name: itireland
+#    build: ./
+#    networks:
+#      - spring
+#      - postgres
+#    depends_on:
+#      - postgres
+#    ports:
+#      - "8080:80"
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    networks:
+      - spring
+    volumes:
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
+
+
+
+networks:
+  postgres:
+    driver: bridge
+  spring:
+    driver: bridge
+
+volumes:
+  postgres:
