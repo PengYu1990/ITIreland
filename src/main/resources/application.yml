@@ -4,9 +4,9 @@ spring:
   datasource:
     driverClassName: org.postgresql.Driver
 #    url: jdbc:postgresql://awseb-e-urv2tfpd2c-stack-awsebrdsdatabase-e7okrvdq0py4.c0gjpymvrdhw.eu-west-1.rds.amazonaws.com:5432/itireland_fullstack?currentSchema=public
-    url: jdbc:postgresql://postgres:5432/itireland?currentSchema=public
+    url: jdbc:postgresql://localhost:5432/itireland_fullstack?currentSchema=public
     username: itireland
-    password: 123456
+    password: 123
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: true
