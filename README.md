@@ -1,9 +1,8 @@
 # IT Ireland: A Twitter-like Social Media Website for IT Practitioners
+IT Ireland is a cutting-edge social media platform developed specifically for IT practitioners to foster online communication and collaboration. As a full-stack developer, I successfully contributed to this front-end and back-end separation project, honing my skills and gaining invaluable experience.
 
 ## Depolyed Demo Website
 http://three.itireland.works/
-
-IT Ireland is a cutting-edge social media platform developed specifically for IT practitioners to foster online communication and collaboration. As a full-stack developer, I successfully contributed to this front-end and back-end separation project, honing my skills and gaining invaluable experience.
 
 ## Key Features:
 
